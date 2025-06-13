@@ -70,6 +70,30 @@
     <Filter Include="03. Component\00. Collider">
       <UniqueIdentifier>{855c986a-23e8-409c-97be-53c074796eff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Design\08. TileManager">
+      <UniqueIdentifier>{18597b77-6fc5-42d7-ab63-fed9b4397710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile">
+      <UniqueIdentifier>{a48d2636-202b-498d-a1f0-7716c9a13bf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. Button">
+      <UniqueIdentifier>{24915f15-14f2-4c62-b081-8d6197254379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene">
+      <UniqueIdentifier>{a1eae43d-4f6b-4f4e-b238-e8487bb2f89d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\00. Menu">
+      <UniqueIdentifier>{20e5260a-4c13-4950-9634-e6236122786a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\01. Loading">
+      <UniqueIdentifier>{81445be3-73e7-48fc-8f63-83a1ff3fedc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\02. Play">
+      <UniqueIdentifier>{4eb3cb10-bc93-4526-8055-8cd5a4e354ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\03. Edit">
+      <UniqueIdentifier>{7d845669-f5a1-4d8a-9a7e-1b1a2172786f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -147,6 +171,24 @@
     <ClInclude Include="Struct.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CTileManager.h">
+      <Filter>02. Design\08. TileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTile.h">
+      <Filter>02. Design\08. TileManager\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CButton.h">
+      <Filter>01. Object\05. Button</Filter>
+    </ClInclude>
+    <ClInclude Include="CMenu.h">
+      <Filter>04. Scene\00. Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CEdit.h">
+      <Filter>04. Scene\03. Edit</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -208,6 +250,24 @@
     </ClCompile>
     <ClCompile Include="CCollider.cpp">
       <Filter>03. Component\00. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CTileManager.cpp">
+      <Filter>02. Design\08. TileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTile.cpp">
+      <Filter>02. Design\08. TileManager\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CButton.cpp">
+      <Filter>01. Object\05. Button</Filter>
+    </ClCompile>
+    <ClCompile Include="CMenu.cpp">
+      <Filter>04. Scene\00. Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="CEdit.cpp">
+      <Filter>04. Scene\03. Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>04. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

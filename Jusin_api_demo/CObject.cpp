@@ -4,6 +4,7 @@
 CObject::CObject() : m_fSpeed(0.f), m_bDead(false), m_fAngle(0.f), m_vVelocity{}, m_fDistance(0.f), m_vPos{}, m_vScale{}
 , m_pTarget(nullptr), m_pCollider(nullptr),m_pFrameKey(L"")//, m_pGravity(nullptr)
 {
+	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
 	ZeroMemory(&m_tFrame, sizeof(FRAME));
 }
@@ -60,7 +61,8 @@ void CObject::Update_Rect()
 {
 	m_tRect.left = LONG(m_vPos.x - (m_vScale.x / 2.f));
 	m_tRect.top = LONG(m_vPos.y - (m_vScale.y / 2.f));
-	m_tRect.right = LONG(m_vPos.x + (m_vScale.x / 2.f));	m_tRect.bottom = LONG(m_vPos.y + (m_vScale.y / 2.f));
+	m_tRect.right = LONG(m_vPos.x + (m_vScale.x / 2.f));
+	m_tRect.bottom = LONG(m_vPos.y + (m_vScale.y / 2.f));
 }
 
 void CObject::Update_Frame()

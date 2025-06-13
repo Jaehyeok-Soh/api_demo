@@ -5,6 +5,12 @@
 #define WINCX 1000
 #define WINCY 800
 
+#define TILECX 64
+#define TILECY 64
+
+#define TILEX 30
+#define TILEY 20
+
 #define VK_MAX 0xff
 
 #define DEAD 0
@@ -56,14 +62,18 @@ enum OBJID
 	OBJ_MELEE,
 	OBJ_ATTACK,
 	OBJ_SKILL,
+	OBJ_TILE,
+	OBJ_UI,
 	OBJ_END
 };
 
 enum SCENEID
 {
+	SC_MENU,
 	SC_LOBBY,
 	SC_LOADING,
 	SC_PLAY,
+	SC_EDIT,
 	SC_END,
 };
 
@@ -115,9 +125,9 @@ struct tagFinder
 	const TCHAR* m_pString;
 };
 
-template<typename T>
 struct DeleteObj
 {
+	template<typename T>
 	void operator()(T& p)
 	{
 		SAFE_DELETE(p);

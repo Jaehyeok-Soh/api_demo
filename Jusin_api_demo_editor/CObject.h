@@ -64,7 +64,8 @@ protected:
 	Vec2 m_vScale; // 크기
 	Vec2 m_vMoveDir; // 이동할 방향
 	Vec2 m_vVelocity; // 힘
-	RECT		m_tRect;
+	RECT m_tRect;
+	INFO m_tInfo;
 
 	float		m_fSpeed;
 	float		m_fDistance;

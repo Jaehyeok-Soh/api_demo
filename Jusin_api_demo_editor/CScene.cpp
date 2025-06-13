@@ -3,6 +3,7 @@
 #include "CScene.h"
 #include "CBmpManager.h"
 #include "CScrollManager.h"
+#include "CObjectManager.h"
 
 CScene::CScene() : m_pPlayer(nullptr), m_bFade(false)
 {
@@ -102,14 +103,6 @@ void CScene::DeleteAll()
 	{
 		if (i == OBJ_PLAYER)
 			continue; // 플레이어는 삭제하지 않음
-
-		/*if (i == (UINT)OBJID::OBJ_GROUND)
-			continue;
-
-		if (i == (UINT)OBJID::OBJ_WEAPON)
-			continue;*/
-
-
 
 		DeleteGroup((OBJID)i);
 	}

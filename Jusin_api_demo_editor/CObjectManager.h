@@ -41,6 +41,14 @@ public:
 		return pObj;
 	}
 
+	template<typename T>
+	CObject* CreateObject(OBJID _eId, float fX, float fY)
+	{
+		CObject* pObj = new T();
+		pObj->SetPos(Vec2(fX, fY));
+		return pObj;
+	}
+
 	void AddObject(OBJID _eId, CObject* _pObj)
 	{
 		m_ObjectList[_eId].push_back(_pObj);
@@ -54,8 +62,12 @@ public:
 			});
 	}
 
+	list<CObject*>* GetObjectList() { return m_ObjectList; }
+
+	void ClearObjectList() { m_ObjectList->clear(); }
+
 private:
 	static CObjectManager* m_pInstance;
-	vector<CObject*> m_ObjectList[OBJ_END];
+	list<CObject*> m_ObjectList[OBJ_END];
 };
 

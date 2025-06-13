@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "CSceneManager.h"
 #include "CScrollManager.h"
+#include "CMenu.h"
+//#include "CPlay.h"
+#include "CEdit.h"
+
 CSceneManager* CSceneManager::m_pInstance = nullptr;
 
 CSceneManager::CSceneManager() :m_arrStage{}, m_pCurScene(nullptr), m_pPlayer(nullptr), m_bChange(false)
@@ -31,14 +35,17 @@ CSceneManager::~CSceneManager()
 void CSceneManager::Initialize()
 {
 	// Scene 생성
-	/*m_arrStage[SC_LOADING] = new CLoading;
-	m_arrStage[SC_LOADING]->SetName(L"LOADING");
+	m_arrStage[SC_MENU] = new CMenu;
+	m_arrStage[SC_MENU]->SetName(L"MENU");
 
-	m_arrStage[SC_PLAY] = new CPlay;
-	m_arrStage[SC_PLAY]->SetName(L"PLAY");*/
+	//m_arrStage[SC_PLAY] = new CPlay;
+	//m_arrStage[SC_PLAY]->SetName(L"PLAY");
+
+	m_arrStage[SC_EDIT] = new CEdit;
+	m_arrStage[SC_EDIT]->SetName(L"EDIT");
 
 	// 현재 씬 지정
-	m_CurSceneNum = SC_LOADING;
+	m_CurSceneNum = SC_MENU;
 
 	m_pCurScene = m_arrStage[m_CurSceneNum];
 	m_pCurScene->Enter();
