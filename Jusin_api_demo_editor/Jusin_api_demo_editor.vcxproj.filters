@@ -14,73 +14,61 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="00. MainGame">
-      <UniqueIdentifier>{2bfec6a9-cb47-47f5-840a-c9ed71f1d43c}</UniqueIdentifier>
+      <UniqueIdentifier>{ee5c53ae-1d37-4cb4-aceb-9c9065db2d57}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Object">
-      <UniqueIdentifier>{4580fc28-93e9-454e-b0ff-7ff1a1c03b43}</UniqueIdentifier>
+      <UniqueIdentifier>{698fe9a0-8c7a-4159-8978-fbfcba247636}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Object\00. Character">
-      <UniqueIdentifier>{93af4d4f-26fa-4827-b2a3-27283bd16f9e}</UniqueIdentifier>
+      <UniqueIdentifier>{7292da96-efe7-4906-b579-78e92ddd96e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Object\00. Character\00. Player">
-      <UniqueIdentifier>{d4fd277a-794b-42bf-bec6-8d2b228a0235}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09. UI">
-      <UniqueIdentifier>{64c4cab6-944c-4cdb-8363-059d2c50b260}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09. UI\00. Status">
-      <UniqueIdentifier>{8d31503d-89c8-486b-85b5-5396dba29d9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="09. UI\01. Score">
-      <UniqueIdentifier>{868e1a69-663b-470d-8960-0ed1d5fd7b97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Design">
-      <UniqueIdentifier>{1de7e1af-f1c8-4cee-a0a1-45be044cb0fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Design\00. ObjectManager">
-      <UniqueIdentifier>{383c3602-5062-4837-bdeb-88a45898c69b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Design\01. CollisionManager">
-      <UniqueIdentifier>{8e58f0a7-c8a1-48d7-aaf9-bd8e053974ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Design\02. KeyManager">
-      <UniqueIdentifier>{116ae1aa-27f1-4433-8d3e-c0a5acef0d6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Design\03. ScrollManager">
-      <UniqueIdentifier>{8ccfb49f-5b04-4dae-9105-c0ac67681d11}</UniqueIdentifier>
+      <UniqueIdentifier>{37982540-b74c-4580-a744-abf137812321}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Object\00. Character\01. Enemy">
-      <UniqueIdentifier>{0d7058bb-3c95-44ec-b4a2-be49f6ba8ac1}</UniqueIdentifier>
+      <UniqueIdentifier>{c2c4c557-2082-48b1-bab2-2ac3c6bd0d8d}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Object\00. Character\01. Enemy\00. Melee">
-      <UniqueIdentifier>{b3a0fa48-4b0c-4b91-8222-20444773206a}</UniqueIdentifier>
+      <UniqueIdentifier>{14beedfe-2f58-42f2-a619-9d7a8ffba469}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Object\00. Character\01. Enemy\01. Turret">
-      <UniqueIdentifier>{5c22152d-7a1d-4062-9dba-5c3f33644bb1}</UniqueIdentifier>
+      <UniqueIdentifier>{881ceefb-6d7e-4753-8741-5fec6c947712}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Component">
-      <UniqueIdentifier>{9d746910-2c72-4133-bd96-13b992a9a4c7}</UniqueIdentifier>
+    <Filter Include="02. Design">
+      <UniqueIdentifier>{2078cfa2-1620-4627-8659-f7ce449c96b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Component\00. Collider">
-      <UniqueIdentifier>{de361a69-cd60-481a-a8c3-003a7463cf08}</UniqueIdentifier>
+    <Filter Include="02. Design\00. ObjectManager">
+      <UniqueIdentifier>{a118749d-a6ed-4c11-9704-339aea753a22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Scene">
-      <UniqueIdentifier>{7a43f9e6-e20d-4f91-915b-27e5397e9301}</UniqueIdentifier>
+    <Filter Include="02. Design\01. CollisionManager">
+      <UniqueIdentifier>{c98beb59-a415-4a3d-b1c1-dbddf556bf6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\02. KeyManager">
+      <UniqueIdentifier>{4fe69717-f580-406d-803b-5d64b04cc947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\03. ScrollManager">
+      <UniqueIdentifier>{8c874d78-6dd4-475a-bd91-3aada7b8b57c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Design\04. BmpManager">
-      <UniqueIdentifier>{7132b0f1-3a16-4ea1-9dbf-fcfd03238c04}</UniqueIdentifier>
+      <UniqueIdentifier>{b6a78fed-1911-4d67-81cd-b7b5281c59c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Design\04. BmpManager\MyBmp">
-      <UniqueIdentifier>{43b783b3-226e-4e80-bcfb-8971a83b7e76}</UniqueIdentifier>
+      <UniqueIdentifier>{11823672-e88b-426e-821b-06e01c7398f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Design\05. SceneManager">
-      <UniqueIdentifier>{bd9e43d1-620c-461d-85ab-46b537b35db3}</UniqueIdentifier>
+      <UniqueIdentifier>{3df5fb53-bd86-49b4-a82b-7e9b528f2b9a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Design\06. UIManager">
-      <UniqueIdentifier>{60f8da4a-501d-4147-a554-8492e6c9c489}</UniqueIdentifier>
+      <UniqueIdentifier>{5ba96c3f-ffc6-47f9-bc59-56aed3482720}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Design\07. TimeManager">
-      <UniqueIdentifier>{09cb425b-8220-4811-adf6-961f48ef6893}</UniqueIdentifier>
+      <UniqueIdentifier>{786dc034-1238-4e13-be8b-c4671a614ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Component">
+      <UniqueIdentifier>{ad8e77df-2cf0-44a1-abaf-da7d59634de6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Component\00. Collider">
+      <UniqueIdentifier>{855c986a-23e8-409c-97be-53c074796eff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,14 +81,14 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Jusin_api_demo.h">
+    <ClInclude Include="Jusin_api_demo_editor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Define.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="..\Jusin_api_demo\CEnemy.h">
+      <Filter>01. Object\00. Character\01. Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CMainGame.h">
       <Filter>00. MainGame</Filter>
@@ -114,23 +102,11 @@
     <ClInclude Include="CPlayer.h">
       <Filter>01. Object\00. Character\00. Player</Filter>
     </ClInclude>
-    <ClInclude Include="CEnemy.h">
-      <Filter>01. Object\00. Character\01. Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="CMelee.h">
       <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
     </ClInclude>
     <ClInclude Include="CTurret.h">
       <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
-    </ClInclude>
-    <ClInclude Include="CUI.h">
-      <Filter>09. UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CStatus.h">
-      <Filter>09. UI\00. Status</Filter>
-    </ClInclude>
-    <ClInclude Include="CScore.h">
-      <Filter>09. UI\01. Score</Filter>
     </ClInclude>
     <ClInclude Include="CObjectManager.h">
       <Filter>02. Design\00. ObjectManager</Filter>
@@ -147,11 +123,17 @@
     <ClInclude Include="CBmpManager.h">
       <Filter>02. Design\04. BmpManager</Filter>
     </ClInclude>
+    <ClInclude Include="CMyBmp.h">
+      <Filter>02. Design\04. BmpManager\MyBmp</Filter>
+    </ClInclude>
     <ClInclude Include="CSceneManager.h">
       <Filter>02. Design\05. SceneManager</Filter>
     </ClInclude>
     <ClInclude Include="CUIManager.h">
       <Filter>02. Design\06. UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeManager.h">
+      <Filter>02. Design\07. TimeManager</Filter>
     </ClInclude>
     <ClInclude Include="CComponent.h">
       <Filter>03. Component</Filter>
@@ -159,25 +141,22 @@
     <ClInclude Include="CCollider.h">
       <Filter>03. Component\00. Collider</Filter>
     </ClInclude>
-    <ClInclude Include="CScene.h">
-      <Filter>04. Scene</Filter>
+    <ClInclude Include="Define.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Struct.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="CMyBmp.h">
-      <Filter>02. Design\04. BmpManager\MyBmp</Filter>
-    </ClInclude>
-    <ClInclude Include="CTimeManager.h">
-      <Filter>02. Design\07. TimeManager</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Jusin_api_demo.cpp">
+    <ClCompile Include="Jusin_api_demo_editor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Jusin_api_demo\CEnemy.cpp">
+      <Filter>01. Object\00. Character\01. Enemy</Filter>
     </ClCompile>
     <ClCompile Include="CMainGame.cpp">
       <Filter>00. MainGame</Filter>
@@ -191,23 +170,11 @@
     <ClCompile Include="CPlayer.cpp">
       <Filter>01. Object\00. Character\00. Player</Filter>
     </ClCompile>
-    <ClCompile Include="CEnemy.cpp">
-      <Filter>01. Object\00. Character\01. Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="CMelee.cpp">
       <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
     </ClCompile>
     <ClCompile Include="CTurret.cpp">
       <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
-    </ClCompile>
-    <ClCompile Include="CUI.cpp">
-      <Filter>09. UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CStatus.cpp">
-      <Filter>09. UI\00. Status</Filter>
-    </ClCompile>
-    <ClCompile Include="CScore.cpp">
-      <Filter>09. UI\01. Score</Filter>
     </ClCompile>
     <ClCompile Include="CObjectManager.cpp">
       <Filter>02. Design\00. ObjectManager</Filter>
@@ -224,11 +191,17 @@
     <ClCompile Include="CBmpManager.cpp">
       <Filter>02. Design\04. BmpManager</Filter>
     </ClCompile>
+    <ClCompile Include="CMyBmp.cpp">
+      <Filter>02. Design\04. BmpManager\MyBmp</Filter>
+    </ClCompile>
     <ClCompile Include="CSceneManager.cpp">
       <Filter>02. Design\05. SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="CUIManager.cpp">
       <Filter>02. Design\06. UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeManager.cpp">
+      <Filter>02. Design\07. TimeManager</Filter>
     </ClCompile>
     <ClCompile Include="CComponent.cpp">
       <Filter>03. Component</Filter>
@@ -236,18 +209,9 @@
     <ClCompile Include="CCollider.cpp">
       <Filter>03. Component\00. Collider</Filter>
     </ClCompile>
-    <ClCompile Include="CScene.cpp">
-      <Filter>04. Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="CMyBmp.cpp">
-      <Filter>02. Design\04. BmpManager\MyBmp</Filter>
-    </ClCompile>
-    <ClCompile Include="CTimeManager.cpp">
-      <Filter>02. Design\07. TimeManager</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Jusin_api_demo.rc">
+    <ResourceCompile Include="Jusin_api_demo_editor.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -255,7 +219,7 @@
     <Image Include="small.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="Jusin_api_demo.ico">
+    <Image Include="Jusin_api_demo_editor.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
