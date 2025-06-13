@@ -25,11 +25,11 @@ void CTileManager::Initialize()
 			float fY = (float)(TILECY * i) + (TILECY >> 1);
 
 			CObject* pTile = CObjectManager::GetInstance()->CreateObject<CTile>(OBJ_TILE, fX, fY);
+			pTile->Initialize();
 			CObjectManager::GetInstance()->AddObject(OBJ_TILE, pTile);
 			m_vecTile.push_back(pTile);
 		}
 	}
-
 }
 
 void CTileManager::Update()
@@ -84,4 +84,80 @@ void CTileManager::Picking_Tile(POINT ptMouse, int _iDrawID, int _iOption)
 
 	dynamic_cast<CTile*>(m_vecTile[iIndex])->SetDrawID(_iDrawID);
 	dynamic_cast<CTile*>(m_vecTile[iIndex])->SetOption(_iOption);
+}
+
+void CTileManager::Save_Tile()
+{
+	HANDLE hFile = CreateFile(L"../Data/Tile.dat",
+		GENERIC_WRITE,
+		NULL,
+		NULL,
+		CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return;
+
+	int iDrawID(0), iOption(0);
+	DWORD dwByte(0);
+
+	for (auto& pTile : m_vecTile)
+	{
+		iDrawID = dynamic_cast<CTile*>(pTile)->GetDrawID();
+		iOption = dynamic_cast<CTile*>(pTile)->GetOption();
+
+		WriteFile(hFile, &(pTile->GetPos()), sizeof(Vec2), &dwByte, NULL);
+		WriteFile(hFile, &(pTile->GetScale()), sizeof(Vec2), &dwByte, NULL);
+		WriteFile(hFile, &iDrawID, sizeof(int), &dwByte, NULL);
+		WriteFile(hFile, &iOption, sizeof(int), &dwByte, NULL);
+	}
+
+	CloseHandle(hFile);
+
+	MessageBox(g_hWnd, L"Tile Save", L"Complete", MB_OK);
+}
+
+void CTileManager::Load_Tile()
+{
+	HANDLE	hFile = CreateFile(L"../Data/Tile.dat",
+		GENERIC_READ,
+		NULL,
+		NULL,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+		return;
+
+	Release();
+
+	int	iDrawID(0), iOption(0);
+	DWORD	dwByte(0);
+	Vec2	vPos{};
+	Vec2	vScale{};
+
+	while (true)
+	{
+
+		ReadFile(hFile, &vPos, sizeof(Vec2), &dwByte, NULL);
+		ReadFile(hFile, &vScale, sizeof(Vec2), &dwByte, NULL);
+		ReadFile(hFile, &iDrawID, sizeof(int), &dwByte, NULL);
+		ReadFile(hFile, &iOption, sizeof(int), &dwByte, NULL);
+
+		if (0 == dwByte)
+			break;
+
+		CObject* pTile = CObjectManager::GetInstance()->CreateObject<CTile>(OBJ_TILE, vPos.x, vPos.y);
+		pTile->Initialize();
+		dynamic_cast<CTile*>(pTile)->SetDrawID(iDrawID);
+		dynamic_cast<CTile*>(pTile)->SetOption(iOption);
+
+		m_vecTile.push_back(pTile);
+	}
+
+	CloseHandle(hFile);
+
+	MessageBox(g_hWnd, L"Tile Load", L"¼º°ø", MB_OK);
 }

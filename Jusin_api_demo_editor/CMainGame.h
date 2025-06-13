@@ -13,5 +13,9 @@ public:
 	void Release();
 
 private:
+	void		Load_Img();
+	void		Load_PlayerImg();
+
+private:
 	HDC m_DC;
 };

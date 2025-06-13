@@ -4,6 +4,7 @@
 #include "CCollisionManager.h"
 #include "CSceneManager.h"
 #include "CButton.h"
+#include "CScrollManager.h"
 
 CMenu::CMenu()
 {
@@ -20,9 +21,10 @@ void CMenu::Update()
 
 void CMenu::Render(HDC _dc)
 {
-	HDC	hMemDC = CBmpManager::Get_Instance()->Find_Image(L"MenuBackGround");
+	int iScrollX = CScrollManager::Get_Instance()->Get_ScrollX();
+	int iScrollY = CScrollManager::Get_Instance()->Get_ScrollY();
 
-	BitBlt(_dc, 0, 0, WINCX, WINCY, hMemDC, 0, 0, SRCCOPY);
+	Render_Map(_dc, iScrollX, iScrollY);
 
 	CScene::Render(_dc);
 }
@@ -32,6 +34,9 @@ void CMenu::Enter()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Button/Start.bmp", L"ButtonPlay");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Button/Edit.bmp", L"ButtonEdit");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Button/Exit.bmp", L"ButtonExit");
+
+	MapDC = CBmpManager::Get_Instance()->Find_Image(L"MapBig");
+	SetMaxScroll(L"MapBig");
 
 	Initialize();
 }
@@ -66,4 +71,19 @@ void CMenu::Initialize()
 	pButtonExit->SetName(L"UI");
 	pButtonExit->Set_FrameKey(L"ButtonExit");
 	AddObject(pButtonExit, OBJ_UI);
+}
+
+void CMenu::Render_Map(HDC hdc, int iScrollX, int iScrollY)
+{
+	GdiTransparentBlt(hdc,
+		iScrollX,
+		iScrollY,
+		(int)1920,
+		(int)1080,
+		MapDC,
+		0,
+		0,
+		(int)1920,	// 복사할 비트맵 가로 세로 사이즈
+		(int)1080,
+		RGB(255, 0, 255));	// 제거할 픽셀 색상 값
 }

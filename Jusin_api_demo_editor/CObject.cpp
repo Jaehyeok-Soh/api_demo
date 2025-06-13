@@ -99,5 +99,4 @@ void CObject::Component_Render(HDC _dc)
 	{
 		m_pCollider->Render(_dc);
 	}
-
 }

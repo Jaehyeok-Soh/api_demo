@@ -6,6 +6,7 @@
 #include "Jusin_api_demo_editor.h"
 
 #include "CMainGame.h"
+#include "CScrollManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -15,7 +16,10 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 HWND g_hWnd;
+float g_fZoom = 1.0f;
 bool bColRender = false;
+bool bTileRender = false;
+POINT g_ptMousePos = {};
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -183,6 +187,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_MOUSEWHEEL:
+    {
+        float fOldZoom = g_fZoom;
+
+        // 스크롤 이전 커서 위치 얻기
+        GetCursorPos(&g_ptMousePos);
+        ScreenToClient(g_hWnd, &g_ptMousePos);  // 클라이언트 좌표로 변환
+
+        float fMouseX = (float)g_ptMousePos.x;
+        float fMouseY = (float)g_ptMousePos.y;
+
+        float fWorldX = (fMouseX - CScrollManager::Get_Instance()->Get_ScrollX()) / fOldZoom;
+        float fWorldY = (fMouseY - CScrollManager::Get_Instance()->Get_ScrollY()) / fOldZoom;
+
+        short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+        if (zDelta > 0)
+            g_fZoom += 0.1f; // 확대
+        else
+            g_fZoom -= 0.1f; // 축소
+
+        if (g_fZoom < 0.5f) g_fZoom = 0.5f;
+        if (g_fZoom > 5.0f) g_fZoom = 5.0f;
+
+        float fNewScrollX = fMouseX - fWorldX * g_fZoom;
+        float fNewScrollY = fMouseY - fWorldY * g_fZoom;
+
+        CScrollManager::Get_Instance()->Set_ScrollX(fNewScrollX);
+        CScrollManager::Get_Instance()->Set_ScrollY(fNewScrollY);
+
+        InvalidateRect(hWnd, nullptr, FALSE); // 다시 그리기 요청
+    }
+    break;
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);

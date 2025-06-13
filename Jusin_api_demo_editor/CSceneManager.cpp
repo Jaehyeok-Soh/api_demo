@@ -2,7 +2,7 @@
 #include "CSceneManager.h"
 #include "CScrollManager.h"
 #include "CMenu.h"
-//#include "CPlay.h"
+#include "CPlay.h"
 #include "CEdit.h"
 
 CSceneManager* CSceneManager::m_pInstance = nullptr;
@@ -38,8 +38,8 @@ void CSceneManager::Initialize()
 	m_arrStage[SC_MENU] = new CMenu;
 	m_arrStage[SC_MENU]->SetName(L"MENU");
 
-	//m_arrStage[SC_PLAY] = new CPlay;
-	//m_arrStage[SC_PLAY]->SetName(L"PLAY");
+	m_arrStage[SC_PLAY] = new CPlay;
+	m_arrStage[SC_PLAY]->SetName(L"PLAY");
 
 	m_arrStage[SC_EDIT] = new CEdit;
 	m_arrStage[SC_EDIT]->SetName(L"EDIT");

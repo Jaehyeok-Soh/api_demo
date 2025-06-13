@@ -18,6 +18,8 @@ private:
 	void Initialize();
 	void Key_Input();
 
+	void Render_Map(HDC hdc, int iScrollX, int iScrollY);
+
 private:
 	FRAME m_tFrame;
 };

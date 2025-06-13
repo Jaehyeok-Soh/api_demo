@@ -150,6 +150,7 @@
     <ClInclude Include="CMyBmp.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CObjectManager.h" />
+    <ClInclude Include="CPlay.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="CMyBmp.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
+    <ClCompile Include="CPlay.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />

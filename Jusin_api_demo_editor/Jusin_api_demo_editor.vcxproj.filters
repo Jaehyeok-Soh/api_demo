@@ -189,6 +189,9 @@
     <ClInclude Include="CScene.h">
       <Filter>04. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="CPlay.h">
+      <Filter>04. Scene\02. Play</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -268,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="CScene.cpp">
       <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlay.cpp">
+      <Filter>04. Scene\02. Play</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

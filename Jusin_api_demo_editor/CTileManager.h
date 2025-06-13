@@ -16,6 +16,8 @@ public:
 
 public:
 	void	Picking_Tile(POINT ptMouse, int _iDrawID, int _iOption);
+	void	Save_Tile();
+	void	Load_Tile();
 
 public:
 	static CTileManager* Get_Instance()

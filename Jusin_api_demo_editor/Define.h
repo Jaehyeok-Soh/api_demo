@@ -5,11 +5,11 @@
 #define WINCX 1000
 #define WINCY 800
 
-#define TILECX 64
-#define TILECY 64
+#define TILECX 32
+#define TILECY 32
 
-#define TILEX 30
-#define TILEY 20
+#define TILEX 60
+#define TILEY 34
 
 #define VK_MAX 0xff
 
@@ -36,6 +36,8 @@
 
 extern HWND g_hWnd;
 extern bool bColRender;
+extern float g_fZoom;
+extern bool bTileRender;
 
 struct INFO
 {

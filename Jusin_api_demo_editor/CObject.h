@@ -21,10 +21,10 @@ public:
 	void SetPos(Vec2  _vPos) { m_vPos = _vPos; }
 	void SetPosX(float _f) { m_vPos.x = _f; }
 	void SetPosY(float _f) { m_vPos.y = _f; }
-	Vec2 GetPos() { return m_vPos; }
+	Vec2& GetPos() { return m_vPos; }
 
 	void SetScale(Vec2 _vScale) { m_vScale = _vScale; }
-	Vec2 GetScale() { return m_vScale; }
+	Vec2& GetScale() { return m_vScale; }
 
 	const Vec2 GetDir() const { return m_vMoveDir; }
 
