@@ -135,16 +135,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CBmpManager.h" />
+    <ClInclude Include="CCharacter.h" />
+    <ClInclude Include="CCollider.h" />
+    <ClInclude Include="CCollisionManager.h" />
+    <ClInclude Include="CComponent.h" />
+    <ClInclude Include="CComponentManager.h" />
+    <ClInclude Include="CEnemy.h" />
+    <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CMainGame.h" />
+    <ClInclude Include="CMelee.h" />
+    <ClInclude Include="CMyBmp.h" />
+    <ClInclude Include="CObject.h" />
+    <ClInclude Include="CObjectManager.h" />
+    <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CScene.h" />
+    <ClInclude Include="CSceneManager.h" />
+    <ClInclude Include="CScore.h" />
+    <ClInclude Include="CScrollManager.h" />
+    <ClInclude Include="CStatus.h" />
+    <ClInclude Include="CTimeManager.h" />
+    <ClInclude Include="CTurret.h" />
+    <ClInclude Include="CUI.h" />
+    <ClInclude Include="CUIManager.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Jusin_api_demo.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBmpManager.cpp" />
+    <ClCompile Include="CCharacter.cpp" />
+    <ClCompile Include="CCollider.cpp" />
+    <ClCompile Include="CCollisionManager.cpp" />
+    <ClCompile Include="CComponent.cpp" />
+    <ClCompile Include="CComponentManager.cpp" />
+    <ClCompile Include="CEnemy.cpp" />
+    <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CMainGame.cpp" />
+    <ClCompile Include="CMelee.cpp" />
+    <ClCompile Include="CMyBmp.cpp" />
+    <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="CObjectManager.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CScene.cpp" />
+    <ClCompile Include="CSceneManager.cpp" />
+    <ClCompile Include="CScore.cpp" />
+    <ClCompile Include="CScrollManager.cpp" />
+    <ClCompile Include="CStatus.cpp" />
+    <ClCompile Include="CTimeManager.cpp" />
+    <ClCompile Include="CTurret.cpp" />
+    <ClCompile Include="CUI.cpp" />
+    <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="Jusin_api_demo.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

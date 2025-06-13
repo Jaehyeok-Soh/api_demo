@@ -10,13 +10,30 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
+using namespace std;
+
+#include <list>
 #include <string>
 #include <vector>
 #include <map>
 #include <algorithm>
-#include <ctime>
-#include <cmath>
+#include <time.h>
+#include <math.h>
 
 #include "Define.h"
+#include "Struct.h"
+
+#ifdef _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+#ifndef DBG_NEW 
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ ) 
+#define new DBG_NEW 
+
+#endif
+#endif
 
 #endif //PCH_H

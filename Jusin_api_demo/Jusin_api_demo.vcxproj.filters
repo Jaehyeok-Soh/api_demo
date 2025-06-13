@@ -16,6 +16,75 @@
     <Filter Include="00. MainGame">
       <UniqueIdentifier>{2bfec6a9-cb47-47f5-840a-c9ed71f1d43c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object">
+      <UniqueIdentifier>{4580fc28-93e9-454e-b0ff-7ff1a1c03b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character">
+      <UniqueIdentifier>{93af4d4f-26fa-4827-b2a3-27283bd16f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\00. Player">
+      <UniqueIdentifier>{d4fd277a-794b-42bf-bec6-8d2b228a0235}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. UI">
+      <UniqueIdentifier>{64c4cab6-944c-4cdb-8363-059d2c50b260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. UI\00. Status">
+      <UniqueIdentifier>{8d31503d-89c8-486b-85b5-5396dba29d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09. UI\01. Score">
+      <UniqueIdentifier>{868e1a69-663b-470d-8960-0ed1d5fd7b97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design">
+      <UniqueIdentifier>{1de7e1af-f1c8-4cee-a0a1-45be044cb0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\00. ObjectManager">
+      <UniqueIdentifier>{383c3602-5062-4837-bdeb-88a45898c69b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\01. CollisionManager">
+      <UniqueIdentifier>{8e58f0a7-c8a1-48d7-aaf9-bd8e053974ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\02. KeyManager">
+      <UniqueIdentifier>{116ae1aa-27f1-4433-8d3e-c0a5acef0d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\03. ScrollManager">
+      <UniqueIdentifier>{8ccfb49f-5b04-4dae-9105-c0ac67681d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\04. ComponentManager">
+      <UniqueIdentifier>{0fa6d4a4-74c6-4797-bd8f-bfb4456a8a43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\05. BmpManager">
+      <UniqueIdentifier>{7132b0f1-3a16-4ea1-9dbf-fcfd03238c04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\06. SceneManager">
+      <UniqueIdentifier>{bd9e43d1-620c-461d-85ab-46b537b35db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\07. UIManager">
+      <UniqueIdentifier>{60f8da4a-501d-4147-a554-8492e6c9c489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy">
+      <UniqueIdentifier>{0d7058bb-3c95-44ec-b4a2-be49f6ba8ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\00. Melee">
+      <UniqueIdentifier>{b3a0fa48-4b0c-4b91-8222-20444773206a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\01. Turret">
+      <UniqueIdentifier>{5c22152d-7a1d-4062-9dba-5c3f33644bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Component">
+      <UniqueIdentifier>{9d746910-2c72-4133-bd96-13b992a9a4c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Component\00. Collider">
+      <UniqueIdentifier>{de361a69-cd60-481a-a8c3-003a7463cf08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene">
+      <UniqueIdentifier>{7a43f9e6-e20d-4f91-915b-27e5397e9301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\05. BmpManager\MyBmp">
+      <UniqueIdentifier>{43b783b3-226e-4e80-bcfb-8971a83b7e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TimeManager">
+      <UniqueIdentifier>{09cb425b-8220-4811-adf6-961f48ef6893}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -39,6 +108,75 @@
     <ClInclude Include="CMainGame.h">
       <Filter>00. MainGame</Filter>
     </ClInclude>
+    <ClInclude Include="CObject.h">
+      <Filter>01. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CCharacter.h">
+      <Filter>01. Object\00. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>01. Object\00. Character\00. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CEnemy.h">
+      <Filter>01. Object\00. Character\01. Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CMelee.h">
+      <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="CTurret.h">
+      <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
+    </ClInclude>
+    <ClInclude Include="CUI.h">
+      <Filter>09. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CStatus.h">
+      <Filter>09. UI\00. Status</Filter>
+    </ClInclude>
+    <ClInclude Include="CScore.h">
+      <Filter>09. UI\01. Score</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectManager.h">
+      <Filter>02. Design\00. ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>02. Design\01. CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyManager.h">
+      <Filter>02. Design\02. KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CScrollManager.h">
+      <Filter>02. Design\03. ScrollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponentManager.h">
+      <Filter>02. Design\04. ComponentManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CBmpManager.h">
+      <Filter>02. Design\05. BmpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CSceneManager.h">
+      <Filter>02. Design\06. SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CUIManager.h">
+      <Filter>02. Design\07. UIManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>03. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollider.h">
+      <Filter>03. Component\00. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CScene.h">
+      <Filter>04. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CMyBmp.h">
+      <Filter>02. Design\05. BmpManager\MyBmp</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeManager.h">
+      <Filter>02. Design\08. TimeManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo.cpp">
@@ -49,6 +187,72 @@
     </ClCompile>
     <ClCompile Include="CMainGame.cpp">
       <Filter>00. MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="CObject.cpp">
+      <Filter>01. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CCharacter.cpp">
+      <Filter>01. Object\00. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>01. Object\00. Character\00. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CEnemy.cpp">
+      <Filter>01. Object\00. Character\01. Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CMelee.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="CTurret.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="CUI.cpp">
+      <Filter>09. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CStatus.cpp">
+      <Filter>09. UI\00. Status</Filter>
+    </ClCompile>
+    <ClCompile Include="CScore.cpp">
+      <Filter>09. UI\01. Score</Filter>
+    </ClCompile>
+    <ClCompile Include="CObjectManager.cpp">
+      <Filter>02. Design\00. ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>02. Design\01. CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyManager.cpp">
+      <Filter>02. Design\02. KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CScrollManager.cpp">
+      <Filter>02. Design\03. ScrollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponentManager.cpp">
+      <Filter>02. Design\04. ComponentManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CBmpManager.cpp">
+      <Filter>02. Design\05. BmpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CSceneManager.cpp">
+      <Filter>02. Design\06. SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CUIManager.cpp">
+      <Filter>02. Design\07. UIManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>03. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollider.cpp">
+      <Filter>03. Component\00. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CScene.cpp">
+      <Filter>04. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyBmp.cpp">
+      <Filter>02. Design\05. BmpManager\MyBmp</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeManager.cpp">
+      <Filter>02. Design\08. TimeManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
