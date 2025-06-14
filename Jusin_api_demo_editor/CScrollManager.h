@@ -20,8 +20,8 @@ public:
 	float		Get_ScrollXMax() { return m_fScrollXMax; }
 	float		Get_ScrollYMax() { return m_fScrollYMax; }
 
-	void	   Set_ScrollXMax(float _fX) { m_fScrollXMax = _fX; }
-	void		Set_ScrollYMax(float _fY) { m_fScrollYMax = _fY; }
+	void	   Set_ScrollXMax(float _fX) {m_fScrollXMax = _fX;}
+	void		Set_ScrollYMax(float _fY) { m_fScrollYMax = _fY;}
 
 	void		Reset_Scroll() { m_fScrollX = 0.f; m_fScrollY = 0.f; }
 

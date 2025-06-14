@@ -2,8 +2,8 @@
 
 #define PURE = 0
 
-#define WINCX 1000
-#define WINCY 800
+#define WINCX 800
+#define WINCY 600
 
 #define TILECX 32
 #define TILECY 32
@@ -38,6 +38,7 @@ extern HWND g_hWnd;
 extern bool bColRender;
 extern float g_fZoom;
 extern bool bTileRender;
+//extern POINT g_ptMousePos;
 
 struct INFO
 {

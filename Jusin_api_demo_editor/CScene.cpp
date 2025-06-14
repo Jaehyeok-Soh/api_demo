@@ -120,6 +120,5 @@ void CScene::SetMaxScroll(const TCHAR* pImgKey)
 
 		CScrollManager::Get_Instance()->Set_ScrollXMax(bmpInfo.bmWidth);
 		CScrollManager::Get_Instance()->Set_ScrollYMax(bmpInfo.bmHeight);
-
 	}
 }

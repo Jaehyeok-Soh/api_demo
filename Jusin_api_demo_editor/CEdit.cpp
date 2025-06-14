@@ -22,6 +22,8 @@ void CEdit::Update()
 
 	Key_Input();
 
+	SetMaxScroll(L"MapBig");
+
 	//Late_Update
 	CTileManager::Get_Instance()->Late_Update();
 }
