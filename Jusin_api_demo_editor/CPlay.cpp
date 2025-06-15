@@ -7,8 +7,10 @@
 #include "CCollisionManager.h"
 #include "CSceneManager.h"
 #include "CObjectManager.h"
+#include "CTimeManager.h"
 
 CPlay::CPlay()
+	: m_fdtPlayTime(0.f)
 {
 }
 
@@ -18,8 +20,13 @@ CPlay::~CPlay()
 
 void CPlay::Update()
 {
+	//시간 업데이트
+	m_fdtPlayTime += fDT;
+
+	//타일 업데이트
 	CTileManager::Get_Instance()->Update();
 
+	//키 입력
 	Key_Input();
 
 	//Late_Update
@@ -57,10 +64,12 @@ void CPlay::Initialize()
 {
 	CSceneManager::GetInstance()->SetChangeScene(false, SC_EDIT);
 
+	//타일 초기화
 	CTileManager::Get_Instance()->Initialize();
-
+	//타일 불러오기
 	CTileManager::Get_Instance()->Load_Tile();
 
+	//플레이어 초기화
 	CObject* pPlayer = new CPlayer();
 	pPlayer->Initialize();
 	pPlayer->SetPos(Vec2(50.f, 800.f));
@@ -69,18 +78,6 @@ void CPlay::Initialize()
 
 void CPlay::Key_Input()
 {
-	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_LEFT))
-	//	CScrollManager::Get_Instance()->Set_ScrollX(5.f);
-
-	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_RIGHT))
-	//	CScrollManager::Get_Instance()->Set_ScrollX(-5.f);
-
-	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_UP))
-	//	CScrollManager::Get_Instance()->Set_ScrollY(5.f);
-
-	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_DOWN))
-	//	CScrollManager::Get_Instance()->Set_ScrollY(-5.f);
-
 	if (g_ptMousePos.x <= 10)
 		CScrollManager::Get_Instance()->Set_ScrollX(5.f);
 

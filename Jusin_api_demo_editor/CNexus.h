@@ -1,18 +1,18 @@
 #pragma once
-#include "CCharacter.h"
+#include "CTower.h"
 
-class CTurret final
-	: public CCharacter
+class CNexus final
+	: public CTower
 {
 public:
-	CTurret();
-	~CTurret();
+	CNexus();
+	virtual ~CNexus();
 
-public:
 	void Initialize() override;
 	int Update() override;
 	void Late_Update() override;
 	void Render(HDC _dc) override;
 	void Release() override;
+
 };
 

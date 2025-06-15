@@ -47,8 +47,8 @@ protected:
 	void		Update_Frame();
 
 public:
-	void CreateColider();
-	CCollider* GetColider() { return m_pCollider; }
+	void CreateCollider();
+	CCollider* GetCollider() { return m_pCollider; }
 	//CGravity* GetGravity() { return m_pGravity; }
 	void Component_Render(HDC _dc);
 

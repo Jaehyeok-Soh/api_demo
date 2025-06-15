@@ -15,8 +15,14 @@ protected:
 	virtual void Motion_Change() {};
 
 protected:
-	int		m_iHP;
-	CTile::TILETYPE m_eDrawID;
+	TILETYPE m_eDrawID;
 	int		m_iOption;
+	
+	ATTACKINFO m_tAttackInfo;
+	int		m_iHP;
+
+
+	//true 블루, false 레드
+	bool	m_bTeam;
 };
 

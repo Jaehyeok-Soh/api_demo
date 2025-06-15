@@ -59,10 +59,39 @@ struct FRAME
 
 };
 
+struct ATTACKINFO
+{
+	bool m_bIsAttack;
+	int m_iDamage;
+	float m_fdtAttackTime;
+	float m_fAttackDelay;
+};
+
+enum TILETYPE
+{
+	PEEK_DISABLE = 0,
+	PEEK_ENABLE,
+	TERRAIN_BUSH,
+
+	BLUE_SP = 10,
+	BLUE_NEXUS,
+	BLUE_INHIBITER,
+	BLUE_TURRET1,
+	BLUE_TURRET2,
+	BLUE_MELEE_SP,
+
+	RED_SP = 20,
+	RED_NEXUS,
+	RED_INHIBITER,
+	RED_TURRET1,
+	RED_TURRET2,
+	RED_MELEE_SP
+};
+
 enum OBJID
 {
 	OBJ_PLAYER,
-	OBJ_TURRET,
+	OBJ_TOWER,
 	OBJ_MELEE,
 	OBJ_ATTACK,
 	OBJ_SKILL,

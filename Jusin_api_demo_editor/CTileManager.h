@@ -15,8 +15,8 @@ public:
 	void		Release();
 
 public:
-	void	Drawing_Tile(POINT ptMouse, int _iDrawID, int _iOption);
-	CTile::TILETYPE	Peeking_Tile(POINT ptMouse);
+	void	Drawing_Tile(POINT ptMouse, TILETYPE _iDrawID, int _iOption);
+	TILETYPE	Peeking_Tile(POINT ptMouse);
 	void	Save_Tile();
 	void	Load_Tile();
 

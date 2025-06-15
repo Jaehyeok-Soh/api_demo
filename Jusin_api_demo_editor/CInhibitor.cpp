@@ -1,15 +1,15 @@
 #include "pch.h"
-#include "CTurret.h"
+#include "CInhibitor.h"
 
-CTurret::CTurret()
+CInhibitor::CInhibitor()
 {
 }
 
-CTurret::~CTurret()
+CInhibitor::~CInhibitor()
 {
 }
 
-void CTurret::Initialize()
+void CInhibitor::Initialize()
 {
 	__super::Initialize();
 
@@ -22,21 +22,21 @@ void CTurret::Initialize()
 	m_iHP = 100;
 }
 
-int CTurret::Update()
+int CInhibitor::Update()
 {
 	__super::Update();
 	return NOEVENT;
 }
 
-void CTurret::Late_Update()
+void CInhibitor::Late_Update()
 {
 }
 
-void CTurret::Render(HDC _dc)
+void CInhibitor::Render(HDC _dc)
 {
 	__super::Render(_dc);
 }
 
-void CTurret::Release()
+void CInhibitor::Release()
 {
 }

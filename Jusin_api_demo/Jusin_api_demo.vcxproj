@@ -154,7 +154,7 @@
     <ClInclude Include="CScrollManager.h" />
     <ClInclude Include="CStatus.h" />
     <ClInclude Include="CTimeManager.h" />
-    <ClInclude Include="CTurret.h" />
+    <ClInclude Include="CTower.h" />
     <ClInclude Include="CUI.h" />
     <ClInclude Include="CUIManager.h" />
     <ClInclude Include="Define.h" />
@@ -185,7 +185,7 @@
     <ClCompile Include="CScrollManager.cpp" />
     <ClCompile Include="CStatus.cpp" />
     <ClCompile Include="CTimeManager.cpp" />
-    <ClCompile Include="CTurret.cpp" />
+    <ClCompile Include="CTower.cpp" />
     <ClCompile Include="CUI.cpp" />
     <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="Jusin_api_demo.cpp" />

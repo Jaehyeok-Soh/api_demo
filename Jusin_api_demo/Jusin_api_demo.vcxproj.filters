@@ -120,7 +120,7 @@
     <ClInclude Include="CMelee.h">
       <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
     </ClInclude>
-    <ClInclude Include="CTurret.h">
+    <ClInclude Include="CTower.h">
       <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
     </ClInclude>
     <ClInclude Include="CUI.h">
@@ -197,7 +197,7 @@
     <ClCompile Include="CMelee.cpp">
       <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
     </ClCompile>
-    <ClCompile Include="CTurret.cpp">
+    <ClCompile Include="CTower.cpp">
       <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
     </ClCompile>
     <ClCompile Include="CUI.cpp">

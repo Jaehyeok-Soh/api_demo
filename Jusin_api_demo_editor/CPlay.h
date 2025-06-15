@@ -21,6 +21,8 @@ private:
 	void Render_Map(HDC hdc, int iScrollX, int iScrollY);
 
 private:
-	FRAME m_tFrame;
+	//FRAME m_tFrame;
+
+	float m_fdtPlayTime;
 };
 

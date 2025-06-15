@@ -2,6 +2,10 @@
 #include "CTileManager.h"
 #include "CObjectManager.h"
 #include "CScrollManager.h"
+#include "CSpawnNexus.h"
+#include "CSpawnTurret.h"
+#include "CSpawnInhibitor.h"
+#include "CCommonTile.h"
 
 CTileManager* CTileManager::m_pInstance = nullptr;
 
@@ -25,7 +29,7 @@ void CTileManager::Initialize()
 			float fX = (float)(TILECX * j) + (TILECX >> 1);
 			float fY = (float)(TILECY * i) + (TILECY >> 1);
 
-			CObject* pTile = CObjectManager::GetInstance()->CreateObject<CTile>(OBJ_TILE, fX, fY);
+			CObject* pTile = CObjectManager::GetInstance()->CreateObject<CCommonTile>(OBJ_TILE, fX, fY);
 			pTile->Initialize();
 			CObjectManager::GetInstance()->AddObject(OBJ_TILE, pTile);
 			m_vecTile.push_back(pTile);
@@ -73,7 +77,7 @@ void CTileManager::Release()
 	m_vecTile.clear();
 }
 
- CTile::TILETYPE CTileManager::Peeking_Tile(POINT ptMouse)
+TILETYPE CTileManager::Peeking_Tile(POINT ptMouse)
 {
 	int	x = ptMouse.x / TILECX;
 	int y = ptMouse.y / TILECY;
@@ -81,16 +85,16 @@ void CTileManager::Release()
 	int		iIndex = y * TILEX + x;
 
 	if (0 > iIndex || m_vecTile.size() <= (size_t)iIndex)
-		return CTile::TILETYPE::PEEK_DISABLE;
-	
+		return TILETYPE::PEEK_DISABLE;
+
 	int iOption = static_cast<CTile*>(m_vecTile[iIndex])->GetOption();
 	if (iOption == 0)
-		return CTile::TILETYPE::PEEK_DISABLE;
-	
-	return (CTile::TILETYPE)iOption;
+		return TILETYPE::PEEK_DISABLE;
+
+	return (TILETYPE)iOption;
 }
 
-void CTileManager::Drawing_Tile(POINT ptMouse, int _iDrawID, int _iOption)
+void CTileManager::Drawing_Tile(POINT ptMouse, TILETYPE _iDrawID, int _iOption)
 {
 	int	x = ptMouse.x / TILECX;
 	int y = ptMouse.y / TILECY;
@@ -151,7 +155,8 @@ void CTileManager::Load_Tile()
 
 	Release();
 
-	int	iDrawID(0), iOption(0);
+	TILETYPE	iDrawID(TILETYPE::BLUE_TURRET1);
+	int iOption(0);
 	DWORD	dwByte(0);
 	Vec2	vPos{};
 	Vec2	vScale{};
@@ -166,7 +171,29 @@ void CTileManager::Load_Tile()
 		if (0 == dwByte)
 			break;
 
-		CObject* pTile = CObjectManager::GetInstance()->CreateObject<CTile>(OBJ_TILE, vPos.x, vPos.y);
+		CObject* pTile = nullptr;
+
+		if (iDrawID == BLUE_NEXUS || iDrawID == RED_NEXUS)
+		{
+			pTile = new CSpawnNexus();
+		}
+		else if (iDrawID == BLUE_INHIBITER || iDrawID == RED_INHIBITER)
+		{
+			pTile = new CSpawnInhibitor();
+		}
+		else if (iDrawID == BLUE_TURRET1 
+			|| iDrawID == BLUE_TURRET2
+			|| iDrawID == RED_TURRET1
+			|| iDrawID == RED_TURRET2)
+		{
+			pTile = new CSpawnTurret();
+		}
+		else
+		{
+			pTile = new CCommonTile();
+		}
+
+		pTile->SetPos(vPos);
 		pTile->Initialize();
 		dynamic_cast<CTile*>(pTile)->SetDrawID(iDrawID);
 		dynamic_cast<CTile*>(pTile)->SetOption(iOption);

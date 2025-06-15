@@ -45,7 +45,7 @@ void CCollisionManager::CollisionUpdateGroup(OBJID _eLeft, OBJID _eRight)
     // 왼쪽 그룹의 모든 오브젝트 순회
     for (auto leftObj : listLeft)
     {
-        if (nullptr == leftObj || nullptr == leftObj->GetColider() || listRight.empty())
+        if (nullptr == leftObj || nullptr == leftObj->GetCollider() || listRight.empty())
             continue;
 
         for (auto rightObj : listRight)
@@ -54,15 +54,15 @@ void CCollisionManager::CollisionUpdateGroup(OBJID _eLeft, OBJID _eRight)
             if (listRight.empty())
                 break;
 
-            if (nullptr == rightObj || nullptr == rightObj->GetColider())
+            if (nullptr == rightObj || nullptr == rightObj->GetCollider())
                 continue;
 
             // 자기 자신과의 충돌은 무시
             if (leftObj == rightObj)
                 continue;
 
-            CCollider* pLeftCol = leftObj->GetColider();
-            CCollider* pRightCol = rightObj->GetColider();
+            CCollider* pLeftCol = leftObj->GetCollider();
+            CCollider* pRightCol = rightObj->GetCollider();
 
             // 고유 충돌 ID 생성
             COLIDER_ID ID;

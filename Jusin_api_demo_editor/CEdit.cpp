@@ -51,7 +51,7 @@ INT_PTR CALLBACK DlgProc_TileOption(HWND hDlg, UINT message, WPARAM wParam, LPAR
 }
 
 CEdit::CEdit()
-	: TileSetDrawID(CTile::TILETYPE::PEEK_DISABLE), TileSetOption(CTile::TILETYPE::PEEK_DISABLE)
+	: TileSetDrawID(TILETYPE::PEEK_DISABLE), TileSetOption(TILETYPE::PEEK_DISABLE)
 {
 }
 
@@ -138,14 +138,14 @@ void CEdit::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Down('D'))
 	{
-		TileSetDrawID = CTile::TILETYPE::PEEK_DISABLE;
-		TileSetOption = CTile::TILETYPE::PEEK_DISABLE;
+		TileSetDrawID = TILETYPE::PEEK_DISABLE;
+		TileSetOption = TILETYPE::PEEK_DISABLE;
 	}
 
 	if (CKeyManager::Get_Instance()->Key_Down('E'))
 	{
-		TileSetDrawID = CTile::TILETYPE::PEEK_ENABLE;
-		TileSetOption = CTile::TILETYPE::PEEK_ENABLE;
+		TileSetDrawID = TILETYPE::PEEK_ENABLE;
+		TileSetOption = TILETYPE::PEEK_ENABLE;
 	}
 
 	if (CKeyManager::Get_Instance()->Key_Down('B'))
@@ -156,8 +156,8 @@ void CEdit::Key_Input()
 			DlgProc_TileOption,
 			(LPARAM)params) == IDOK)
 		{
-			TileSetDrawID = CTile::TILETYPE::TERRAIN_BUSH;
-			TileSetOption = (CTile::TILETYPE)params[1];
+			TileSetDrawID = TILETYPE::TERRAIN_BUSH;
+			TileSetOption = (TILETYPE)params[1];
 		}
 	}
 
@@ -169,7 +169,7 @@ void CEdit::Key_Input()
 			DlgProc_TileOption,
 			(LPARAM)params) == IDOK)
 		{
-			TileSetDrawID = (CTile::TILETYPE)params[0];
+			TileSetDrawID = (TILETYPE)params[0];
 			TileSetOption = params[1];
 		}
 	}

@@ -109,5 +109,5 @@ deque<Vec2> CAStarManager::FindPath(Vec2 start, Vec2 end)
 
 bool CAStarManager::IsWalkable(int _nx, int _ny)
 {
-	return static_cast<CTile*>(m_vecTile[_ny * TILEX + _nx])->GetDrawID() != CTile::TILETYPE::PEEK_DISABLE;
+	return static_cast<CTile*>(m_vecTile[_ny * TILEX + _nx])->GetDrawID() != TILETYPE::PEEK_DISABLE;
 }

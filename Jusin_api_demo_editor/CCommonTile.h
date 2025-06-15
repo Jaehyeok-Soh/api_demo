@@ -1,12 +1,12 @@
 #pragma once
-#include "CTower.h"
+#include "CTile.h"
 
-class CTurret final
-	: public CTower
+class CCommonTile
+	: public CTile
 {
 public:
-	CTurret();
-	virtual ~CTurret();
+	CCommonTile();
+	~CCommonTile();
 
 public:
 	void Initialize() override;

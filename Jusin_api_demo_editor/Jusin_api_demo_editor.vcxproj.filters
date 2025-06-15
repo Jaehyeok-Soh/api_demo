@@ -31,9 +31,6 @@
     <Filter Include="01. Object\00. Character\01. Enemy\00. Melee">
       <UniqueIdentifier>{14beedfe-2f58-42f2-a619-9d7a8ffba469}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\00. Character\01. Enemy\01. Turret">
-      <UniqueIdentifier>{881ceefb-6d7e-4753-8741-5fec6c947712}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Design">
       <UniqueIdentifier>{2078cfa2-1620-4627-8659-f7ce449c96b6}</UniqueIdentifier>
     </Filter>
@@ -100,6 +97,33 @@
     <Filter Include="02. Design\AStarManager\AStarNode">
       <UniqueIdentifier>{cc260277-7e8d-4b96-9064-5e79465d9962}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\01. Tower">
+      <UniqueIdentifier>{881ceefb-6d7e-4753-8741-5fec6c947712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\01. Tower\00. Nexus">
+      <UniqueIdentifier>{cbb8ea50-b32b-4250-804e-6e8e885b9dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\01. Tower\01. Turret">
+      <UniqueIdentifier>{7ffeee0c-58f0-469d-9792-d27a25cb28c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\01. Tower\02. Inhivibtor">
+      <UniqueIdentifier>{a8b006b1-a2c8-46ae-abed-091b3d714e04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\SpawnTile">
+      <UniqueIdentifier>{24b4ad41-cc7e-4b1a-84eb-415ac365240e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnNexus">
+      <UniqueIdentifier>{2f072944-9f59-4d5a-b0a3-5a3ab33ba776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnTurret">
+      <UniqueIdentifier>{88ff14e2-19a6-4d38-8eee-24d09c483ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnInhibitor">
+      <UniqueIdentifier>{b2c47bf6-dc6b-4116-b16f-074eb99177c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnMonster">
+      <UniqueIdentifier>{f3bf57ca-3b65-4b92-87ff-906a3a167db1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -135,8 +159,8 @@
     <ClInclude Include="CMelee.h">
       <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
     </ClInclude>
-    <ClInclude Include="CTurret.h">
-      <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
+    <ClInclude Include="CTower.h">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower</Filter>
     </ClInclude>
     <ClInclude Include="CObjectManager.h">
       <Filter>02. Design\00. ObjectManager</Filter>
@@ -204,6 +228,30 @@
     <ClInclude Include="AStarNode.h">
       <Filter>02. Design\AStarManager\AStarNode</Filter>
     </ClInclude>
+    <ClInclude Include="CNexus.h">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower\00. Nexus</Filter>
+    </ClInclude>
+    <ClInclude Include="CInhibitor.h">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower\02. Inhivibtor</Filter>
+    </ClInclude>
+    <ClInclude Include="CTurret.h">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower\01. Turret</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpawnTile.h">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpawnNexus.h">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile\SpawnNexus</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpawnTurret.h">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile\SpawnTurret</Filter>
+    </ClInclude>
+    <ClInclude Include="CSpawnInhibitor.h">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile\SpawnInhibitor</Filter>
+    </ClInclude>
+    <ClInclude Include="CCommonTile.h">
+      <Filter>02. Design\08. TileManager\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -230,8 +278,8 @@
     <ClCompile Include="CMelee.cpp">
       <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
     </ClCompile>
-    <ClCompile Include="CTurret.cpp">
-      <Filter>01. Object\00. Character\01. Enemy\01. Turret</Filter>
+    <ClCompile Include="CTower.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower</Filter>
     </ClCompile>
     <ClCompile Include="CObjectManager.cpp">
       <Filter>02. Design\00. ObjectManager</Filter>
@@ -292,6 +340,30 @@
     </ClCompile>
     <ClCompile Include="AStarNode.cpp">
       <Filter>02. Design\AStarManager\AStarNode</Filter>
+    </ClCompile>
+    <ClCompile Include="CNexus.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower\00. Nexus</Filter>
+    </ClCompile>
+    <ClCompile Include="CInhibitor.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower\02. Inhivibtor</Filter>
+    </ClCompile>
+    <ClCompile Include="CTurret.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\01. Tower\01. Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnTile.cpp">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnNexus.cpp">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile\SpawnNexus</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnTurret.cpp">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile\SpawnTurret</Filter>
+    </ClCompile>
+    <ClCompile Include="CSpawnInhibitor.cpp">
+      <Filter>02. Design\08. TileManager\Tile\SpawnTile\SpawnInhibitor</Filter>
+    </ClCompile>
+    <ClCompile Include="CCommonTile.cpp">
+      <Filter>02. Design\08. TileManager\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

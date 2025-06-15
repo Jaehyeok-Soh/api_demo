@@ -19,11 +19,11 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize()
 {
-	CreateColider();
+	CreateCollider();
 
 	//CreateGravity();
-	GetColider()->SetOffsetPos(Vec2(0.f, 65.f));
-	GetColider()->SetScale(Vec2(16.f, 16.f));
+	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
+	GetCollider()->SetScale(Vec2(16.f, 16.f));
 
 	CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
 	CScrollManager::Get_Instance()->Set_ScrollY(-750.f);

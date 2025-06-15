@@ -1,12 +1,11 @@
 #pragma once
 #include "CTower.h"
 
-class CTurret final
+class CInhibitor final
 	: public CTower
 {
-public:
-	CTurret();
-	virtual ~CTurret();
+	CInhibitor();
+	virtual ~CInhibitor();
 
 public:
 	void Initialize() override;

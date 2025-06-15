@@ -77,7 +77,7 @@ void CObject::Update_Frame()
 	}
 }
 
-void CObject::CreateColider()
+void CObject::CreateCollider()
 {
 	if (!m_pCollider)
 		m_pCollider = new CCollider;
