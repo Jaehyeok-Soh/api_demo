@@ -4,7 +4,6 @@
 CObject::CObject() : m_fSpeed(0.f), m_bDead(false), m_fAngle(0.f), m_vVelocity{}, m_fDistance(0.f), m_vPos{}, m_vScale{}
 , m_pTarget(nullptr), m_pCollider(nullptr),m_pFrameKey(L"")//, m_pGravity(nullptr)
 {
-	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
 	ZeroMemory(&m_tFrame, sizeof(FRAME));
 }

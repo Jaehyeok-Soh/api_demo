@@ -16,10 +16,10 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 HWND g_hWnd;
-float g_fZoom = 4.5f;
+float g_fZoom = 5.1f;
 bool bColRender = false;
 bool bTileRender = false;
-//POINT g_ptMousePos = {};
+POINT g_ptMousePos = {};
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -173,6 +173,32 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     return TRUE;
 }
 
+void ClientCursorLock()
+{
+    RECT rc{ 0, 0, WINCX, WINCY };
+    POINT p1, p2;
+
+    p1.x = rc.left;
+    p1.y = rc.top;
+    p2.x = rc.right;
+    p2.y = rc.bottom;
+
+    ClientToScreen(g_hWnd, &p1);
+    ClientToScreen(g_hWnd, &p2);
+
+    rc.left = p1.x;
+    rc.top = p1.y - 50.f;
+    rc.right = p2.x;
+    rc.bottom = p2.y;
+
+    ClipCursor(&rc);
+}
+
+void ClientCursorUnlock()
+{
+    ClipCursor(NULL);
+}
+
 //
 //  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
@@ -187,38 +213,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    //case WM_MOUSEWHEEL:
-    //{
-    //    float fOldZoom = g_fZoom;
+    case WM_MOUSEWHEEL:
+    {
+        float fOldZoom = g_fZoom;
 
-    //    // 스크롤 이전 커서 위치 얻기
-    //    GetCursorPos(&g_ptMousePos);
-    //    ScreenToClient(g_hWnd, &g_ptMousePos);  // 클라이언트 좌표로 변환
+        // 스크롤 이전 커서 위치 얻기
+        GetCursorPos(&g_ptMousePos);
+        ScreenToClient(g_hWnd, &g_ptMousePos);  // 클라이언트 좌표로 변환
 
-    //    float fMouseX = (float)g_ptMousePos.x;
-    //    float fMouseY = (float)g_ptMousePos.y;
+        short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+        if (zDelta > 0)
+            g_fZoom += 0.1f; // 확대
+        else
+            g_fZoom -= 0.1f; // 축소
 
-    //    float fWorldX = (fMouseX - CScrollManager::Get_Instance()->Get_ScrollX()) / fOldZoom;
-    //    float fWorldY = (fMouseY - CScrollManager::Get_Instance()->Get_ScrollY()) / fOldZoom;
+        if (g_fZoom < 1.0f) g_fZoom = 1.0f;
+        if (g_fZoom > 5.5f) g_fZoom = 5.5f;
 
-    //    short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
-    //    if (zDelta > 0)
-    //        g_fZoom += 0.1f; // 확대
-    //    else
-    //        g_fZoom -= 0.1f; // 축소
-
-    //    if (g_fZoom < 3.5f) g_fZoom = 3.5f;
-    //    if (g_fZoom > 5.5f) g_fZoom = 5.5f;
-
-    //    float fNewScrollX = fMouseX - fWorldX * g_fZoom;
-    //    float fNewScrollY = fMouseY - fWorldY * g_fZoom;
-
-    //    CScrollManager::Get_Instance()->Set_ScrollX(fNewScrollX);
-    //    CScrollManager::Get_Instance()->Set_ScrollY(fNewScrollY);
-
-    //    InvalidateRect(hWnd, nullptr, FALSE); // 다시 그리기 요청
-    //}
-    //break;
+        InvalidateRect(hWnd, nullptr, FALSE); // 다시 그리기 요청
+    }
+    break;
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
@@ -255,7 +269,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             break;
         }
         break;
-
+    case WM_ACTIVATE:
+        if (LOWORD(wParam) == WA_INACTIVE)
+            ClientCursorUnlock();
+        else
+            ClientCursorLock();
+        break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

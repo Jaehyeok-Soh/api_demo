@@ -6,8 +6,10 @@
 #include "CTileManager.h"
 #include "CKeyManager.h"
 #include "CScrollManager.h"
+#include "CObjectManager.h"
 
 CEdit::CEdit()
+	: TileSetDrawID(CTile::TILETYPE::PEEK_DISABLE), TileSetOption(CTile::TILETYPE::PEEK_DISABLE)
 {
 }
 
@@ -30,7 +32,6 @@ void CEdit::Update()
 
 void CEdit::Render(HDC _dc)
 {
-
 	int iScrollX = CScrollManager::Get_Instance()->Get_ScrollX();
 	int iScrollY = CScrollManager::Get_Instance()->Get_ScrollY();
 
@@ -61,8 +62,7 @@ void CEdit::Initialize()
 
 	CTileManager::Get_Instance()->Initialize();
 
-	/*CObject* pPlayer = 
-	AddObject()*/
+	CScrollManager::Get_Instance()->Set_ScrollY(-690.f);
 }
 
 void CEdit::Key_Input()
@@ -85,10 +85,31 @@ void CEdit::Key_Input()
 		GetCursorPos(&ptMouse);
 		ScreenToClient(g_hWnd, &ptMouse);
 
+		ptMouse.x /= g_fZoom;
+		ptMouse.y /= g_fZoom;
+		
 		ptMouse.x -= (int)CScrollManager::Get_Instance()->Get_ScrollX();
 		ptMouse.y -= (int)CScrollManager::Get_Instance()->Get_ScrollY();
 
-		CTileManager::Get_Instance()->Picking_Tile(ptMouse, 1, 1);
+		CTileManager::Get_Instance()->Drawing_Tile(ptMouse, TileSetDrawID, TileSetOption);
+	}
+
+	if (CKeyManager::Get_Instance()->Key_Down('D'))
+	{
+		TileSetDrawID = CTile::TILETYPE::PEEK_DISABLE;
+		TileSetOption = CTile::TILETYPE::PEEK_DISABLE;
+	}
+
+	if (CKeyManager::Get_Instance()->Key_Down('E'))
+	{
+		TileSetDrawID = CTile::TILETYPE::PEEK_ENABLE;
+		TileSetOption = CTile::TILETYPE::PEEK_ENABLE;
+	}
+
+	if (CKeyManager::Get_Instance()->Key_Down('B'))
+	{
+		TileSetDrawID = CTile::TILETYPE::TERRAIN_BUSH;
+		TileSetOption = CTile::TILETYPE::TERRAIN_BUSH;
 	}
 
 	if (CKeyManager::Get_Instance()->Key_Down('S'))

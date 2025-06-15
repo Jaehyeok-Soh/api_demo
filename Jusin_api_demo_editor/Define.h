@@ -38,7 +38,7 @@ extern HWND g_hWnd;
 extern bool bColRender;
 extern float g_fZoom;
 extern bool bTileRender;
-//extern POINT g_ptMousePos;
+extern POINT g_ptMousePos;
 
 struct INFO
 {

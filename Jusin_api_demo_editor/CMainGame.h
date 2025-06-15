@@ -12,9 +12,13 @@ public:
 	void Render();
 	void Release();
 
+public:
+	void ClientCursorLock();
+	void ClientCursorUnlock();
+
 private:
 	void		Load_Img();
-	void		Load_PlayerImg();
+	void		Load_CharacterImg();
 
 private:
 	HDC m_DC;

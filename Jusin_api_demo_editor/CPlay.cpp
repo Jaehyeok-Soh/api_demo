@@ -6,6 +6,7 @@
 #include "CBmpManager.h"
 #include "CCollisionManager.h"
 #include "CSceneManager.h"
+#include "CObjectManager.h"
 
 CPlay::CPlay()
 {
@@ -17,13 +18,13 @@ CPlay::~CPlay()
 
 void CPlay::Update()
 {
-	CScene::Update();
 	CTileManager::Get_Instance()->Update();
 
 	Key_Input();
 
 	//Late_Update
 	CTileManager::Get_Instance()->Late_Update();
+	CScene::Update();
 }
 
 void CPlay::Render(HDC _dc)
@@ -59,6 +60,11 @@ void CPlay::Initialize()
 	CTileManager::Get_Instance()->Initialize();
 
 	CTileManager::Get_Instance()->Load_Tile();
+
+	CObject* pPlayer = new CPlayer();
+	pPlayer->Initialize();
+	pPlayer->SetPos(Vec2(50.f, 500.f));
+	AddObject(pPlayer, OBJ_PLAYER);
 }
 
 void CPlay::Key_Input()
@@ -74,27 +80,18 @@ void CPlay::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Pressing(VK_DOWN))
 		CScrollManager::Get_Instance()->Set_ScrollY(-5.f);
-
-	if (CKeyManager::Get_Instance()->Key_Pressing(VK_LBUTTON))
-	{
-		POINT ptMouse{};
-		GetCursorPos(&ptMouse);
-		ScreenToClient(g_hWnd, &ptMouse);
-
-		ptMouse.x -= (int)CScrollManager::Get_Instance()->Get_ScrollX();
-		ptMouse.y -= (int)CScrollManager::Get_Instance()->Get_ScrollY();
-
-		CTileManager::Get_Instance()->Picking_Tile(ptMouse, 1, 1);
-	}
 }
 
 void CPlay::Render_Map(HDC hdc, int iScrollX, int iScrollY)
 {
+	int iDestW = (int)(1920 * g_fZoom);
+	int iDestH = (int)(1080 * g_fZoom);
+
 	GdiTransparentBlt(hdc,
-		iScrollX,
-		iScrollY,
-		(int)1920,
-		(int)1080,
+		(int)(iScrollX * g_fZoom),
+		(int)(iScrollY * g_fZoom),
+		iDestW,
+		iDestH,
 		MapDC,
 		0,
 		0,

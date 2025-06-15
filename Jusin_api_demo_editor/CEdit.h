@@ -1,9 +1,11 @@
 #pragma once
 #include "CScene.h"
-
+#include "CTile.h"
 class CEdit
 	: public CScene
 {
+public:
+	
 public:
 	CEdit();
 	virtual ~CEdit();
@@ -22,5 +24,8 @@ private:
 
 private:
 	FRAME m_tFrame;
+
+	int TileSetDrawID;
+	CTile::TILETYPE TileSetOption;
 };
 

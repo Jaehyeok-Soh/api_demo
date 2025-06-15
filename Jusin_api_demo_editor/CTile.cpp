@@ -35,11 +35,13 @@ void CTile::Render(HDC _dc)
 	HPEN hRedPen = HPEN();
 
 	if (m_iOption == 0)
-		hRedPen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0)); // ← 두께 3
+		return;
 	else if (m_iOption == 1)
-		hRedPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0)); // ← 두께 3
-	else
 		hRedPen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0)); // ← 두께 3
+	else if (m_iOption == 2)
+		hRedPen = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
+	else
+		hRedPen = CreatePen(PS_SOLID, 3, RGB(255, 255, 255));
 
 	HPEN hOldPen = (HPEN)SelectObject(_dc, hRedPen);
 	HBRUSH hOldBrush = (HBRUSH)SelectObject(_dc, GetStockObject(NULL_BRUSH));
@@ -51,29 +53,6 @@ void CTile::Render(HDC _dc)
 	float fDrawY = m_vPos.y * g_fZoom;
 	float fHalfScaleX = (m_vScale.x * 0.5f) * g_fZoom;
 	float fHalfScaleY = (m_vScale.y * 0.5f) * g_fZoom;
-
-	////TODO: 타일
-	//Rectangle(_dc,
-	//	m_vPos.x - (m_vScale.x * 0.5f) + fScrollX,
-	//	m_vPos.y - (m_vScale.y * 0.5f) + fScrollY,
-	//	m_vPos.x + (m_vScale.x * 0.5f) + fScrollX,
-	//	m_vPos.y + (m_vScale.y * 0.5f) + fScrollY);
-
-	//MoveToEx(_dc,
-	//	m_vPos.x - (m_vScale.x * 0.5f) + fScrollX,
-	//	m_vPos.y - (m_vScale.y * 0.5f) + fScrollY,
-	//	NULL);
-	//LineTo(_dc,
-	//	m_vPos.x + (m_vScale.x * 0.5f) + fScrollX,
-	//	m_vPos.y + (m_vScale.y * 0.5f) + fScrollY);
-
-	//MoveToEx(_dc,
-	//	m_vPos.x + (m_vScale.x * 0.5f) + fScrollX,
-	//	m_vPos.y - (m_vScale.y * 0.5f) + fScrollY,
-	//	NULL);
-	//LineTo(_dc,
-	//	m_vPos.x - (m_vScale.x * 0.5f) + fScrollX,
-	//	m_vPos.y + (m_vScale.y * 0.5f) + fScrollY);
 
 		//TODO: 타일
 	Rectangle(_dc,
@@ -102,12 +81,14 @@ void CTile::Render(HDC _dc)
 	SelectObject(_dc, hOldBrush);
 	DeleteObject(hRedPen);
 
-	//WCHAR buf[256];
-	//swprintf_s(buf, 256, L"[Tile Pos] %.1f, %.1f | Scale %.1f, %.1f | Scroll %.1f, %.1f\n",
-	//	m_vPos.x, m_vPos.y,
-	//	m_vScale.x, m_vScale.y,
-	//	fScrollX, fScrollY);
-	//OutputDebugString(buf);
+	WCHAR szCenter[64];
+	swprintf_s(szCenter, 64, L"(%d,%d)", (int)m_vPos.x, (int)m_vPos.y);
+
+	TextOut(_dc,
+		(int)(fDrawX + fScrollX - 20),  // 가운데 정렬 보정
+		(int)(fDrawY + fScrollY - 8),   // 수직 중앙 보정
+		szCenter,
+		lstrlen(szCenter));
 }
 
 void CTile::Release()

@@ -5,8 +5,7 @@ class CPlayer final
 	: public CCharacter
 {
 public:
-	enum STATE { IDLE, WALK, ATTACK, JUMP, ALERT, DEATH, LADDER, END };
-
+	enum JOB{SWORDMAN, ACHER, MAGICKNIGHT};
 public:
 	CPlayer();
 	~CPlayer();
@@ -17,6 +16,10 @@ public:
 	void Late_Update() override;
 	void Render(HDC _dc) override;
 	void Release() override;
+
+public:
+	virtual void OnCollisionEnter(CCollider* _pOther);
+	virtual void OnCollision(CCollider* _pOther);
 
 public:
 	const bool GetIsMine() const { return m_bIsMine; }
@@ -30,9 +33,19 @@ private:
 	void    Offset();
 	void    Motion_Change() override;
 
+	LPCWSTR     GetStateName(STATE eState);//Å×½ºÆ®
+	wstring		SetFrameKey();
+	void		MakeFrameKey(const TCHAR* strJob, const TCHAR* strDir);
+
+	void	MoveVector();
+
+	void DebugTextOut(HDC _dc);
+
 private:
 	STATE               m_eCurState;
 	STATE               m_ePreState;
+	JOB					m_eJob;
+	wstring				m_strFrameKey;
 
 	bool m_bIsMine;
 	bool m_bIsHost;

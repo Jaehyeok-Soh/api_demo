@@ -72,7 +72,24 @@ void CTileManager::Release()
 	m_vecTile.clear();
 }
 
-void CTileManager::Picking_Tile(POINT ptMouse, int _iDrawID, int _iOption)
+ CTile::TILETYPE CTileManager::Peeking_Tile(POINT ptMouse)
+{
+	int	x = ptMouse.x / TILECX;
+	int y = ptMouse.y / TILECY;
+
+	int		iIndex = y * TILEX + x;
+
+	if (0 > iIndex || m_vecTile.size() <= (size_t)iIndex)
+		return CTile::TILETYPE::PEEK_DISABLE;
+	
+	int iOption = dynamic_cast<CTile*>(m_vecTile[iIndex])->GetOption();
+	if (iOption == 0)
+		return CTile::TILETYPE::PEEK_DISABLE;
+	
+	return (CTile::TILETYPE)iOption;
+}
+
+void CTileManager::Drawing_Tile(POINT ptMouse, int _iDrawID, int _iOption)
 {
 	int	x = ptMouse.x / TILECX;
 	int y = ptMouse.y / TILECY;
@@ -140,7 +157,6 @@ void CTileManager::Load_Tile()
 
 	while (true)
 	{
-
 		ReadFile(hFile, &vPos, sizeof(Vec2), &dwByte, NULL);
 		ReadFile(hFile, &vScale, sizeof(Vec2), &dwByte, NULL);
 		ReadFile(hFile, &iDrawID, sizeof(int), &dwByte, NULL);
