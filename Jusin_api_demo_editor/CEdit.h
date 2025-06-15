@@ -25,7 +25,7 @@ private:
 private:
 	FRAME m_tFrame;
 
-	int TileSetDrawID;
-	CTile::TILETYPE TileSetOption;
+	CTile::TILETYPE TileSetDrawID;
+	int TileSetOption;
 };
 

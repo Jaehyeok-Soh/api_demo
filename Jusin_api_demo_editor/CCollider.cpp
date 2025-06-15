@@ -58,14 +58,22 @@ void CCollider::Render(HDC _dc)
     float fScrollX = CScrollManager::Get_Instance()->Get_ScrollX();
     float fScrollY = CScrollManager::Get_Instance()->Get_ScrollY();
 
+    Vec2 ownerPos = m_pOwner->GetPos();
+
+    int drawX = int(ownerPos.x * g_fZoom + fScrollX * g_fZoom);
+    int drawY = int(ownerPos.y * g_fZoom + fScrollY * g_fZoom);
+
+    int spriteW = int(m_vScale.x * g_fZoom);
+    int spriteH = int(m_vScale.y * g_fZoom);
+
     // 스크롤을 더해야 플레이어와 동일한 기준
-    Vec2 vRenderPos = m_vFinalPos + Vec2(fScrollX, fScrollY);
+    Vec2 vRenderPos = Vec2(drawX, drawY);
 
     Rectangle(_dc,
-        (int)(vRenderPos.x - m_vScale.x / 2.f),
-        (int)(vRenderPos.y - m_vScale.y / 2.f),
-        (int)(vRenderPos.x + m_vScale.x / 2.f),
-        (int)(vRenderPos.y + m_vScale.y / 2.f));
+        (int)(vRenderPos.x - spriteW * 0.5f),
+        (int)(vRenderPos.y - spriteH * 0.5f),
+        (int)(vRenderPos.x + spriteW * 0.5f),
+        (int)(vRenderPos.y + spriteH * 0.5f));
 
     SelectObject(_dc, hOldPen);
     SelectObject(_dc, hOldBrush);

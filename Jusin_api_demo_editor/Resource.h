@@ -2,6 +2,12 @@
 // Microsoft Visual C++에서 생성한 포함 파일입니다.
 // 다음에서 사용 Jusin_api_demo_editor.rc
 
+#define IDD_OPTION_INPUT     101
+#define IDC_EDIT_ID          1001
+#define IDC_EDIT_OPTION      1002
+#define IDC_BTN_OK           1003
+#define IDC_BTN_CANCEL       1004
+
 #define IDS_APP_TITLE			103
 
 #define IDR_MAINFRAME			128

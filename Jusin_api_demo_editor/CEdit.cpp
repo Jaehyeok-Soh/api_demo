@@ -7,6 +7,48 @@
 #include "CKeyManager.h"
 #include "CScrollManager.h"
 #include "CObjectManager.h"
+#include "Resource.h"
+
+bool g_bPendingTileOptionActive = false;
+int iInputID = 0;
+int iInputOption = 0;
+int params[2] = { iInputID, iInputOption };
+
+INT_PTR CALLBACK DlgProc_TileOption(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	static int* pID = nullptr;
+	static int* pOption = nullptr;
+
+	switch (message)
+	{
+	case WM_INITDIALOG:
+	{
+		int* params = (int*)lParam;
+		pID = &params[0];
+		pOption = &params[1];
+
+		SetDlgItemInt(hDlg, IDC_EDIT_ID, *pID, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT_OPTION, *pOption, TRUE);
+		return (INT_PTR)TRUE;
+	}
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			*pID = GetDlgItemInt(hDlg, IDC_EDIT_ID, NULL, TRUE);
+			*pOption = GetDlgItemInt(hDlg, IDC_EDIT_OPTION, NULL, TRUE);
+			EndDialog(hDlg, IDOK);
+			return (INT_PTR)TRUE;
+
+		case IDCANCEL:
+			EndDialog(hDlg, IDCANCEL);
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
 
 CEdit::CEdit()
 	: TileSetDrawID(CTile::TILETYPE::PEEK_DISABLE), TileSetOption(CTile::TILETYPE::PEEK_DISABLE)
@@ -108,13 +150,38 @@ void CEdit::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Down('B'))
 	{
-		TileSetDrawID = CTile::TILETYPE::TERRAIN_BUSH;
-		TileSetOption = CTile::TILETYPE::TERRAIN_BUSH;
+		if (DialogBoxParam(hInst,                       // ¨ç  DialogBox ¡æ DialogBoxParam
+			MAKEINTRESOURCE(IDD_OPTION_INPUT),
+			g_hWnd,
+			DlgProc_TileOption,
+			(LPARAM)params) == IDOK)
+		{
+			TileSetDrawID = CTile::TILETYPE::TERRAIN_BUSH;
+			TileSetOption = (CTile::TILETYPE)params[1];
+		}
+	}
+
+	if (CKeyManager::Get_Instance()->Key_Down('O'))
+	{
+		if (DialogBoxParam(hInst,                       // ¨ç  DialogBox ¡æ DialogBoxParam
+			MAKEINTRESOURCE(IDD_OPTION_INPUT),
+			g_hWnd,
+			DlgProc_TileOption,
+			(LPARAM)params) == IDOK)
+		{
+			TileSetDrawID = (CTile::TILETYPE)params[0];
+			TileSetOption = params[1];
+		}
 	}
 
 	if (CKeyManager::Get_Instance()->Key_Down('S'))
 	{
 		CTileManager::Get_Instance()->Save_Tile();
+	}
+
+	if (CKeyManager::Get_Instance()->Key_Down('L'))
+	{
+		CTileManager::Get_Instance()->Load_Tile();
 	}
 }
 

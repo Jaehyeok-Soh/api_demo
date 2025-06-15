@@ -46,6 +46,7 @@ private:
 	STATE               m_ePreState;
 	JOB					m_eJob;
 	wstring				m_strFrameKey;
+	deque<Vec2>			m_Path;
 
 	bool m_bIsMine;
 	bool m_bIsHost;

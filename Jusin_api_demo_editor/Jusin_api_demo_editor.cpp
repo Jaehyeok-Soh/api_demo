@@ -17,7 +17,7 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 
 HWND g_hWnd;
 float g_fZoom = 5.1f;
-bool bColRender = false;
+bool bColRender = true;
 bool bTileRender = false;
 POINT g_ptMousePos = {};
 

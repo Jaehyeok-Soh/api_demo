@@ -82,7 +82,7 @@ void CTile::Render(HDC _dc)
 	DeleteObject(hRedPen);
 
 	WCHAR szCenter[64];
-	swprintf_s(szCenter, 64, L"(%d,%d)", (int)m_vPos.x, (int)m_vPos.y);
+	swprintf_s(szCenter, 64, L"(%d,%d)", (int)m_iDrawID, (int)m_iOption);
 
 	TextOut(_dc,
 		(int)(fDrawX + fScrollX - 20),  // 가운데 정렬 보정

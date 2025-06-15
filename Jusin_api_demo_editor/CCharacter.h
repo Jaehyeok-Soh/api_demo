@@ -1,5 +1,6 @@
 #pragma once
 #include "CObject.h"
+#include "CTile.h"
 
 class CCharacter
 	: public CObject
@@ -15,5 +16,7 @@ protected:
 
 protected:
 	int		m_iHP;
+	CTile::TILETYPE m_eDrawID;
+	int		m_iOption;
 };
 

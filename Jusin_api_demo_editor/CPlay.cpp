@@ -63,22 +63,34 @@ void CPlay::Initialize()
 
 	CObject* pPlayer = new CPlayer();
 	pPlayer->Initialize();
-	pPlayer->SetPos(Vec2(50.f, 500.f));
+	pPlayer->SetPos(Vec2(50.f, 800.f));
 	AddObject(pPlayer, OBJ_PLAYER);
 }
 
 void CPlay::Key_Input()
 {
-	if (CKeyManager::Get_Instance()->Key_Pressing(VK_LEFT))
+	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_LEFT))
+	//	CScrollManager::Get_Instance()->Set_ScrollX(5.f);
+
+	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_RIGHT))
+	//	CScrollManager::Get_Instance()->Set_ScrollX(-5.f);
+
+	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_UP))
+	//	CScrollManager::Get_Instance()->Set_ScrollY(5.f);
+
+	//if (CKeyManager::Get_Instance()->Key_Pressing(VK_DOWN))
+	//	CScrollManager::Get_Instance()->Set_ScrollY(-5.f);
+
+	if (g_ptMousePos.x <= 10)
 		CScrollManager::Get_Instance()->Set_ScrollX(5.f);
 
-	if (CKeyManager::Get_Instance()->Key_Pressing(VK_RIGHT))
+	if (g_ptMousePos.x >= WINCX - 10)
 		CScrollManager::Get_Instance()->Set_ScrollX(-5.f);
 
-	if (CKeyManager::Get_Instance()->Key_Pressing(VK_UP))
+	if (g_ptMousePos.y <= 10)
 		CScrollManager::Get_Instance()->Set_ScrollY(5.f);
 
-	if (CKeyManager::Get_Instance()->Key_Pressing(VK_DOWN))
+	if (g_ptMousePos.y >= WINCY - 10)
 		CScrollManager::Get_Instance()->Set_ScrollY(-5.f);
 }
 

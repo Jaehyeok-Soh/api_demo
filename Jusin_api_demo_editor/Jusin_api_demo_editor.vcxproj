@@ -136,6 +136,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Jusin_api_demo\CEnemy.h" />
+    <ClInclude Include="CAStarManager.h" />
+    <ClInclude Include="AStarNode.h" />
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCharacter.h" />
@@ -170,6 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Jusin_api_demo\CEnemy.cpp" />
+    <ClCompile Include="CAStarManager.cpp" />
+    <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCharacter.cpp" />

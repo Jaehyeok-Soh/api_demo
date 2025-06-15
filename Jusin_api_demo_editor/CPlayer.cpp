@@ -5,6 +5,7 @@
 #include "CTimeManager.h"
 #include "CBmpManager.h"
 #include "CTileManager.h"
+#include "CAStarManager.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false), m_bIsHost(false)
@@ -22,11 +23,14 @@ void CPlayer::Initialize()
 
 	//CreateGravity();
 	GetColider()->SetOffsetPos(Vec2(0.f, 65.f));
-	GetColider()->SetScale(Vec2(60.f, 60.f));
+	GetColider()->SetScale(Vec2(16.f, 16.f));
+
+	CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+	CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
 
 	m_iHP = 100;
 
-	m_vPos = Vec2{ 100, 1000 };
+	m_vPos = Vec2{ 50, 800 };
 	m_vScale = { 32.f, 32.f };
 	m_fSpeed = 300.f;
 	m_vMoveDir.x = 1.f;
@@ -42,7 +46,6 @@ void CPlayer::Initialize()
 	m_tFrame.iMotion = 0;
 	m_tFrame.dwTime = GetTickCount();
 	m_tFrame.dwSpeed = 200;
-
 }
 
 int CPlayer::Update()
@@ -50,10 +53,16 @@ int CPlayer::Update()
 	Key_Input();
 	
 	if (m_eCurState == RUN)
-		MoveVector();
+	{
+		thread t1(&CPlayer::MoveVector, this);
+		t1.join();
+	}
+
 	SetFrameKey();
 
 	Motion_Change();
+
+	//Offset();
 	
 	__super::Update_Rect();
 	__super::Update_Frame();
@@ -80,10 +89,10 @@ void CPlayer::Render(HDC _dc)
 	HDC   hMemDC = CBmpManager::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(_dc,
-		drawX - spriteW / 2,//m_tRect.left + iScrollX / g_fZoom,//
-		drawY - spriteH / 2,//m_tRect.top + iScrollY / g_fZoom,//
-		spriteW,//(int)m_vScale.x,//
-		spriteH,//(int)m_vScale.y,//
+		drawX - spriteW / 2,
+		drawY - spriteH / 2,
+		spriteW,
+		spriteH,
 		hMemDC,
 		(int)64 * m_tFrame.iFrameStart,
 		(int)64 * m_tFrame.iMotion,
@@ -112,18 +121,35 @@ void CPlayer::Key_Input()
 	vWorldMouse.x = g_ptMousePos.x / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = g_ptMousePos.y / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollY();
 
-	if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
+	if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON))
 	{
 		if (CTileManager::Get_Instance()->Peeking_Tile(vWorldMouse))
 		{
-			//TODO: 타일 충돌 / 오브젝트 선택 구분
-			// 상대 및 적 오브젝트를 체크했을 시 구분
-			//m_vDestination = Vec2((float)ptOldMouse.x, (float)ptOldMouse.y);
-			m_vDestination = Vec2((float)vWorldMouse.x, (float)vWorldMouse.y);
-			m_vMoveDir = m_vDestination - m_vPos;
-			m_vMoveDir.Normalize();
+			Vec2 vTilePos = CTileManager::Get_Instance()->MouseToTile(vWorldMouse);
+			vTilePos = Vec2((int)vTilePos.x / TILECX, (int)vTilePos.y / TILECY);
+			Vec2 startIdx = Vec2((int)(m_vPos.x / TILECX), (int)(m_vPos.y / TILECY));
+			Vec2 endIdx = vTilePos;
 
-			m_eCurState = RUN;
+			auto future = async(launch::async,
+				&CAStarManager::FindPath,
+				CAStarManager::GetInstance(),
+				startIdx, endIdx);
+
+			m_Path = future.get();
+
+			if (!m_Path.empty())
+			{
+				m_Path.pop_front();
+				m_eCurState = RUN;
+			}
+
+			////TODO: 타일 충돌 / 오브젝트 선택 구분
+			//// 상대 및 적 오브젝트를 체크했을 시 구분
+			//m_vDestination = Vec2((float)vWorldMouse.x, (float)vWorldMouse.y);
+			//m_vMoveDir = m_vDestination - m_vPos;
+			//m_vMoveDir.Normalize();
+
+			//m_eCurState = RUN;
 		}
 	}
 
@@ -136,38 +162,37 @@ void CPlayer::Key_Input()
 
 void CPlayer::Offset()
 {
+	int iCenterX = WINCX >> 1;
+	int   iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
+	int   iScrollY = (int)CScrollManager::Get_Instance()->Get_ScrollY();
 
-	//int iCenterX = WINCX >> 1;
-	//int   iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
-	//int   iScrollY = (int)CScrollManager::Get_Instance()->Get_ScrollY();
+	float fPlayerScreenX = m_vPos.x + iScrollX;
+	float fPlayerScreenY = m_vPos.y + iScrollY;
 
-	//float fPlayerScreenX = m_vPos.x + iScrollX;
-	//float fPlayerScreenY = m_vPos.y + iScrollY;
+	const float DEADZONE_X = 10.f; // X축 데드존
+	const float DEADZONE_Y = 20.f; // Y축 데드존
 
-	//const float DEADZONE_X = 10.f; // X축 데드존
-	//const float DEADZONE_Y = 20.f; // Y축 데드존
+	if (CScrollManager::Get_Instance()->Get_ScrollXMax() >= m_vPos.x + iScrollX)
+	{
+		// X축 중심 고정
+		if (fPlayerScreenX < iCenterX - DEADZONE_X)
+			CScrollManager::Get_Instance()->Set_ScrollX(m_fSpeed * fDT);
 
-	//if (CScrollManager::Get_Instance()->Get_ScrollXMax() >= m_vPos.x + iScrollX)
-	//{
-	//	// X축 중심 고정
-	//	if (fPlayerScreenX < iCenterX - DEADZONE_X)
-	//		CScrollManager::Get_Instance()->Set_ScrollX(m_fSpeed * fDT);
+		else if (fPlayerScreenX > iCenterX + DEADZONE_X)
+			CScrollManager::Get_Instance()->Set_ScrollX(-m_fSpeed * fDT);
+	}
 
-	//	else if (fPlayerScreenX > iCenterX + DEADZONE_X)
-	//		CScrollManager::Get_Instance()->Set_ScrollX(-m_fSpeed * fDT);
-	//}
+	int   iOffsetminY = 300;
+	int   iOffsetmaxY = 400;
 
-	//int   iOffsetminY = 300;
-	//int   iOffsetmaxY = 400;
+	if (CScrollManager::Get_Instance()->Get_ScrollYMax() >= m_vPos.y + iScrollY)
+	{
+		if (iOffsetminY > m_vPos.y + iScrollY)
+			CScrollManager::Get_Instance()->Set_ScrollY(m_fSpeed * fDT);
 
-	//if (CScrollManager::Get_Instance()->Get_ScrollYMax() >= m_vPos.y + iScrollY)
-	//{
-	//	if (iOffsetminY > m_vPos.y + iScrollY)
-	//		CScrollManager::Get_Instance()->Set_ScrollY(m_fSpeed * fDT);
-
-	//	if (iOffsetmaxY < m_vPos.y + iScrollY)
-	//		CScrollManager::Get_Instance()->Set_ScrollY(-m_fSpeed * fDT);
-	//}
+		if (iOffsetmaxY < m_vPos.y + iScrollY)
+			CScrollManager::Get_Instance()->Set_ScrollY(-m_fSpeed * fDT);
+	}
 }
 
 void CPlayer::Motion_Change()
@@ -319,18 +344,27 @@ wstring CPlayer::SetFrameKey()
 
 void CPlayer::MoveVector()
 {
-	Vec2 diff = m_vDestination - m_vPos;
-	float dist = diff.Length();
-	float step = m_fSpeed * fDT;
-
-	if (dist <= step)
+	if (m_eCurState == RUN && !m_Path.empty())
 	{
-		m_vPos = m_vDestination;
-		m_eCurState = IDLE;
-		return;
-	}
+		Vec2 next = m_Path.front();
+		Vec2 toNext = next - m_vPos;
+		float dist = toNext.Length();
+		float moveStep = m_fSpeed * fDT;
 
-	m_vPos += m_vMoveDir * step;
+		if (dist <= moveStep)
+		{
+			m_vPos = next;
+			m_Path.pop_front();
+		}
+		else
+		{
+			toNext.Normalize();
+			m_vPos += toNext * moveStep;
+		}
+
+		if (m_Path.empty())
+			m_eCurState = IDLE;
+	}
 }
 
 void CPlayer::DebugTextOut(HDC _dc)
@@ -338,8 +372,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 	int iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollManager::Get_Instance()->Get_ScrollY();
 
-	int drawX = int(m_vPos.x * g_fZoom + iScrollX);
-	int drawY = int(m_vPos.y * g_fZoom + iScrollY);
+	int drawX = int(m_vPos.x * g_fZoom + iScrollX * g_fZoom);
+	int drawY = int(m_vPos.y * g_fZoom + iScrollY * g_fZoom);
 
 	int spriteW = int(m_vScale.x * g_fZoom);
 	int spriteH = int(m_vScale.y * g_fZoom);
@@ -347,8 +381,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 #pragma region 테스트용
 	LPCWSTR szState = GetStateName(m_eCurState);
 	TextOut(_dc,
-		(int)m_vPos.x + iScrollX - 30,
-		(int)m_vPos.y + iScrollY - 70,
+		(int)drawX - 30,
+		(int)drawY - 70,
 		szState,
 		lstrlen(szState));
 #pragma endregion
@@ -356,8 +390,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 	std::wstring wstrHP = std::to_wstring(m_iHP);
 	LPCWSTR szHP = wstrHP.c_str();
 	TextOut(_dc,
-		(int)m_vPos.x + iScrollX + 60,
-		(int)m_vPos.y + iScrollY - 70,
+		(int)drawX + 60,
+		(int)drawY - 70,
 		szHP,
 		lstrlen(szHP));
 #pragma endregion
@@ -365,8 +399,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 	std::wstring posX = std::to_wstring(m_vPos.x);
 	LPCWSTR szPosX = posX.c_str();
 	TextOut(_dc,
-		(int)m_vPos.x + iScrollX - 30,
-		(int)m_vPos.y + iScrollY - 90,
+		(int)drawX - 30,
+		(int)drawY - 90,
 		szPosX,
 		lstrlen(szPosX));
 #pragma endregion
@@ -374,8 +408,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 	std::wstring posY = std::to_wstring(m_vPos.y);
 	LPCWSTR szPosY = posY.c_str();
 	TextOut(_dc,
-		(int)m_vPos.x + iScrollX + 30,
-		(int)m_vPos.y + iScrollY - 90,
+		(int)drawX + 30,
+		(int)drawY - 90,
 		szPosY,
 		lstrlen(szPosY));
 #pragma endregion
@@ -383,8 +417,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 	std::wstring RposX = std::to_wstring(drawX - spriteW / 2);
 	LPCWSTR szRPosX = RposX.c_str();
 	TextOut(_dc,
-		(int)m_vPos.x + iScrollX - 30,
-		(int)m_vPos.y + iScrollY - 110,
+		(int)drawX - 30,
+		(int)drawY - 110,
 		szRPosX,
 		lstrlen(szRPosX));
 #pragma endregion
@@ -392,8 +426,8 @@ void CPlayer::DebugTextOut(HDC _dc)
 	std::wstring RposY = std::to_wstring(drawY - spriteH / 2);
 	LPCWSTR szRPosY = RposY.c_str();
 	TextOut(_dc,
-		(int)m_vPos.x + iScrollX + 30,
-		(int)m_vPos.y + iScrollY - 110,
+		(int)drawX + 30,
+		(int)drawY - 110,
 		szRPosY,
 		lstrlen(szRPosY));
 #pragma endregion

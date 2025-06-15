@@ -6,6 +6,7 @@
 CTileManager* CTileManager::m_pInstance = nullptr;
 
 CTileManager::CTileManager()
+	: iCntX(0), iCntY(0), iMaxX(0), iMaxY(0)
 {
 	m_vecTile.reserve(TILEX * TILEY);
 }
@@ -46,11 +47,11 @@ void CTileManager::Late_Update()
 
 void CTileManager::Render(HDC hDC)
 {
-	int	iCntX = abs((int)CScrollManager::Get_Instance()->Get_ScrollX() / TILECX);
-	int	iCntY = abs((int)CScrollManager::Get_Instance()->Get_ScrollY() / TILECY);
+	iCntX = abs((int)CScrollManager::Get_Instance()->Get_ScrollX() / TILECX);
+	iCntY = abs((int)CScrollManager::Get_Instance()->Get_ScrollY() / TILECY);
 
-	int iMaxX = iCntX + WINCX / TILECX + 2;
-	int iMaxY = iCntY + WINCY / TILECY + 2;
+	iMaxX = iCntX + WINCX / TILECX + 2;
+	iMaxY = iCntY + WINCY / TILECY + 2;
 
 	for (int i = iCntY; i < iMaxY; ++i)
 	{
@@ -82,7 +83,7 @@ void CTileManager::Release()
 	if (0 > iIndex || m_vecTile.size() <= (size_t)iIndex)
 		return CTile::TILETYPE::PEEK_DISABLE;
 	
-	int iOption = dynamic_cast<CTile*>(m_vecTile[iIndex])->GetOption();
+	int iOption = static_cast<CTile*>(m_vecTile[iIndex])->GetOption();
 	if (iOption == 0)
 		return CTile::TILETYPE::PEEK_DISABLE;
 	
@@ -176,4 +177,17 @@ void CTileManager::Load_Tile()
 	CloseHandle(hFile);
 
 	MessageBox(g_hWnd, L"Tile Load", L"¼º°ø", MB_OK);
+}
+
+const Vec2 CTileManager::MouseToTile(POINT ptMouse)
+{
+	int	x = ptMouse.x / TILECX;
+	int y = ptMouse.y / TILECY;
+
+	int		iIndex = y * TILEX + x;
+
+	if (0 > iIndex || m_vecTile.size() <= (size_t)iIndex)
+		return Vec2();
+
+	return static_cast<CTile*>(m_vecTile[iIndex])->GetPos();
 }

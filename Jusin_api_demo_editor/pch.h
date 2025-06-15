@@ -16,6 +16,11 @@ using namespace std;
 #include <string>
 #include <vector>
 #include <map>
+#include <queue>
+
+#include <thread>
+#include <future>
+
 #include <algorithm>
 #include <time.h>
 #include <math.h>

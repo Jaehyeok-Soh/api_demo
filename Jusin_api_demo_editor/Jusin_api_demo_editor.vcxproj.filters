@@ -94,6 +94,12 @@
     <Filter Include="04. Scene\03. Edit">
       <UniqueIdentifier>{7d845669-f5a1-4d8a-9a7e-1b1a2172786f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Design\AStarManager">
+      <UniqueIdentifier>{a71b2e1d-6539-4124-8d07-0fa00eed1a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\AStarManager\AStarNode">
+      <UniqueIdentifier>{cc260277-7e8d-4b96-9064-5e79465d9962}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -192,6 +198,12 @@
     <ClInclude Include="CPlay.h">
       <Filter>04. Scene\02. Play</Filter>
     </ClInclude>
+    <ClInclude Include="CAStarManager.h">
+      <Filter>02. Design\AStarManager</Filter>
+    </ClInclude>
+    <ClInclude Include="AStarNode.h">
+      <Filter>02. Design\AStarManager\AStarNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -274,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="CPlay.cpp">
       <Filter>04. Scene\02. Play</Filter>
+    </ClCompile>
+    <ClCompile Include="CAStarManager.cpp">
+      <Filter>02. Design\AStarManager</Filter>
+    </ClCompile>
+    <ClCompile Include="AStarNode.cpp">
+      <Filter>02. Design\AStarManager\AStarNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
