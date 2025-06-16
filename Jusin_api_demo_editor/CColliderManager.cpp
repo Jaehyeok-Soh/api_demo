@@ -1,22 +1,22 @@
 #include "pch.h"
-#include "CCollisionManager.h"
+#include "CColliderManager.h"
 #include "CSceneManager.h"
 #include "CScene.h"
 #include "CObject.h"
 #include "CComponent.h"
 
-CCollisionManager* CCollisionManager::m_pInstance = nullptr;
+CColliderManager* CColliderManager::m_pInstance = nullptr;
 
-CCollisionManager::CCollisionManager() : m_arrCheck{}
+CColliderManager::CColliderManager() : m_arrCheck{}
 {
 
 }
 
-CCollisionManager::~CCollisionManager()
+CColliderManager::~CColliderManager()
 {
 }
 
-void CCollisionManager::Update()
+void CColliderManager::Update()
 {
     for (UINT iRow = 0; iRow < (UINT)OBJID::OBJ_END; ++iRow)
     {
@@ -33,7 +33,7 @@ void CCollisionManager::Update()
 }
 
 // 두 그룹 간의 충돌 처리
-void CCollisionManager::CollisionUpdateGroup(OBJID _eLeft, OBJID _eRight)
+void CColliderManager::CollisionUpdateGroup(OBJID _eLeft, OBJID _eRight)
 {
 
     // 현재 스테이지에서 두 그룹의 오브젝트 리스트 가져오기
@@ -124,7 +124,7 @@ void CCollisionManager::CollisionUpdateGroup(OBJID _eLeft, OBJID _eRight)
 
 
 // 실제 충돌 여부를 체크
-bool CCollisionManager::IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol)
+bool CColliderManager::IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol)
 {
     if (!(dynamic_cast<CComponent*>(_pLeftCol)->IsActive()) || !(dynamic_cast<CComponent*>(_pRightCol)->IsActive()))
         return false;
@@ -144,7 +144,7 @@ bool CCollisionManager::IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol)
 }
 
 // 두 그룹 간의 충돌 체크 설정
-void CCollisionManager::CheckGroup(OBJID _eLeft, OBJID _eRight)
+void CColliderManager::CheckGroup(OBJID _eLeft, OBJID _eRight)
 {
 
     UINT iRow = (UINT)_eLeft;

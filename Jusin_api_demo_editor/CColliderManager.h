@@ -12,11 +12,11 @@ union COLIDER_ID
 
 class CComponent;
 class CCollider;
-class CCollisionManager
+class CColliderManager
 {
 public:
-	CCollisionManager();
-	~CCollisionManager();
+	CColliderManager();
+	~CColliderManager();
 
 public:
 	void Update();
@@ -31,11 +31,11 @@ private:
 	bool IsCollision(CCollider* _pLeftCol, CCollider* _pRightCol);
 
 public:
-	static CCollisionManager* Get_Instance()
+	static CColliderManager* Get_Instance()
 	{
 		if (!m_pInstance)
 		{
-			m_pInstance = new CCollisionManager;
+			m_pInstance = new CColliderManager;
 		}
 
 		return m_pInstance;
@@ -51,7 +51,7 @@ public:
 	}
 
 private:
-	static CCollisionManager* m_pInstance;
+	static CColliderManager* m_pInstance;
 
 	map<ULONGLONG, bool> m_mapColInfo;		// 충돌체 간의 이전 프레임 충돌 정보
 	UINT m_arrCheck[(UINT)OBJID::OBJ_END];		// 그룹간의 충돌 체크 매트릭스
