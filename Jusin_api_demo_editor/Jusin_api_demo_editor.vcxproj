@@ -149,7 +149,7 @@
     <ClInclude Include="CInhibitor.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CMainGame.h" />
-    <ClInclude Include="CMelee.h" />
+    <ClInclude Include="CMinion.h" />
     <ClInclude Include="CMenu.h" />
     <ClInclude Include="CMyBmp.h" />
     <ClInclude Include="CNexus.h" />
@@ -193,7 +193,7 @@
     <ClCompile Include="CInhibitor.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CMainGame.cpp" />
-    <ClCompile Include="CMelee.cpp" />
+    <ClCompile Include="CMinion.cpp" />
     <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CMyBmp.cpp" />
     <ClCompile Include="CNexus.cpp" />

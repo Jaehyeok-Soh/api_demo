@@ -28,9 +28,6 @@
     <Filter Include="01. Object\00. Character\01. Enemy">
       <UniqueIdentifier>{c2c4c557-2082-48b1-bab2-2ac3c6bd0d8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\00. Character\01. Enemy\00. Melee">
-      <UniqueIdentifier>{14beedfe-2f58-42f2-a619-9d7a8ffba469}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Design">
       <UniqueIdentifier>{2078cfa2-1620-4627-8659-f7ce449c96b6}</UniqueIdentifier>
     </Filter>
@@ -121,6 +118,9 @@
     <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnInhibitor">
       <UniqueIdentifier>{b2c47bf6-dc6b-4116-b16f-074eb99177c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\00. Character\01. Enemy\00. Minion">
+      <UniqueIdentifier>{14beedfe-2f58-42f2-a619-9d7a8ffba469}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -153,8 +153,8 @@
     <ClInclude Include="CPlayer.h">
       <Filter>01. Object\00. Character\00. Player</Filter>
     </ClInclude>
-    <ClInclude Include="CMelee.h">
-      <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
+    <ClInclude Include="CMinion.h">
+      <Filter>01. Object\00. Character\01. Enemy\00. Minion</Filter>
     </ClInclude>
     <ClInclude Include="CTower.h">
       <Filter>01. Object\00. Character\01. Enemy\01. Tower</Filter>
@@ -272,8 +272,8 @@
     <ClCompile Include="CPlayer.cpp">
       <Filter>01. Object\00. Character\00. Player</Filter>
     </ClCompile>
-    <ClCompile Include="CMelee.cpp">
-      <Filter>01. Object\00. Character\01. Enemy\00. Melee</Filter>
+    <ClCompile Include="CMinion.cpp">
+      <Filter>01. Object\00. Character\01. Enemy\00. Minion</Filter>
     </ClCompile>
     <ClCompile Include="CTower.cpp">
       <Filter>01. Object\00. Character\01. Enemy\01. Tower</Filter>

@@ -2,9 +2,12 @@
 #include "CNexus.h"
 #include "CScrollManager.h"
 #include "CBmpManager.h"
+#include "CTimeManager.h"
+#include "CSceneManager.h"
+#include "CMinion.h"
 
 CNexus::CNexus()
-	: strFrameBlueNexus(L"BlueNexus"), strFrameRedNexus(L"RedNexus")
+	: strFrameBlueNexus(L"BlueNexus"), strFrameRedNexus(L"RedNexus"), m_fSpawnCoolDownTime(0.f)
 {
 }
 
@@ -25,12 +28,17 @@ void CNexus::Initialize()
 	m_pFrameKey = L"Towers";
 
 	m_iHP = 100;
+	m_fSpawnCoolDownTime = 30.f;
 }
 
 int CNexus::Update()
 {
+	m_fSpawnCoolDownTime += fDT;
 	//TODO: 일정시간마다 미니언 소환
 	//TODO: 풀링?
+
+	SpawnMinion();
+
 	return NOEVENT;
 }
 
@@ -88,4 +96,32 @@ void CNexus::Render(HDC _dc)
 
 void CNexus::Release()
 {
+}
+
+void CNexus::SpawnMinion()
+{
+	if (m_fSpawnCoolDownTime >= 30.f)
+	{
+		auto curScene = CSceneManager::GetInstance()->GetCurScene();
+
+		if (m_fSpawnTime >= m_fSpawnDelay)
+		{
+			CObject* pObj = new CMinion();
+			auto minion = static_cast<CMinion*>(pObj);
+			minion->SetPos(m_vSpawnPos);
+			minion->SetTeam(m_bTeam);
+			minion->Initialize();
+			curScene->AddObject(minion, OBJ_MINION);
+
+			m_fSpawnTime = fDT;
+			m_iSpawnCnt++;
+			if (m_iSpawnCnt >= m_fSpawnMaxOnTime)
+			{
+				m_iSpawnCnt = 0;
+				m_fSpawnCoolDownTime = fDT;
+			}
+		}
+
+		m_fSpawnTime += fDT;
+	}
 }

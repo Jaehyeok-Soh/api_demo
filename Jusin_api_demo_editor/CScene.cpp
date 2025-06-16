@@ -32,7 +32,9 @@ void CScene::Initialize()
 {
 	for (UINT i = 0; i < OBJ_END; ++i)
 	{
-		if (i == OBJ_PLAYER)
+		if (i == OBJ_PLAYER
+			|| i == OBJ_MINION
+			|| i == OBJ_TOWER)
 			continue;
 
 		for (CObject* pObj : m_arrObj[i])

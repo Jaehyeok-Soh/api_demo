@@ -121,6 +121,17 @@ void CMainGame::Load_Img()
 
 void CMainGame::Load_CharacterImg()
 {
+	//Minion
+	//13, 44 to 60, 27
+	//181X41 //46
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/BlueMinion_r.bmp", L"BlueMinion_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/BlueMinion_l.bmp", L"BlueMinion_l");
+	//96, 13 to 60, 27
+	//184x41 //46
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/RedMinion_r.bmp", L"RedMinion_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/RedMinion_l.bmp", L"RedMinion_l");
+
+	
 	//Sword Man
 	//Motion
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_idle_r.bmp", L"swordman_idle_r");

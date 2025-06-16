@@ -25,6 +25,7 @@ void CSpawnNexus::Initialize()
 		nexus->SetPos(Vec2(m_vPos.x - 24, m_vPos.y + 24));
 	else
 		nexus->SetPos(Vec2(m_vPos.x + 24, m_vPos.y - 24));
+	nexus->SetSpawnPos(m_vPos);
 	nexus->SetTeam(nexus->GetDrawID() == BLUE_NEXUS);
 	CSceneManager::GetInstance()->GetCurScene()->AddObject(nexus, OBJ_TOWER);
 }
