@@ -22,8 +22,12 @@ public:
 	void SetOption(int _iOption) { m_iOption = _iOption; }
 	const int GetOption() const { return m_iOption; }
 
-private:
+	void SetTeam(bool _bVal) { m_bTeam = _bVal; }
+	const bool GetTeam() const { return m_bTeam; }
+
+protected:
 	TILETYPE m_iDrawID;
 	int m_iOption;
+	bool m_bTeam;
 };
 

@@ -8,7 +8,7 @@
 #include "CAStarManager.h"
 
 CPlayer::CPlayer()
-	: m_bIsMine(false), m_bIsHost(false)
+	: m_bIsMine(false), m_bIsHost(false), m_fPlayTime(0.f)
 {
 }
 
@@ -142,14 +142,6 @@ void CPlayer::Key_Input()
 				m_Path.pop_front();
 				m_eCurState = RUN;
 			}
-
-			////TODO: 타일 충돌 / 오브젝트 선택 구분
-			//// 상대 및 적 오브젝트를 체크했을 시 구분
-			//m_vDestination = Vec2((float)vWorldMouse.x, (float)vWorldMouse.y);
-			//m_vMoveDir = m_vDestination - m_vPos;
-			//m_vMoveDir.Normalize();
-
-			//m_eCurState = RUN;
 		}
 	}
 

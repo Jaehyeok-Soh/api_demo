@@ -112,9 +112,11 @@ void CMainGame::Load_Img()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Ground.bmp", L"Ground");
 
+	//Map ARAM
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig.bmp", L"MapBig");
-
+	
 	Load_CharacterImg();
+	Load_TowerImg();
 }
 
 void CMainGame::Load_CharacterImg()
@@ -127,5 +129,29 @@ void CMainGame::Load_CharacterImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_r.bmp", L"swordman_ult_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_die_r.bmp", L"swordman_die_r");
 	//Effect
+}
+
+void CMainGame::Load_TowerImg()
+{
+	//Towers //189 189 189 //612x440 //153x220
+	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers.bmp", L"Towers");
+
+	//157x168
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueNexus.bmp", L"BlueNexus");
+	//162x186
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueTurret.bmp", L"BlueTurret");
+	//87x149
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueInhibitor.bmp", L"BlueInhibitor");
+	//106x121
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueTurretSmall.bmp", L"BlueTurretSmall");
+
+	//161x208
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedNexus.bmp", L"RedNexus");
+	//144x190
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedTurret.bmp", L"RedTurret");
+	//108x125
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedInhibitor.bmp", L"RedInhibitor");
+	//94x169
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedTurretSmall.bmp", L"RedTurretSmall");
 }
 

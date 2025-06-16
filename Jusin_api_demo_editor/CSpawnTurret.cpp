@@ -16,8 +16,12 @@ void CSpawnTurret::Initialize()
 	__super::Initialize();
 
 	CObject* pObj = new CTurret();
-	pObj->Initialize();
-	pObj->SetPos(m_vPos);
-	pObj->SetScale(Vec2(64.f, 64.f));
-	CSceneManager::GetInstance()->GetCurScene()->AddObject(pObj, OBJ_TOWER);
+	auto turret = static_cast<CTurret*>(pObj);
+	turret->Initialize();
+	turret->SetPos(Vec2(m_vPos.x - 8, m_vPos.y + 8));
+	turret->SetScale(Vec2(32.f, 32.f));
+	turret->SetDrawID(m_iDrawID);
+	turret->SetOption(m_iOption);
+	turret->SetTeam(turret->GetDrawID() == BLUE_TURRET1 || turret->GetDrawID() == BLUE_TURRET2);
+	CSceneManager::GetInstance()->GetCurScene()->AddObject(turret, OBJ_TOWER);
 }

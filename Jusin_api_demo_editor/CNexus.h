@@ -14,5 +14,8 @@ public:
 	void Render(HDC _dc) override;
 	void Release() override;
 
+private:
+	const TCHAR* strFrameBlueNexus;
+	const TCHAR* strFrameRedNexus;
 };
 

@@ -121,9 +121,6 @@
     <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnInhibitor">
       <UniqueIdentifier>{b2c47bf6-dc6b-4116-b16f-074eb99177c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Design\08. TileManager\Tile\SpawnTile\SpawnMonster">
-      <UniqueIdentifier>{f3bf57ca-3b65-4b92-87ff-906a3a167db1}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

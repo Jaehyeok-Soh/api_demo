@@ -4,6 +4,7 @@
 class CInhibitor final
 	: public CTower
 {
+public:
 	CInhibitor();
 	virtual ~CInhibitor();
 
@@ -13,5 +14,9 @@ public:
 	void Late_Update() override;
 	void Render(HDC _dc) override;
 	void Release() override;
+
+private:
+	const TCHAR* strFrameBlueInhibitor;
+	const TCHAR* strFrameRedInhibitor;
 };
 

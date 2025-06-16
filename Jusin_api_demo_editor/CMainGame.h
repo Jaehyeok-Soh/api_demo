@@ -19,6 +19,7 @@ public:
 private:
 	void		Load_Img();
 	void		Load_CharacterImg();
+	void		Load_TowerImg();
 
 private:
 	HDC m_DC;

@@ -50,5 +50,7 @@ private:
 
 	bool m_bIsMine;
 	bool m_bIsHost;
+
+	float m_fPlayTime;
 };
 

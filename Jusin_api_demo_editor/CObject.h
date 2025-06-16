@@ -39,7 +39,6 @@ public:
 	const RECT& Get_Rect()const { return m_tRect; }
 	bool		Get_Dead() const { return m_bDead; }
 
-
 	void		Set_FrameKey(const TCHAR* pFrameKey) { m_pFrameKey = pFrameKey; }
 
 protected:

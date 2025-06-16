@@ -16,8 +16,15 @@ void CSpawnNexus::Initialize()
 	__super::Initialize();
 
 	CObject* pObj = new CNexus();
-	pObj->Initialize();
-	pObj->SetPos(m_vPos);
-	pObj->SetScale(Vec2(64.f, 64.f));
-	CSceneManager::GetInstance()->GetCurScene()->AddObject(pObj, OBJ_TOWER);
+	auto nexus = static_cast<CNexus*>(pObj);
+	nexus->Initialize();
+	nexus->SetScale(Vec2(64.f, 64.f));
+	nexus->SetDrawID(m_iDrawID);
+	nexus->SetOption(m_iOption);
+	if (nexus->GetDrawID() == BLUE_NEXUS)
+		nexus->SetPos(Vec2(m_vPos.x - 24, m_vPos.y + 24));
+	else
+		nexus->SetPos(Vec2(m_vPos.x + 24, m_vPos.y - 24));
+	nexus->SetTeam(nexus->GetDrawID() == BLUE_NEXUS);
+	CSceneManager::GetInstance()->GetCurScene()->AddObject(nexus, OBJ_TOWER);
 }

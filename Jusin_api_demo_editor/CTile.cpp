@@ -4,7 +4,7 @@
 #include "CScrollManager.h"
 
 CTile::CTile()
-	: m_iDrawID(TILETYPE::BLUE_TURRET1), m_iOption(0)
+	: m_iDrawID(TILETYPE::BLUE_TURRET1), m_iOption(0), m_bTeam(true)
 {
 }
 

@@ -193,10 +193,10 @@ void CTileManager::Load_Tile()
 			pTile = new CCommonTile();
 		}
 
-		pTile->SetPos(vPos);
-		pTile->Initialize();
 		dynamic_cast<CTile*>(pTile)->SetDrawID(iDrawID);
 		dynamic_cast<CTile*>(pTile)->SetOption(iOption);
+		pTile->SetPos(vPos);
+		pTile->Initialize();
 
 		m_vecTile.push_back(pTile);
 	}
