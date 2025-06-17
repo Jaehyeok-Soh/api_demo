@@ -1,5 +1,6 @@
 #pragma once
 #include "CComponent.h"
+#include "CObject.h"
 
 class CCollider
 	: public CComponent

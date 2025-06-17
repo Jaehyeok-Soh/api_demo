@@ -4,10 +4,11 @@
 #include "CScrollManager.h"
 #include "CKeyManager.h"
 #include "CBmpManager.h"
-#include "CCollisionManager.h"
+#include "CColliderManager.h"
 #include "CSceneManager.h"
 #include "CObjectManager.h"
 #include "CTimeManager.h"
+#include "CPeekingManager.h"
 
 CPlay::CPlay()
 	: m_fdtPlayTime(0.f)
@@ -51,17 +52,19 @@ void CPlay::Enter()
 	MapDC = CBmpManager::Get_Instance()->Find_Image(L"MapBig");
 	SetMaxScroll(L"MapBig");
 
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_TOWER);
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_MINION);
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_SKILL);
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ATTACK);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_TOWER);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_PLAYER);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_MINION);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_SKILL);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ATTACK);
 
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_TOWER);
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_ATTACK);
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_SKILL);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_TOWER);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_MINION);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_ATTACK);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_SKILL);
 
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_ATTACK);
-	CCollisionManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_SKILL);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_ATTACK);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_SKILL);
 
 	Initialize();
 }
@@ -69,7 +72,7 @@ void CPlay::Enter()
 void CPlay::Exit()
 {
 	DeleteAll();
-	CCollisionManager::Get_Instance()->Reset();
+	CColliderManager::Get_Instance()->Reset();
 }
 
 void CPlay::Initialize()
@@ -85,7 +88,11 @@ void CPlay::Initialize()
 	CObject* pPlayer = new CPlayer();
 	pPlayer->Initialize();
 	pPlayer->SetPos(Vec2(50.f, 800.f));
+	pPlayer->SetName(L"Player");
 	AddObject(pPlayer, OBJ_PLAYER);
+	RegisterPlayer(pPlayer);
+
+	CPeekingManager::GetInstance()->Initialize();
 }
 
 void CPlay::Key_Input()

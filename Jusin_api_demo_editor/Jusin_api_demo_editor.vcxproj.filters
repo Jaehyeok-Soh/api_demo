@@ -34,9 +34,6 @@
     <Filter Include="02. Design\00. ObjectManager">
       <UniqueIdentifier>{a118749d-a6ed-4c11-9704-339aea753a22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Design\01. CollisionManager">
-      <UniqueIdentifier>{c98beb59-a415-4a3d-b1c1-dbddf556bf6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Design\02. KeyManager">
       <UniqueIdentifier>{4fe69717-f580-406d-803b-5d64b04cc947}</UniqueIdentifier>
     </Filter>
@@ -88,12 +85,6 @@
     <Filter Include="04. Scene\03. Edit">
       <UniqueIdentifier>{7d845669-f5a1-4d8a-9a7e-1b1a2172786f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. Design\AStarManager">
-      <UniqueIdentifier>{a71b2e1d-6539-4124-8d07-0fa00eed1a3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. Design\AStarManager\AStarNode">
-      <UniqueIdentifier>{cc260277-7e8d-4b96-9064-5e79465d9962}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Object\00. Character\01. Enemy\01. Tower">
       <UniqueIdentifier>{881ceefb-6d7e-4753-8741-5fec6c947712}</UniqueIdentifier>
     </Filter>
@@ -120,6 +111,39 @@
     </Filter>
     <Filter Include="01. Object\00. Character\01. Enemy\00. Minion">
       <UniqueIdentifier>{14beedfe-2f58-42f2-a619-9d7a8ffba469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\10. CollisionManager">
+      <UniqueIdentifier>{4cf0d6ae-290d-4870-a895-8e95294f4f46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\09. AStarManager">
+      <UniqueIdentifier>{a71b2e1d-6539-4124-8d07-0fa00eed1a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\09. AStarManager\AStarNode">
+      <UniqueIdentifier>{cc260277-7e8d-4b96-9064-5e79465d9962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\01. ColliderManager">
+      <UniqueIdentifier>{c98beb59-a415-4a3d-b1c1-dbddf556bf6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon">
+      <UniqueIdentifier>{dbda1a57-a8b2-49c1-9dae-2d7f0b4a30b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\00. Melee">
+      <UniqueIdentifier>{f4d603c5-99cd-4614-89a3-0476cfcdca78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\01. Bullet">
+      <UniqueIdentifier>{923f1979-35ca-403f-9979-a611430e5dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\02. Skill">
+      <UniqueIdentifier>{c2b80ad5-4e76-47ad-8134-81cd0833900f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\02. Skill\00. Swordman">
+      <UniqueIdentifier>{a61fe5cb-a6d2-4793-af32-74b3f6fd5231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\02. Skill\01. Acher">
+      <UniqueIdentifier>{72013ebb-455b-41a1-9c65-0821dd4dfee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\11. PeekingManager">
+      <UniqueIdentifier>{ab64632d-c5ae-4b14-a74b-bac6db051f90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +186,8 @@
     <ClInclude Include="CObjectManager.h">
       <Filter>02. Design\00. ObjectManager</Filter>
     </ClInclude>
-    <ClInclude Include="CCollisionManager.h">
-      <Filter>02. Design\01. CollisionManager</Filter>
+    <ClInclude Include="CColliderManager.h">
+      <Filter>02. Design\01. ColliderManager</Filter>
     </ClInclude>
     <ClInclude Include="CKeyManager.h">
       <Filter>02. Design\02. KeyManager</Filter>
@@ -220,10 +244,10 @@
       <Filter>04. Scene\02. Play</Filter>
     </ClInclude>
     <ClInclude Include="CAStarManager.h">
-      <Filter>02. Design\AStarManager</Filter>
+      <Filter>02. Design\09. AStarManager</Filter>
     </ClInclude>
     <ClInclude Include="AStarNode.h">
-      <Filter>02. Design\AStarManager\AStarNode</Filter>
+      <Filter>02. Design\09. AStarManager\AStarNode</Filter>
     </ClInclude>
     <ClInclude Include="CNexus.h">
       <Filter>01. Object\00. Character\01. Enemy\01. Tower\00. Nexus</Filter>
@@ -248,6 +272,15 @@
     </ClInclude>
     <ClInclude Include="CCommonTile.h">
       <Filter>02. Design\08. TileManager\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionManager.h">
+      <Filter>02. Design\10. CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CWeapon.h">
+      <Filter>01. Object\01. Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="CPeekingManager.h">
+      <Filter>02. Design\11. PeekingManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,8 +314,8 @@
     <ClCompile Include="CObjectManager.cpp">
       <Filter>02. Design\00. ObjectManager</Filter>
     </ClCompile>
-    <ClCompile Include="CCollisionManager.cpp">
-      <Filter>02. Design\01. CollisionManager</Filter>
+    <ClCompile Include="CColliderManager.cpp">
+      <Filter>02. Design\01. ColliderManager</Filter>
     </ClCompile>
     <ClCompile Include="CKeyManager.cpp">
       <Filter>02. Design\02. KeyManager</Filter>
@@ -333,10 +366,10 @@
       <Filter>04. Scene\02. Play</Filter>
     </ClCompile>
     <ClCompile Include="CAStarManager.cpp">
-      <Filter>02. Design\AStarManager</Filter>
+      <Filter>02. Design\09. AStarManager</Filter>
     </ClCompile>
     <ClCompile Include="AStarNode.cpp">
-      <Filter>02. Design\AStarManager\AStarNode</Filter>
+      <Filter>02. Design\09. AStarManager\AStarNode</Filter>
     </ClCompile>
     <ClCompile Include="CNexus.cpp">
       <Filter>01. Object\00. Character\01. Enemy\01. Tower\00. Nexus</Filter>
@@ -361,6 +394,15 @@
     </ClCompile>
     <ClCompile Include="CCommonTile.cpp">
       <Filter>02. Design\08. TileManager\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionManager.cpp">
+      <Filter>02. Design\10. CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CWeapon.cpp">
+      <Filter>01. Object\01. Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="CPeekingManager.cpp">
+      <Filter>02. Design\11. PeekingManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

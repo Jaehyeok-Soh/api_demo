@@ -2,7 +2,7 @@
 #include "CEdit.h"
 #include "CSceneManager.h"
 #include "CBmpManager.h"
-#include "CCollisionManager.h"
+#include "CColliderManager.h"
 #include "CTileManager.h"
 #include "CKeyManager.h"
 #include "CScrollManager.h"
@@ -95,7 +95,7 @@ void CEdit::Enter()
 void CEdit::Exit()
 {
 	DeleteAll();
-	CCollisionManager::Get_Instance()->Reset();
+	CColliderManager::Get_Instance()->Reset();
 }
 
 void CEdit::Initialize()

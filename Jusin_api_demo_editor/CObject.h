@@ -1,6 +1,8 @@
 #pragma once
+#include "CComponent.h"
 #include "CCollider.h"
 
+class CCollider;
 class CObject
 {
 public:
@@ -28,6 +30,7 @@ public:
 
 	const Vec2 GetDir() const { return m_vMoveDir; }
 
+	const float GetSpeed() const { return m_fSpeed; }
 
 	void		Set_Dead() { m_bDead = true; }
 	void		Set_Angle(float _fAngle) { m_fAngle = _fAngle; }
@@ -38,6 +41,21 @@ public:
 	Vec2 Get_Velocity() const { return m_vVelocity; }
 	const RECT& Get_Rect()const { return m_tRect; }
 	bool		Get_Dead() const { return m_bDead; }
+
+	float		Get_DistToTarget();
+	float		Get_Dist(CObject* _pObj);
+	void		ChaseTarget();
+	void		FindTarget();
+	Vec2		TargetPosToTile();
+
+	const TILETYPE GetDrawID() { return m_eDrawID; }
+	void SetDrawID(TILETYPE _eVal) { m_eDrawID = _eVal; }
+
+	const int GetOption() { return m_iOption; }
+	void SetOption(int _iVal) { m_iOption = _iVal; }
+
+	const bool GetTeam() const { return m_bTeam; }
+	void SetTeam(bool _bVal) { m_bTeam = _bVal; }
 
 	void		Set_FrameKey(const TCHAR* pFrameKey) { m_pFrameKey = pFrameKey; }
 
@@ -65,15 +83,25 @@ protected:
 	Vec2 m_vVelocity; // 힘
 	Vec2 m_vDestination;
 	RECT m_tRect;
-
+	deque<Vec2> m_Path;
+	
 	float		m_fSpeed;
 	float		m_fDistance;
 	float		m_fAngle;
 	bool		m_bDead;
+	bool		m_bOnTarget;
 
 	// Component
 	CCollider* m_pCollider; // 콜라이더(충돌체)
 	//CGravity* m_pGravity; // 중력
+
+	//true 블루, false 레드
+	//중립 없으니 그냥 bool
+	//모든 플레잉 오브젝트는 소속이있다.
+	bool	m_bTeam;
+
+	TILETYPE m_eDrawID;
+	int		m_iOption;
 
 protected:
 	const		TCHAR* m_pFrameKey;

@@ -19,6 +19,7 @@ void CSpawnNexus::Initialize()
 	auto nexus = static_cast<CNexus*>(pObj);
 	nexus->Initialize();
 	nexus->SetScale(Vec2(64.f, 64.f));
+	nexus->SetName(L"Nexus");
 	nexus->SetDrawID(m_iDrawID);
 	nexus->SetOption(m_iOption);
 	if (nexus->GetDrawID() == BLUE_NEXUS)

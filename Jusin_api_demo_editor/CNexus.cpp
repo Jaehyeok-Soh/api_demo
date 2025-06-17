@@ -20,10 +20,16 @@ void CNexus::Initialize()
 	__super::Initialize();
 
 	CreateCollider();
-
 	//CreateGravity();
+
 	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(64.f, 64.f));
+	GetCollider()->Set_Layer(COL_TOWER);
+	GetCollider()->Set_Mask(COL_MINION
+		| COL_TOWER
+		| COL_ATTACK
+		| COL_PLAYER
+		| COL_SKILL);
 
 	m_pFrameKey = L"Towers";
 
@@ -44,6 +50,11 @@ int CNexus::Update()
 
 void CNexus::Late_Update()
 {
+	if (m_pCollider)
+		m_pCollider->Late_Update();
+
+	/*if (m_pGravity)
+		m_pGravity->Late_Update();*/
 }
 
 void CNexus::Render(HDC _dc)
@@ -100,7 +111,7 @@ void CNexus::Release()
 
 void CNexus::SpawnMinion()
 {
-	if (m_fSpawnCoolDownTime >= 30.f)
+	if (m_fSpawnCoolDownTime >= 10.f)
 	{
 		auto curScene = CSceneManager::GetInstance()->GetCurScene();
 
@@ -111,6 +122,7 @@ void CNexus::SpawnMinion()
 			minion->SetPos(m_vSpawnPos);
 			minion->SetTeam(m_bTeam);
 			minion->Initialize();
+			minion->SetName(L"Minion");
 			curScene->AddObject(minion, OBJ_MINION);
 
 			m_fSpawnTime = fDT;

@@ -21,6 +21,12 @@ void CTurret::Initialize()
 	//CreateGravity();
 	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(32.f, 32.f));
+	GetCollider()->Set_Layer(COL_TOWER);
+	GetCollider()->Set_Mask(COL_MINION
+		| COL_TOWER
+		| COL_ATTACK
+		| COL_PLAYER
+		| COL_SKILL);
 
 	m_iHP = 100;
 }
@@ -33,6 +39,11 @@ int CTurret::Update()
 
 void CTurret::Late_Update()
 {
+	if (m_pCollider)
+		m_pCollider->Late_Update();
+
+	/*if (m_pGravity)
+		m_pGravity->Late_Update();*/
 }
 
 void CTurret::Render(HDC _dc)

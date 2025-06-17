@@ -6,9 +6,12 @@
 #include "CBmpManager.h"
 #include "CTileManager.h"
 #include "CAStarManager.h"
+#include "CCollisionManager.h"
 
 CPlayer::CPlayer()
-	: m_bIsMine(false), m_bIsHost(false), m_fPlayTime(0.f)
+	: m_bIsMine(false),
+	m_bIsHost(false),
+	m_fPlayTime(0.f)
 {
 }
 
@@ -23,7 +26,13 @@ void CPlayer::Initialize()
 
 	//CreateGravity();
 	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
-	GetCollider()->SetScale(Vec2(16.f, 16.f));
+	GetCollider()->SetScale(Vec2(8.f, 8.f));
+	GetCollider()->Set_Layer(COL_PLAYER);
+	GetCollider()->Set_Mask(COL_MINION
+		| COL_TOWER
+		| COL_ATTACK
+		| COL_PLAYER
+		| COL_SKILL);
 
 	CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
 	CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
@@ -41,6 +50,27 @@ void CPlayer::Initialize()
 	m_ePreState = END;
 	m_eJob = SWORDMAN;
 
+	switch (m_eJob)
+	{
+	case CPlayer::SWORDMAN:
+		m_fDistance = 100.f;
+		break;
+	case CPlayer::ACHER:
+		m_fDistance = 500.f;
+		break;
+	case CPlayer::MAGICKNIGHT:
+		m_fDistance = 150.f;
+		break;
+	default:
+		m_fDistance = 100.f;
+		break;
+	}
+
+	m_tAttackInfo.m_bIsAttack = false;
+	m_tAttackInfo.m_fdtAttackTime = 0.f;
+	m_tAttackInfo.m_fAttackDelay = 5.f;
+	m_tAttackInfo.m_iDamage = 10.f;
+
 	m_tFrame.iFrameStart = 0;
 	m_tFrame.iFrameEnd = 4;
 	m_tFrame.iMotion = 0;
@@ -50,20 +80,25 @@ void CPlayer::Initialize()
 
 int CPlayer::Update()
 {
+ 	if (m_pCollider)
+		m_pCollider->Late_Update();
+
 	Key_Input();
 	
 	if (m_eCurState == RUN)
 	{
-		thread t1(&CPlayer::MoveVector, this);
-		t1.join();
+		/*thread t1(&CPlayer::MoveVector, this);
+		t1.join();*/
+		MoveVector();
 	}
+	
+	if (m_bOnTarget == true)
+		AttackPoc();
 
 	SetFrameKey();
 
 	Motion_Change();
 
-	//Offset();
-	
 	__super::Update_Rect();
 	__super::Update_Frame();
 
@@ -72,6 +107,8 @@ int CPlayer::Update()
 
 void CPlayer::Late_Update()
 {
+	if (m_pCollider)
+		m_pCollider->Late_Update();
 }
 
 void CPlayer::Render(HDC _dc)
@@ -109,10 +146,24 @@ void CPlayer::Release()
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
+	//CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
+
+	if (CCollisionManager::Check_Mask(GetCollider(), _pOther))
+	{
+	}
 }
 
 void CPlayer::OnCollision(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
+}
+
+void CPlayer::OnPeek(CObject* _pTargetObj)
+{
+	m_pTarget = _pTargetObj;
+	m_bOnTarget = true;
+	ChaseTarget();
+	m_eCurState = RUN;
 }
 
 void CPlayer::Key_Input()
@@ -121,7 +172,7 @@ void CPlayer::Key_Input()
 	vWorldMouse.x = g_ptMousePos.x / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = g_ptMousePos.y / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollY();
 
-	if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON))
+	if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON) && !m_tAttackInfo.m_bIsAttack)
 	{
 		if (CTileManager::Get_Instance()->Peeking_Tile(vWorldMouse))
 		{
@@ -141,6 +192,8 @@ void CPlayer::Key_Input()
 			{
 				m_Path.pop_front();
 				m_eCurState = RUN;
+				m_bOnTarget = false;
+				m_pTarget = nullptr;
 			}
 		}
 	}
@@ -149,7 +202,13 @@ void CPlayer::Key_Input()
 	{
 	}
 
+	if (CKeyManager::Get_Instance()->Key_Pressing('Q'))
+	{
+	}
 
+	if (CKeyManager::Get_Instance()->Key_Pressing('W'))
+	{
+	}
 }
 
 void CPlayer::Offset()
@@ -350,7 +409,7 @@ void CPlayer::MoveVector()
 		}
 		else
 		{
-			toNext.Normalize();
+			m_vMoveDir.x = toNext.Normalize().x;
 			m_vPos += toNext * moveStep;
 		}
 
@@ -423,4 +482,49 @@ void CPlayer::DebugTextOut(HDC _dc)
 		szRPosY,
 		lstrlen(szRPosY));
 #pragma endregion
+}
+
+void CPlayer::AttackPoc()
+{
+	if (Get_DistToTarget() <= m_fDistance)
+	{
+		m_Path.clear();
+		m_eCurState = ATTACK;
+	}
+	else
+	{
+		ChaseTarget();
+		m_eCurState = RUN;
+	}
+
+	if (m_pTarget->Get_Dead())
+	{
+		FindTarget();
+		if (m_Path.empty())
+		{
+			m_eCurState = IDLE;
+			m_bOnTarget = false;
+			m_tAttackInfo.m_bIsAttack = false;
+			m_tAttackInfo.m_fdtAttackTime = 0.f;
+		}
+		else
+			m_eCurState = RUN;
+	}
+	else
+		m_eCurState = RUN;
+
+	if (m_eCurState == ATTACK)
+	{
+		m_tAttackInfo.m_fdtAttackTime += fDT;
+		if (m_tAttackInfo.m_fdtAttackTime >= m_tAttackInfo.m_fAttackDelay)
+		{
+			m_tAttackInfo.m_fdtAttackTime = 0.f;
+			m_tAttackInfo.m_bIsAttack = false;
+		}
+		else if (!m_tAttackInfo.m_bIsAttack)
+		{
+			static_cast<CCharacter*>(m_pTarget)->OnHit(m_tAttackInfo);
+			m_tAttackInfo.m_bIsAttack = true;
+		}
+	}
 }

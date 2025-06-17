@@ -142,6 +142,7 @@
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CCollider.h" />
+    <ClInclude Include="CColliderManager.h" />
     <ClInclude Include="CCollisionManager.h" />
     <ClInclude Include="CCommonTile.h" />
     <ClInclude Include="CComponent.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="CNexus.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CObjectManager.h" />
+    <ClInclude Include="CPeekingManager.h" />
     <ClInclude Include="CPlay.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CScene.h" />
@@ -170,6 +172,7 @@
     <ClInclude Include="CTower.h" />
     <ClInclude Include="CTurret.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CWeapon.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Jusin_api_demo_editor.h" />
@@ -186,6 +189,7 @@
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CCollider.cpp" />
+    <ClCompile Include="CColliderManager.cpp" />
     <ClCompile Include="CCollisionManager.cpp" />
     <ClCompile Include="CCommonTile.cpp" />
     <ClCompile Include="CComponent.cpp" />
@@ -199,6 +203,7 @@
     <ClCompile Include="CNexus.cpp" />
     <ClCompile Include="CObject.cpp" />
     <ClCompile Include="CObjectManager.cpp" />
+    <ClCompile Include="CPeekingManager.cpp" />
     <ClCompile Include="CPlay.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CScene.cpp" />
@@ -214,6 +219,7 @@
     <ClCompile Include="CTower.cpp" />
     <ClCompile Include="CTurret.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CWeapon.cpp" />
     <ClCompile Include="Jusin_api_demo_editor.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -32,6 +32,9 @@ void CTile::Late_Update()
 
 void CTile::Render(HDC _dc)
 {
+	if (!bColRender)
+		return;
+
 	HPEN hRedPen = HPEN();
 
 	if (m_iOption == 0)

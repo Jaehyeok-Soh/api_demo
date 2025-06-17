@@ -5,6 +5,9 @@
 #include "CBmpManager.h"
 #include "CTileManager.h"
 #include "CAStarManager.h"
+#include "CCollisionManager.h"
+#include "CKeyManager.h"
+#include "CPeekingManager.h"
 
 CMinion::CMinion()
 {
@@ -22,10 +25,16 @@ void CMinion::Initialize()
 	//CreateGravity();
 	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(8.f, 8.f));
+	GetCollider()->Set_Layer(COL_MINION);
+	GetCollider()->Set_Mask(COL_MINION
+		| COL_TOWER
+		| COL_ATTACK
+		| COL_PLAYER
+		| COL_SKILL);
 
 	m_iHP = 100;
 
-	m_vScale = { 8.f, 8.f };
+	m_vScale = { 16.f, 16.f };
 	m_fSpeed = 100.f;
 
 	m_eCurState = MOVE;
@@ -52,7 +61,6 @@ void CMinion::Initialize()
 		endIdx = Vec2(13.f, 44.f);
 		m_vMoveDir.x = -1.f;
 	}
-	
 
 	auto future = async(launch::async,
 		&CAStarManager::FindPath,
@@ -76,6 +84,18 @@ int CMinion::Update()
 		t1.join();
 	}
 
+	POINT vWorldMouse;
+	vWorldMouse.x = g_ptMousePos.x / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollX();
+	vWorldMouse.y = g_ptMousePos.y / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollY();
+
+	if (PtInRect(&m_tRect, vWorldMouse))
+	{
+		if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON))
+		{
+			CPeekingManager::GetInstance()->OnPeek(this);
+		}
+	}
+
 	SetFrameKey();
 
 	Motion_Change();
@@ -88,6 +108,8 @@ int CMinion::Update()
 
 void CMinion::Late_Update()
 {
+	if (m_pCollider)
+		m_pCollider->Late_Update();
 }
 
 void CMinion::Render(HDC _dc)
@@ -129,6 +151,7 @@ void CMinion::OnCollisionEnter(CCollider* _pOther)
 
 void CMinion::OnCollision(CCollider* _pOther)
 {
+	CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
 }
 
 

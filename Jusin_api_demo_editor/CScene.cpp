@@ -28,6 +28,11 @@ CScene::~CScene()
 	}
 }
 
+list<CObject*>* CScene::GetObjectList()
+{
+	return m_arrObj;
+}
+
 void CScene::Initialize()
 {
 	for (UINT i = 0; i < OBJ_END; ++i)

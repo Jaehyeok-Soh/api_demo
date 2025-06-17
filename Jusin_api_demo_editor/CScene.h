@@ -13,6 +13,7 @@ public:
 
 	CObject* GetPlayer() { return m_pPlayer; }
 	//CObject* GetWeapon() { return m_pWeapon; }
+	list<CObject*>* GetObjectList();
 
 	void RegisterPlayer(CObject* _pPlayer) { m_pPlayer = _pPlayer; }
 	//void RegisterWeapon(CObject* _pWeapon) { m_pWeapon = _pWeapon; }

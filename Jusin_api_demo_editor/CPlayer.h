@@ -21,6 +21,8 @@ public:
 	virtual void OnCollisionEnter(CCollider* _pOther);
 	virtual void OnCollision(CCollider* _pOther);
 
+	void OnPeek(CObject* _pTargetObj);
+
 public:
 	const bool GetIsMine() const { return m_bIsMine; }
 	void SetIsMine(bool _bVal) { m_bIsMine = _bVal; }
@@ -41,12 +43,13 @@ private:
 
 	void DebugTextOut(HDC _dc);
 
+	void AttackPoc();
+
 private:
 	STATE               m_eCurState;
 	STATE               m_ePreState;
 	JOB					m_eJob;
 	wstring				m_strFrameKey;
-	deque<Vec2>			m_Path;
 
 	bool m_bIsMine;
 	bool m_bIsHost;

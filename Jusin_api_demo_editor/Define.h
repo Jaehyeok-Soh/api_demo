@@ -122,10 +122,15 @@ enum COLLAYERID
 	COL_CHARACTER = 1 << 0,
 	COL_PLAYER = 1 << 1,
 	COL_ENEMY = 1 << 2,
-	COL_TURRET = 1 << 3,
-	COL_MELEE = 1 << 4,
-	COL_ATTACK = 1 << 5,
-	COL_SKILL = 1 << 6,
+	COL_MINION = 1 << 3,
+
+	COL_TOWER = 1 << 4,
+	COL_NEXUS = 1 << 5,
+	COL_TURRET = 1 << 6,
+	COL_INHIBITOR = 1 << 7,
+	
+	COL_ATTACK = 1 << 8,
+	COL_SKILL = 1 << 9
 };
 
 #define SAFE_DELETE(x) if(x) { delete x; x = nullptr; }

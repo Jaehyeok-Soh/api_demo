@@ -12,7 +12,7 @@ public:
 	int Update();
 
 public:
-	CObject* GetObj() { return m_pOwner; }
+	CObject* GetOwner() { return m_pOwner; }
 
 	void	SetActivate(bool _bVal) { m_bActive = _bVal; }
 	bool	IsActive() { return m_bActive; }

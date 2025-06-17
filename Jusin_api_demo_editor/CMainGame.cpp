@@ -4,6 +4,8 @@
 #include "CSceneManager.h"
 #include "CBmpManager.h"
 #include "CKeyManager.h"
+#include "CColliderManager.h"
+#include "CPeekingManager.h"
 
 CMainGame::CMainGame()
 {
@@ -27,12 +29,16 @@ void CMainGame::Initialize()
 
 void CMainGame::Update()
 {
+	if (CKeyManager::Get_Instance()->Key_Down('C'))
+		bColRender = !bColRender;
+
 	GetCursorPos(&g_ptMousePos);
 	ScreenToClient(g_hWnd, &g_ptMousePos); // 화면 좌표 → 클라이언트 좌표
 
 	CTimeManager::Get_Instance()->Update();
 	CSceneManager::GetInstance()->Update();
 	CKeyManager::Get_Instance()->Update();
+	CColliderManager::Get_Instance()->Update();
 }
 
 void CMainGame::Late_Update()
@@ -77,6 +83,9 @@ void CMainGame::Render()
 
 void CMainGame::Release()
 {
+	CPeekingManager::DestroyInstance();
+	CKeyManager::Destroy_Instance();
+	CColliderManager::Destroy_Instance();
 	CTimeManager::Destroy_Instance();
 	CSceneManager::DestroyInstance();
 }
@@ -139,6 +148,12 @@ void CMainGame::Load_CharacterImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_attack_r.bmp", L"swordman_attack_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_r.bmp", L"swordman_ult_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_die_r.bmp", L"swordman_die_r");
+	//
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_idle_l.bmp", L"swordman_idle_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_run_l.bmp", L"swordman_run_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_attack_l.bmp", L"swordman_attack_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_l.bmp", L"swordman_ult_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_die_l.bmp", L"swordman_die_l");
 	//Effect
 }
 

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CMenu.h"
 #include "CBmpManager.h"
-#include "CCollisionManager.h"
+#include "CColliderManager.h"
 #include "CSceneManager.h"
 #include "CButton.h"
 #include "CScrollManager.h"
@@ -44,7 +44,7 @@ void CMenu::Enter()
 void CMenu::Exit()
 {
 	DeleteAll();
-	CCollisionManager::Get_Instance()->Reset();
+	CColliderManager::Get_Instance()->Reset();
 }
 
 void CMenu::Initialize()

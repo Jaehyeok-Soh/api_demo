@@ -31,6 +31,7 @@ void CTileManager::Initialize()
 
 			CObject* pTile = CObjectManager::GetInstance()->CreateObject<CCommonTile>(OBJ_TILE, fX, fY);
 			pTile->Initialize();
+			pTile->SetName(L"Tile");
 			CObjectManager::GetInstance()->AddObject(OBJ_TILE, pTile);
 			m_vecTile.push_back(pTile);
 		}

@@ -20,6 +20,7 @@ void CSpawnInhibitor::Initialize()
 	inhibitor->Initialize();
 	inhibitor->SetScale(Vec2(32.f, 32.f));
 	inhibitor->SetPos(Vec2(m_vPos.x - 8, m_vPos.y + 8));
+	inhibitor->SetName(L"Inhibitor");
 	inhibitor->SetDrawID(m_iDrawID);
 	inhibitor->SetOption(m_iOption);
 	inhibitor->SetTeam(inhibitor->GetDrawID() == BLUE_INHIBITER);
