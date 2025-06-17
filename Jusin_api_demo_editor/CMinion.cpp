@@ -84,13 +84,21 @@ int CMinion::Update()
 		t1.join();
 	}
 
+	/*POINT vWorldMouse;
+	vWorldMouse.x = LONG(g_ptMousePos.x / g_fZoom + CScrollManager::Get_Instance()->Get_ScrollX());
+	vWorldMouse.y = LONG(g_ptMousePos.y / g_fZoom + CScrollManager::Get_Instance()->Get_ScrollY());*/
+
+	POINT ptMouse;
+	GetCursorPos(&ptMouse); // 화면 좌표
+	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환
+
 	POINT vWorldMouse;
-	vWorldMouse.x = g_ptMousePos.x / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollX();
-	vWorldMouse.y = g_ptMousePos.y / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollY();
+	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
+	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
 
 	if (PtInRect(&m_tRect, vWorldMouse))
 	{
-		if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON))
+		if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
 		{
 			CPeekingManager::GetInstance()->OnPeek(this);
 		}

@@ -53,22 +53,22 @@ void CPlayer::Initialize()
 	switch (m_eJob)
 	{
 	case CPlayer::SWORDMAN:
-		m_fDistance = 100.f;
+		m_fDistance = 10.f;
 		break;
 	case CPlayer::ACHER:
-		m_fDistance = 500.f;
+		m_fDistance = 100.f;
 		break;
 	case CPlayer::MAGICKNIGHT:
-		m_fDistance = 150.f;
+		m_fDistance = 20.f;
 		break;
 	default:
-		m_fDistance = 100.f;
+		m_fDistance = 10.f;
 		break;
 	}
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
-	m_tAttackInfo.m_fAttackDelay = 5.f;
+	m_tAttackInfo.m_fAttackDelay = 0.5f;
 	m_tAttackInfo.m_iDamage = 10.f;
 
 	m_tFrame.iFrameStart = 0;
@@ -80,18 +80,18 @@ void CPlayer::Initialize()
 
 int CPlayer::Update()
 {
- 	if (m_pCollider)
+	if (m_pCollider)
 		m_pCollider->Late_Update();
 
 	Key_Input();
-	
+
 	if (m_eCurState == RUN)
 	{
 		/*thread t1(&CPlayer::MoveVector, this);
 		t1.join();*/
 		MoveVector();
 	}
-	
+
 	if (m_bOnTarget == true)
 		AttackPoc();
 
@@ -116,13 +116,13 @@ void CPlayer::Render(HDC _dc)
 	Component_Render(_dc);
 	int iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollManager::Get_Instance()->Get_ScrollY();
-	
+
 	int drawX = int(m_vPos.x * g_fZoom + iScrollX * g_fZoom);
 	int drawY = int(m_vPos.y * g_fZoom + iScrollY * g_fZoom);
 
 	int spriteW = int(m_vScale.x * g_fZoom);
 	int spriteH = int(m_vScale.y * g_fZoom);
-	
+
 	HDC   hMemDC = CBmpManager::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(_dc,
@@ -510,21 +510,20 @@ void CPlayer::AttackPoc()
 		else
 			m_eCurState = RUN;
 	}
-	else
-		m_eCurState = RUN;
 
-	if (m_eCurState == ATTACK)
+	if (m_eCurState == ATTACK && !m_tAttackInfo.m_bIsAttack)
+	{
+		static_cast<CCharacter*>(m_pTarget)->OnHit(m_tAttackInfo);
+		m_tAttackInfo.m_bIsAttack = true;
+	}
+
+	if (m_tAttackInfo.m_bIsAttack)
 	{
 		m_tAttackInfo.m_fdtAttackTime += fDT;
 		if (m_tAttackInfo.m_fdtAttackTime >= m_tAttackInfo.m_fAttackDelay)
 		{
 			m_tAttackInfo.m_fdtAttackTime = 0.f;
 			m_tAttackInfo.m_bIsAttack = false;
-		}
-		else if (!m_tAttackInfo.m_bIsAttack)
-		{
-			static_cast<CCharacter*>(m_pTarget)->OnHit(m_tAttackInfo);
-			m_tAttackInfo.m_bIsAttack = true;
 		}
 	}
 }
