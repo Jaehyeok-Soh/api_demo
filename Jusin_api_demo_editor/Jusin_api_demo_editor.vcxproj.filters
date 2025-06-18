@@ -130,9 +130,6 @@
     <Filter Include="01. Object\01. Weapon\00. Melee">
       <UniqueIdentifier>{f4d603c5-99cd-4614-89a3-0476cfcdca78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\01. Weapon\01. Bullet">
-      <UniqueIdentifier>{923f1979-35ca-403f-9979-a611430e5dae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Object\01. Weapon\02. Skill">
       <UniqueIdentifier>{c2b80ad5-4e76-47ad-8134-81cd0833900f}</UniqueIdentifier>
     </Filter>
@@ -144,6 +141,18 @@
     </Filter>
     <Filter Include="02. Design\11. PeekingManager">
       <UniqueIdentifier>{ab64632d-c5ae-4b14-a74b-bac6db051f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\02. Effect">
+      <UniqueIdentifier>{7c301d66-d586-4902-9b0a-f49959eb5dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\01. Ranged">
+      <UniqueIdentifier>{923f1979-35ca-403f-9979-a611430e5dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\01. Weapon\01. Ranged\00. Bullet">
+      <UniqueIdentifier>{203a8ce3-e613-4089-8355-a6667de9ceda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\02. Effect\00. EffectSwordman">
+      <UniqueIdentifier>{d8f21da1-0fd9-450d-a2a4-19d4c2994b13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,11 +285,29 @@
     <ClInclude Include="CCollisionManager.h">
       <Filter>02. Design\10. CollisionManager</Filter>
     </ClInclude>
+    <ClInclude Include="CPeekingManager.h">
+      <Filter>02. Design\11. PeekingManager</Filter>
+    </ClInclude>
     <ClInclude Include="CWeapon.h">
       <Filter>01. Object\01. Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="CPeekingManager.h">
-      <Filter>02. Design\11. PeekingManager</Filter>
+    <ClInclude Include="CMelee.h">
+      <Filter>01. Object\01. Weapon\00. Melee</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffect.h">
+      <Filter>01. Object\02. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="CRanged.h">
+      <Filter>01. Object\01. Weapon\01. Ranged</Filter>
+    </ClInclude>
+    <ClInclude Include="CBullet.h">
+      <Filter>01. Object\01. Weapon\01. Ranged\00. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="CEffectSwordman.h">
+      <Filter>01. Object\02. Effect\00. EffectSwordman</Filter>
+    </ClInclude>
+    <ClInclude Include="CSkillSwordman.h">
+      <Filter>01. Object\01. Weapon\02. Skill\00. Swordman</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,11 +425,29 @@
     <ClCompile Include="CCollisionManager.cpp">
       <Filter>02. Design\10. CollisionManager</Filter>
     </ClCompile>
+    <ClCompile Include="CPeekingManager.cpp">
+      <Filter>02. Design\11. PeekingManager</Filter>
+    </ClCompile>
     <ClCompile Include="CWeapon.cpp">
       <Filter>01. Object\01. Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="CPeekingManager.cpp">
-      <Filter>02. Design\11. PeekingManager</Filter>
+    <ClCompile Include="CMelee.cpp">
+      <Filter>01. Object\01. Weapon\00. Melee</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffect.cpp">
+      <Filter>01. Object\02. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CRanged.cpp">
+      <Filter>01. Object\01. Weapon\01. Ranged</Filter>
+    </ClCompile>
+    <ClCompile Include="CBullet.cpp">
+      <Filter>01. Object\01. Weapon\01. Ranged\00. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="CEffectSwordman.cpp">
+      <Filter>01. Object\02. Effect\00. EffectSwordman</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkillSwordman.cpp">
+      <Filter>01. Object\01. Weapon\02. Skill\00. Swordman</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

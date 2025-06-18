@@ -33,7 +33,7 @@ void CNexus::Initialize()
 
 	m_pFrameKey = L"Towers";
 
-	m_iHP = 100;
+	m_tStatusInfo.m_iHp = 100;
 	m_fSpawnCoolDownTime = 30.f;
 }
 
@@ -106,6 +106,10 @@ void CNexus::Render(HDC _dc)
 }
 
 void CNexus::Release()
+{
+}
+
+void CNexus::CreateWeapon()
 {
 }
 

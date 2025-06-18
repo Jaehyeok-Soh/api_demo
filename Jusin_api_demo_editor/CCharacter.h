@@ -1,6 +1,7 @@
 #pragma once
 #include "CObject.h"
 #include "CTile.h"
+#include "CWeapon.h"
 
 class CCharacter
 	: public CObject
@@ -11,14 +12,16 @@ public:
 	CCharacter();
 	virtual ~CCharacter() PURE;
 
-protected:
-	virtual void Motion_Change() {};
-
 public:
 	void OnHit(ATTACKINFO _tAttackInfo);
 
 protected:
+	virtual void Motion_Change() {};
+	virtual void CreateWeapon() PURE;
+
+protected:
 	ATTACKINFO m_tAttackInfo;
-	int		m_iHP;
+	STATUSINFO m_tStatusInfo;
+	CWeapon* m_pWeapon;
 };
 

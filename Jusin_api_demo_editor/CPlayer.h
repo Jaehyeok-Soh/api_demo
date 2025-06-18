@@ -39,11 +39,14 @@ private:
 	wstring		SetFrameKey();
 	void		MakeFrameKey(const TCHAR* strJob, const TCHAR* strDir);
 
-	void	MoveVector();
+	void	MoveTile();
 
 	void DebugTextOut(HDC _dc);
 
+	virtual void CreateWeapon() override;
+
 	void AttackPoc();
+	void AttackInit();
 
 private:
 	STATE               m_eCurState;

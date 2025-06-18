@@ -67,6 +67,11 @@ struct ATTACKINFO
 	float m_fAttackDelay;
 };
 
+struct STATUSINFO
+{
+	int m_iHp;
+};
+
 enum TILETYPE
 {
 	PEEK_DISABLE = 0,
@@ -94,6 +99,7 @@ enum OBJID
 	OBJ_TOWER,
 	OBJ_MINION,
 	OBJ_ATTACK,
+	OBJ_WEAPON,
 	OBJ_SKILL,
 	OBJ_TILE,
 	OBJ_UI,
@@ -131,6 +137,14 @@ enum COLLAYERID
 	
 	COL_ATTACK = 1 << 8,
 	COL_SKILL = 1 << 9
+};
+
+enum EFFECTID
+{
+	ATTACK,
+	SKILL,
+	ULT,
+	SPAWN
 };
 
 #define SAFE_DELETE(x) if(x) { delete x; x = nullptr; }

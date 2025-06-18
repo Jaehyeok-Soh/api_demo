@@ -44,6 +44,7 @@ public:
 
 	float		Get_DistToTarget();
 	float		Get_Dist(CObject* _pObj);
+	CObject*	GetTarget() { return m_pTarget; }
 	void		ChaseTarget();
 	void		FindTarget();
 	Vec2		TargetPosToTile();

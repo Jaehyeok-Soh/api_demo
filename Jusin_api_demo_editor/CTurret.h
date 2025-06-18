@@ -16,6 +16,9 @@ public:
 	void Release() override;
 
 private:
+	virtual void CreateWeapon() override;
+
+private:
 	const TCHAR* strFrameBlueTurret;
 	const TCHAR* strFrameRedTurret;
 };

@@ -28,7 +28,7 @@ void CInhibitor::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_iHP = 100;
+	m_tStatusInfo.m_iHp = 100;
 }
 
 int CInhibitor::Update()
@@ -95,5 +95,9 @@ void CInhibitor::Render(HDC _dc)
 }
 
 void CInhibitor::Release()
+{
+}
+
+void CInhibitor::CreateWeapon()
 {
 }

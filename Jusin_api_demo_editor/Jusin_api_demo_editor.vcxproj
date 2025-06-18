@@ -139,6 +139,9 @@
     <ClInclude Include="CAStarManager.h" />
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="CBmpManager.h" />
+    <ClInclude Include="CBullet.h" />
+    <ClInclude Include="CEffectSwordman.h" />
+    <ClInclude Include="CRanged.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCharacter.h" />
     <ClInclude Include="CCollider.h" />
@@ -147,9 +150,11 @@
     <ClInclude Include="CCommonTile.h" />
     <ClInclude Include="CComponent.h" />
     <ClInclude Include="CEdit.h" />
+    <ClInclude Include="CEffect.h" />
     <ClInclude Include="CInhibitor.h" />
     <ClInclude Include="CKeyManager.h" />
     <ClInclude Include="CMainGame.h" />
+    <ClInclude Include="CMelee.h" />
     <ClInclude Include="CMinion.h" />
     <ClInclude Include="CMenu.h" />
     <ClInclude Include="CMyBmp.h" />
@@ -162,6 +167,7 @@
     <ClInclude Include="CScene.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CScrollManager.h" />
+    <ClInclude Include="CSkillSwordman.h" />
     <ClInclude Include="CSpawnInhibitor.h" />
     <ClInclude Include="CSpawnNexus.h" />
     <ClInclude Include="CSpawnTile.h" />
@@ -186,6 +192,9 @@
     <ClCompile Include="CAStarManager.cpp" />
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
+    <ClCompile Include="CBullet.cpp" />
+    <ClCompile Include="CEffectSwordman.cpp" />
+    <ClCompile Include="CRanged.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCharacter.cpp" />
     <ClCompile Include="CCollider.cpp" />
@@ -194,9 +203,11 @@
     <ClCompile Include="CCommonTile.cpp" />
     <ClCompile Include="CComponent.cpp" />
     <ClCompile Include="CEdit.cpp" />
+    <ClCompile Include="CEffect.cpp" />
     <ClCompile Include="CInhibitor.cpp" />
     <ClCompile Include="CKeyManager.cpp" />
     <ClCompile Include="CMainGame.cpp" />
+    <ClCompile Include="CMelee.cpp" />
     <ClCompile Include="CMinion.cpp" />
     <ClCompile Include="CMenu.cpp" />
     <ClCompile Include="CMyBmp.cpp" />
@@ -209,6 +220,7 @@
     <ClCompile Include="CScene.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CScrollManager.cpp" />
+    <ClCompile Include="CSkillSwordman.cpp" />
     <ClCompile Include="CSpawnInhibitor.cpp" />
     <ClCompile Include="CSpawnNexus.cpp" />
     <ClCompile Include="CSpawnTile.cpp" />

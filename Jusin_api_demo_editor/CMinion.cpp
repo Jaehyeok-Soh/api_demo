@@ -32,7 +32,7 @@ void CMinion::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_iHP = 100;
+	m_tStatusInfo.m_iHp = 100;
 
 	m_vScale = { 16.f, 16.f };
 	m_fSpeed = 100.f;
@@ -163,6 +163,10 @@ void CMinion::OnCollision(CCollider* _pOther)
 }
 
 
+void CMinion::CreateWeapon()
+{
+}
+
 void CMinion::Motion_Change()
 {
 	if (m_ePreState != m_eCurState)
@@ -266,7 +270,7 @@ void CMinion::DebugTextOut(HDC _dc)
 		lstrlen(szState));
 #pragma endregion
 #pragma region 테스트용
-	std::wstring wstrHP = std::to_wstring(m_iHP);
+	std::wstring wstrHP = std::to_wstring(m_tStatusInfo.m_iHp);
 	LPCWSTR szHP = wstrHP.c_str();
 	TextOut(_dc,
 		(int)drawX + 60,

@@ -18,6 +18,7 @@ public:
 	void SetSpawnPos(Vec2 _vVal) { m_vSpawnPos = _vVal; }
 
 private:
+	virtual void CreateWeapon() override;
 	void SpawnMinion();
 
 private:

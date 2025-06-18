@@ -6,15 +6,24 @@ class CWeapon
 {
 public:
 	CWeapon();
-	~CWeapon();
+	virtual ~CWeapon() PURE;
 
-	void Initialize() override;
-	int Update() override;
-	void Late_Update() override;
-	void Render(HDC _dc) override;
-	void Release() override;
+	virtual void Initialize() override;
+	void Initialize(CObject* _pOwner, ATTACKINFO _tAttackInfo);
+	virtual int Update() PURE;
+	virtual void Late_Update() PURE;
+	virtual void Render(HDC _dc) PURE;
+	virtual void Release() PURE;
 
-private:
-	CObject* pOwner;
+public:
+	virtual void Attack();
+
+protected:
+	void AttackTime_Update();
+	void OwnerPos_Update();
+
+protected:
+	CObject* m_pOwner;
+	ATTACKINFO m_tAttackInfo;
 };
 

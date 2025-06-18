@@ -28,7 +28,7 @@ void CTurret::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_iHP = 100;
+	m_tStatusInfo.m_iHp = 100;
 }
 
 int CTurret::Update()
@@ -95,5 +95,9 @@ void CTurret::Render(HDC _dc)
 }
 
 void CTurret::Release()
+{
+}
+
+void CTurret::CreateWeapon()
 {
 }

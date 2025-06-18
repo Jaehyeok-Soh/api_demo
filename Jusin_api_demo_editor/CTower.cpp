@@ -22,7 +22,7 @@ void CTower::Initialize()
 	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(128.f, 128.f));
 
-	m_iHP = 100;
+	m_tStatusInfo.m_iHp = 100;
 	m_vScale = { 128.f, 128.f };
 	m_fSpeed = 300.f;
 

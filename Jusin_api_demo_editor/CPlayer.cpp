@@ -7,6 +7,9 @@
 #include "CTileManager.h"
 #include "CAStarManager.h"
 #include "CCollisionManager.h"
+#include "CSceneManager.h"
+#include "CMelee.h"
+#include "CRanged.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false),
@@ -37,14 +40,12 @@ void CPlayer::Initialize()
 	CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
 	CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
 
-	m_iHP = 100;
+	m_tStatusInfo.m_iHp = 100;
 
 	m_vPos = Vec2{ 50, 800 };
 	m_vScale = { 32.f, 32.f };
 	m_fSpeed = 300.f;
 	m_vMoveDir.x = 1.f;
-
-	m_pFrameKey = L"swordman_idle_r";
 
 	m_eCurState = IDLE;
 	m_ePreState = END;
@@ -68,7 +69,7 @@ void CPlayer::Initialize()
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
-	m_tAttackInfo.m_fAttackDelay = 0.175f;
+	m_tAttackInfo.m_fAttackDelay = 0.4f;
 	m_tAttackInfo.m_iDamage = 10.f;
 
 	m_tFrame.iFrameStart = 0;
@@ -76,6 +77,8 @@ void CPlayer::Initialize()
 	m_tFrame.iMotion = 0;
 	m_tFrame.dwTime = GetTickCount();
 	m_tFrame.dwSpeed = 200;
+
+	CreateWeapon();
 }
 
 int CPlayer::Update()
@@ -87,7 +90,7 @@ int CPlayer::Update()
 
 	if (m_eCurState == RUN)
 	{
-		thread t1(&CPlayer::MoveVector, this);
+		thread t1(&CPlayer::MoveTile, this);
 		t1.join();
 		//MoveVector();
 	}
@@ -194,6 +197,7 @@ void CPlayer::Key_Input()
 				m_eCurState = RUN;
 				m_bOnTarget = false;
 				m_pTarget = nullptr;
+				AttackInit();
 			}
 		}
 	}
@@ -393,7 +397,7 @@ wstring CPlayer::SetFrameKey()
 	return wstring();
 }
 
-void CPlayer::MoveVector()
+void CPlayer::MoveTile()
 {
 	if (m_eCurState == RUN && !m_Path.empty())
 	{
@@ -438,7 +442,7 @@ void CPlayer::DebugTextOut(HDC _dc)
 		lstrlen(szState));
 #pragma endregion
 #pragma region 테스트용
-	std::wstring wstrHP = std::to_wstring(m_iHP);
+	std::wstring wstrHP = std::to_wstring(m_tStatusInfo.m_iHp);
 	LPCWSTR szHP = wstrHP.c_str();
 	TextOut(_dc,
 		(int)drawX + 60,
@@ -484,6 +488,35 @@ void CPlayer::DebugTextOut(HDC _dc)
 #pragma endregion
 }
 
+void CPlayer::CreateWeapon()
+{
+	switch (m_eJob)
+	{
+	case CPlayer::SWORDMAN:
+	case CPlayer::MAGICKNIGHT:
+	{
+		if (!m_pWeapon)
+		{
+			m_pWeapon = new CMelee();
+			m_pWeapon->SetName(L"Melee");
+		}
+	}
+		break;
+	case CPlayer::ACHER:
+	{
+		if (!m_pWeapon)
+		{
+			m_pWeapon = new CRanged();
+			m_pWeapon->SetName(L"Melee");
+		}
+	}
+		break;
+	}
+
+	m_pWeapon->Initialize(this, m_tAttackInfo);
+	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeapon, OBJ_WEAPON);
+}
+
 void CPlayer::AttackPoc()
 {
 	if (!m_tAttackInfo.m_bIsAttack)
@@ -515,7 +548,7 @@ void CPlayer::AttackPoc()
 
 		if (m_eCurState == ATTACK)
 		{
-			static_cast<CCharacter*>(m_pTarget)->OnHit(m_tAttackInfo);
+			m_pWeapon->Attack();
 			m_tAttackInfo.m_bIsAttack = true;
 		}
 	}
@@ -524,8 +557,13 @@ void CPlayer::AttackPoc()
 		m_tAttackInfo.m_fdtAttackTime += fDT;
 		if (m_tAttackInfo.m_fdtAttackTime >= m_tAttackInfo.m_fAttackDelay)
 		{
-			m_tAttackInfo.m_fdtAttackTime = 0.f;
-			m_tAttackInfo.m_bIsAttack = false;
+			AttackInit();
 		}
 	}
+}
+
+void CPlayer::AttackInit()
+{
+	m_tAttackInfo.m_fdtAttackTime = 0.f;
+	m_tAttackInfo.m_bIsAttack = false;
 }

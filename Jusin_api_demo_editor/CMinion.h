@@ -22,6 +22,8 @@ public:
 	virtual void OnCollision(CCollider* _pOther);
 
 private:
+	virtual void CreateWeapon() override;
+
 	void    Motion_Change() override;
 
 	LPCWSTR     GetStateName(MINIONSTATE eState);//Å×½ºÆ®
