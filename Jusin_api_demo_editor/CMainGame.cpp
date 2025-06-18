@@ -159,9 +159,6 @@ void CMainGame::Load_CharacterImg()
 
 void CMainGame::Load_TowerImg()
 {
-	//Towers //189 189 189 //612x440 //153x220
-	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers.bmp", L"Towers");
-
 	//157x168
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueNexus.bmp", L"BlueNexus");
 	//162x186

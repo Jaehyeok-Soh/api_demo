@@ -68,7 +68,7 @@ void CPlayer::Initialize()
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
-	m_tAttackInfo.m_fAttackDelay = 0.5f;
+	m_tAttackInfo.m_fAttackDelay = 0.175f;
 	m_tAttackInfo.m_iDamage = 10.f;
 
 	m_tFrame.iFrameStart = 0;
@@ -87,9 +87,9 @@ int CPlayer::Update()
 
 	if (m_eCurState == RUN)
 	{
-		/*thread t1(&CPlayer::MoveVector, this);
-		t1.join();*/
-		MoveVector();
+		thread t1(&CPlayer::MoveVector, this);
+		t1.join();
+		//MoveVector();
 	}
 
 	if (m_bOnTarget == true)
@@ -334,7 +334,7 @@ void CPlayer::MakeFrameKey(const TCHAR* strJob, const TCHAR* strDir)
 		keyword = L"_run_";
 		break;
 	case CCharacter::ATTACK:
-		keyword = L"_attck_";
+		keyword = L"_attack_";
 		break;
 	case CCharacter::SKILL:
 		keyword = L"_skill_";
@@ -486,38 +486,40 @@ void CPlayer::DebugTextOut(HDC _dc)
 
 void CPlayer::AttackPoc()
 {
-	if (Get_DistToTarget() <= m_fDistance)
+	if (!m_tAttackInfo.m_bIsAttack)
 	{
-		m_Path.clear();
-		m_eCurState = ATTACK;
-	}
-	else
-	{
-		ChaseTarget();
-		m_eCurState = RUN;
-	}
-
-	if (m_pTarget->Get_Dead())
-	{
-		FindTarget();
-		if (m_Path.empty())
+		if (Get_DistToTarget() <= m_fDistance)
 		{
-			m_eCurState = IDLE;
-			m_bOnTarget = false;
-			m_tAttackInfo.m_bIsAttack = false;
-			m_tAttackInfo.m_fdtAttackTime = 0.f;
+			m_Path.clear();
+			m_eCurState = ATTACK;
 		}
 		else
+		{
+			ChaseTarget();
 			m_eCurState = RUN;
-	}
+		}
 
-	if (m_eCurState == ATTACK && !m_tAttackInfo.m_bIsAttack)
-	{
-		static_cast<CCharacter*>(m_pTarget)->OnHit(m_tAttackInfo);
-		m_tAttackInfo.m_bIsAttack = true;
-	}
+		if (m_pTarget->Get_Dead())
+		{
+			FindTarget();
+			if (m_Path.empty())
+			{
+				m_eCurState = IDLE;
+				m_bOnTarget = false;
+				m_tAttackInfo.m_bIsAttack = false;
+				m_tAttackInfo.m_fdtAttackTime = 0.f;
+			}
+			else
+				m_eCurState = RUN;
+		}
 
-	if (m_tAttackInfo.m_bIsAttack)
+		if (m_eCurState == ATTACK)
+		{
+			static_cast<CCharacter*>(m_pTarget)->OnHit(m_tAttackInfo);
+			m_tAttackInfo.m_bIsAttack = true;
+		}
+	}
+	else
 	{
 		m_tAttackInfo.m_fdtAttackTime += fDT;
 		if (m_tAttackInfo.m_fdtAttackTime >= m_tAttackInfo.m_fAttackDelay)
