@@ -130,15 +130,6 @@
     <Filter Include="01. Object\01. Weapon\00. Melee">
       <UniqueIdentifier>{f4d603c5-99cd-4614-89a3-0476cfcdca78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\01. Weapon\02. Skill">
-      <UniqueIdentifier>{c2b80ad5-4e76-47ad-8134-81cd0833900f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Object\01. Weapon\02. Skill\00. Swordman">
-      <UniqueIdentifier>{a61fe5cb-a6d2-4793-af32-74b3f6fd5231}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Object\01. Weapon\02. Skill\01. Acher">
-      <UniqueIdentifier>{72013ebb-455b-41a1-9c65-0821dd4dfee6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Design\11. PeekingManager">
       <UniqueIdentifier>{ab64632d-c5ae-4b14-a74b-bac6db051f90}</UniqueIdentifier>
     </Filter>
@@ -153,6 +144,18 @@
     </Filter>
     <Filter Include="01. Object\02. Effect\00. EffectSwordman">
       <UniqueIdentifier>{d8f21da1-0fd9-450d-a2a4-19d4c2994b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\00. Player\00. Skill">
+      <UniqueIdentifier>{c2b80ad5-4e76-47ad-8134-81cd0833900f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\00. Player\00. Skill\00. Swordman">
+      <UniqueIdentifier>{a61fe5cb-a6d2-4793-af32-74b3f6fd5231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\00. Player\00. Skill\01. Acher">
+      <UniqueIdentifier>{72013ebb-455b-41a1-9c65-0821dd4dfee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\03. HitBox">
+      <UniqueIdentifier>{6b90272a-baec-4510-b6ff-507c43cf593d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -307,7 +310,13 @@
       <Filter>01. Object\02. Effect\00. EffectSwordman</Filter>
     </ClInclude>
     <ClInclude Include="CSkillSwordman.h">
-      <Filter>01. Object\01. Weapon\02. Skill\00. Swordman</Filter>
+      <Filter>01. Object\00. Character\00. Player\00. Skill\00. Swordman</Filter>
+    </ClInclude>
+    <ClInclude Include="CSkill.h">
+      <Filter>01. Object\00. Character\00. Player\00. Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="CHitBox.h">
+      <Filter>01. Object\03. HitBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,7 +456,13 @@
       <Filter>01. Object\02. Effect\00. EffectSwordman</Filter>
     </ClCompile>
     <ClCompile Include="CSkillSwordman.cpp">
-      <Filter>01. Object\01. Weapon\02. Skill\00. Swordman</Filter>
+      <Filter>01. Object\00. Character\00. Player\00. Skill\00. Swordman</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkill.cpp">
+      <Filter>01. Object\00. Character\00. Player\00. Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="CHitBox.cpp">
+      <Filter>01. Object\03. HitBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

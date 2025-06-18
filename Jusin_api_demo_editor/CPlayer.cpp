@@ -10,11 +10,13 @@
 #include "CSceneManager.h"
 #include "CMelee.h"
 #include "CRanged.h"
+#include "CSkillSwordman.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false),
 	m_bIsHost(false),
-	m_fPlayTime(0.f)
+	m_fPlayTime(0.f),
+	m_pSkill(nullptr)
 {
 }
 
@@ -79,6 +81,7 @@ void CPlayer::Initialize()
 	m_tFrame.dwSpeed = 200;
 
 	CreateWeapon();
+	CreateSkill();
 }
 
 int CPlayer::Update()
@@ -515,6 +518,25 @@ void CPlayer::CreateWeapon()
 
 	m_pWeapon->Initialize(this, m_tAttackInfo);
 	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeapon, OBJ_WEAPON);
+}
+
+void CPlayer::CreateSkill()
+{
+	CSkill* pSkill = nullptr;
+
+	switch (m_eJob)
+	{
+	case CPlayer::SWORDMAN:
+		pSkill = new CSkillSwordman();
+		break;
+	case CPlayer::ACHER: //TODO
+	case CPlayer::MAGICKNIGHT: //TODO
+	default:
+		pSkill = nullptr;
+		break;
+	}
+
+	m_pSkill = pSkill;
 }
 
 void CPlayer::AttackPoc()

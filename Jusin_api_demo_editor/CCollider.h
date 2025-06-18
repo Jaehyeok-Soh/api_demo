@@ -21,6 +21,8 @@ public:
 	void Render(HDC _dc);
 
 public:
+	void SetOwner(CObject* _pObj) { m_pOwner = _pObj; }
+
 	void SetOffsetPos(Vec2 _vPos) { m_vOffsetPos = _vPos; }
 	void SetScale(Vec2 _vScale) { m_vScale = _vScale; }
 

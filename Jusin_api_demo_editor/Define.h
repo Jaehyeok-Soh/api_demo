@@ -67,9 +67,27 @@ struct ATTACKINFO
 	float m_fAttackDelay;
 };
 
+struct SKILLINFO
+{
+	bool m_bEnabled;
+	int m_iDamage;
+	float m_fdtUsedTime;
+	float m_fCooldown;
+};
+
 struct STATUSINFO
 {
 	int m_iHp;
+};
+
+struct HITBOXINFO
+{
+	float m_fDuration;
+	float m_fElapsed;
+	int m_iDamage;
+	bool m_bOnce;
+	bool m_bHitApplied;
+	CObject* m_pOwner;
 };
 
 enum TILETYPE

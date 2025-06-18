@@ -1,11 +1,15 @@
 #pragma once
 #include "CCharacter.h"
 
+class CSkill;
 class CPlayer final
 	: public CCharacter
 {
 public:
+	friend class CSkillSwordman;
+
 	enum JOB{SWORDMAN, ACHER, MAGICKNIGHT};
+
 public:
 	CPlayer();
 	~CPlayer();
@@ -29,6 +33,8 @@ public:
 
 	const bool GetIsHost() const { return m_bIsHost; }
 	void SetIsHost(bool _bVal) { m_bIsHost = _bVal; }
+
+	void SetState(STATE _eVal) { m_eCurState = _eVal; }
 	 
 private:
 	void    Key_Input();
@@ -44,6 +50,7 @@ private:
 	void DebugTextOut(HDC _dc);
 
 	virtual void CreateWeapon() override;
+	void CreateSkill();
 
 	void AttackPoc();
 	void AttackInit();
@@ -53,10 +60,12 @@ private:
 	STATE               m_ePreState;
 	JOB					m_eJob;
 	wstring				m_strFrameKey;
+	CSkill*				m_pSkill;
 
 	bool m_bIsMine;
 	bool m_bIsHost;
 
 	float m_fPlayTime;
+	
 };
 
