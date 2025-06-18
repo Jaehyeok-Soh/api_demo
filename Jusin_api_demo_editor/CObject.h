@@ -63,6 +63,7 @@ public:
 protected:
 	void		Update_Rect();
 	void		Update_Frame();
+	void		Update_Frame_Reverse();
 
 public:
 	void CreateCollider();

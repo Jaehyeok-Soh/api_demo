@@ -23,4 +23,7 @@ private:
 
 private:
 	HDC m_DC;
+	HDC m_hBackDC = nullptr;
+	HBITMAP m_hBackBmp = nullptr;
+	HBITMAP m_hOldBmp = nullptr;
 };

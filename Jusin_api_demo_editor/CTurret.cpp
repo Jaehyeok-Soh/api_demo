@@ -2,9 +2,11 @@
 #include "CTurret.h"
 #include "CScrollManager.h"
 #include "CBmpManager.h"
+#include "CKeyManager.h"
+#include "CPeekingManager.h"
 
 CTurret::CTurret()
-	:strFrameBlueTurret(L"BlueTurret"), strFrameRedTurret(L"RedTurret")
+	:strFrameBlueTurret(L"BlueTurretSmall"), strFrameRedTurret(L"RedTurretSmall")
 {
 }
 
@@ -33,7 +35,24 @@ void CTurret::Initialize()
 
 int CTurret::Update()
 {
-	__super::Update();
+	POINT ptMouse;
+	GetCursorPos(&ptMouse); // 화면 좌표
+	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환
+
+	POINT vWorldMouse;
+	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
+	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
+
+	if (PtInRect(&m_tRect, vWorldMouse))
+	{
+		if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
+		{
+			CPeekingManager::GetInstance()->OnPeek(this);
+		}
+	}
+
+	//__super::Update();
+	__super::Update_Rect();
 	return NOEVENT;
 }
 
@@ -65,14 +84,14 @@ void CTurret::Render(HDC _dc)
 
 		auto a = GdiTransparentBlt(_dc,
 			drawX - spriteW / 2,
-			drawY - spriteH / 2 - 200,
+			drawY - spriteH / 2 - 50,
 			spriteW,
-			spriteH + 200,
+			spriteH + 50,
 			hMemDC,
 			0,
 			0,
-			162,   // 복사할 비트맵 가로 세로 사이즈
-			168,
+			87,   // 복사할 비트맵 가로 세로 사이즈
+			149,
 			RGB(189, 189, 189));   // 제거할 픽셀 색상 값
 		auto b = 1;
 	}
@@ -82,14 +101,14 @@ void CTurret::Render(HDC _dc)
 		HDC hMemDC = CBmpManager::Get_Instance()->Find_Image(m_pFrameKey);
 		GdiTransparentBlt(_dc,
 			drawX - spriteW / 2,
-			drawY - spriteH / 2 - 200,
+			drawY - spriteH / 2 - 50,
 			spriteW,
-			spriteH + 200,
+			spriteH + 50,
 			hMemDC,
 			0,
 			0,
-			144,   // 복사할 비트맵 가로 세로 사이즈
-			190,
+			94,   // 복사할 비트맵 가로 세로 사이즈
+			169,
 			RGB(189, 189, 189));   // 제거할 픽셀 색상 값
 	}
 }

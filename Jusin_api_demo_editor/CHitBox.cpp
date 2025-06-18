@@ -21,6 +21,12 @@ void CHitbox::Initialize()
 void CHitbox::Initialize(HITBOXINFO _tVal)
 {
 	m_tHitboxInfo = _tVal;
+	CreateCollider();
+
+	GetCollider()->SetScale(m_vScale);
+	GetCollider()->Set_Layer(COL_PLAYER);
+	GetCollider()->Set_Mask(COL_MINION
+		| COL_PLAYER);
 }
 
 int CHitbox::Update()
@@ -39,11 +45,12 @@ int CHitbox::Update()
 
 void CHitbox::Late_Update()
 {
+	if (m_pCollider)
+		m_pCollider->Late_Update();
 }
 
 void CHitbox::Render(HDC _dc)
 {
-	
 }
 
 void CHitbox::Release()

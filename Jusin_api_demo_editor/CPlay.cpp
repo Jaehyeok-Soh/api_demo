@@ -66,6 +66,9 @@ void CPlay::Enter()
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_ATTACK);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_SKILL);
 
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_HITBOX, OBJID::OBJ_MINION);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_HITBOX, OBJID::OBJ_PLAYER);
+	
 	Initialize();
 }
 
@@ -98,16 +101,16 @@ void CPlay::Initialize()
 void CPlay::Key_Input()
 {
 	if (g_ptMousePos.x <= 10)
-		CScrollManager::Get_Instance()->Set_ScrollX(5.f);
+		CScrollManager::Get_Instance()->Set_ScrollX(10.f);
 
 	if (g_ptMousePos.x >= WINCX - 10)
-		CScrollManager::Get_Instance()->Set_ScrollX(-5.f);
+		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
 
 	if (g_ptMousePos.y <= 10)
-		CScrollManager::Get_Instance()->Set_ScrollY(5.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(10.f);
 
 	if (g_ptMousePos.y >= WINCY - 10)
-		CScrollManager::Get_Instance()->Set_ScrollY(-5.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(-10.f);
 }
 
 void CPlay::Render_Map(HDC hdc, int iScrollX, int iScrollY)

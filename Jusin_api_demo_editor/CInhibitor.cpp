@@ -2,6 +2,8 @@
 #include "CInhibitor.h"
 #include "CScrollManager.h"
 #include "CBmpManager.h"
+#include "CKeyManager.h"
+#include "CPeekingManager.h"
 
 CInhibitor::CInhibitor()
 	:strFrameBlueInhibitor(L"BlueInhibitor"), strFrameRedInhibitor(L"RedInhibitor")
@@ -33,7 +35,24 @@ void CInhibitor::Initialize()
 
 int CInhibitor::Update()
 {
-	__super::Update();
+	POINT ptMouse;
+	GetCursorPos(&ptMouse); // 화면 좌표
+	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환
+
+	POINT vWorldMouse;
+	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
+	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
+
+	if (PtInRect(&m_tRect, vWorldMouse))
+	{
+		if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
+		{
+			CPeekingManager::GetInstance()->OnPeek(this);
+		}
+	}
+
+	//__super::Update();
+	__super::Update_Rect();
 	return NOEVENT;
 }
 
@@ -65,9 +84,9 @@ void CInhibitor::Render(HDC _dc)
 
 		auto a = GdiTransparentBlt(_dc,
 			drawX - spriteW / 2,
-			drawY - spriteH / 2 - 200,
+			drawY - spriteH / 2,
 			spriteW,
-			spriteH + 200,
+			spriteH,
 			hMemDC,
 			0,
 			0,
@@ -82,9 +101,9 @@ void CInhibitor::Render(HDC _dc)
 		HDC hMemDC = CBmpManager::Get_Instance()->Find_Image(m_pFrameKey);
 		GdiTransparentBlt(_dc,
 			drawX - spriteW / 2,
-			drawY - spriteH / 2 - 200,
+			drawY - spriteH / 2,
 			spriteW,
-			spriteH + 200,
+			spriteH,
 			hMemDC,
 			0,
 			0,

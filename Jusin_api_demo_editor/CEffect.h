@@ -6,9 +6,17 @@ class CEffect
 {
 public:
 	CEffect();
-	virtual ~CEffect() PURE;
+	~CEffect();
+
+public:
+	void Initialize() override;
+	void Initialize(FRAME _fFrame, BMPSCALE _tScale, const TCHAR* _pFrameKey);
+	int Update() override;
+	void Late_Update() override;
+	void Render(HDC _dc) override;
+	void Release() override;
 
 private:
-	virtual void Motion_Change() {};
+	BMPSCALE m_tBmpScale;
 };
 

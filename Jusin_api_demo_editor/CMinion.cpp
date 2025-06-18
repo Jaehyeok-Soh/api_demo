@@ -84,10 +84,6 @@ int CMinion::Update()
 		t1.join();
 	}
 
-	/*POINT vWorldMouse;
-	vWorldMouse.x = LONG(g_ptMousePos.x / g_fZoom + CScrollManager::Get_Instance()->Get_ScrollX());
-	vWorldMouse.y = LONG(g_ptMousePos.y / g_fZoom + CScrollManager::Get_Instance()->Get_ScrollY());*/
-
 	POINT ptMouse;
 	GetCursorPos(&ptMouse); // 화면 좌표
 	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환

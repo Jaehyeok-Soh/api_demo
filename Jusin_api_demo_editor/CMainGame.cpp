@@ -21,6 +21,11 @@ void CMainGame::Initialize()
 	
 	m_DC = GetDC(g_hWnd);
 
+	//백버퍼 DC 생성
+	m_hBackDC = CreateCompatibleDC(m_DC);
+	m_hBackBmp = CreateCompatibleBitmap(m_DC, WINCX, WINCY);
+	m_hOldBmp = (HBITMAP)SelectObject(m_hBackDC, m_hBackBmp);
+
 	Load_Img();
 
 	CTimeManager::Get_Instance()->Initialize();
@@ -47,22 +52,14 @@ void CMainGame::Late_Update()
 
 void CMainGame::Render()
 {
-	// 1. 실제 윈도우 DC
-	HDC hdc = m_DC;
-
-	// 2. 백버퍼 DC 생성
-	HDC hMemDC = CreateCompatibleDC(hdc);
-	HBITMAP hBackBmp = CreateCompatibleBitmap(hdc, WINCX, WINCY);
-	HBITMAP hOldBmp = (HBITMAP)SelectObject(hMemDC, hBackBmp);
-
 	HDC hGroundDC = CBmpManager::Get_Instance()->Find_Image(L"Ground");
-	BitBlt(hMemDC, 0, 0, WINCX, WINCY, hGroundDC, 0, 0, SRCCOPY);
+	BitBlt(m_hBackDC, 0, 0, WINCX, WINCY, hGroundDC, 0, 0, SRCCOPY);
 
 	// 4. 씬 매니저가 백버퍼에 그리도록 호출
-	CSceneManager::GetInstance()->Render(hMemDC);
+	CSceneManager::GetInstance()->Render(m_hBackDC);
 
 	// 5. 백버퍼 → 실제 화면으로 복사
-	BitBlt(hdc, 0, 0, WINCX, WINCY, hMemDC, 0, 0, SRCCOPY);
+	BitBlt(m_DC, 0, 0, WINCX, WINCY, m_hBackDC, 0, 0, SRCCOPY);
 
 	/////////////////////////////////////////////////////////////////
 	// pt.x, pt.y를 문자열로 변환
@@ -70,19 +67,21 @@ void CMainGame::Render()
 	wsprintf(szCursor, L"Cursor: X = %d, Y = %d", g_ptMousePos.x, g_ptMousePos.y);
 
 	// 출력 (예: 좌상단 10,10에 출력)
-	TextOut(hdc, 10, 10, szCursor, lstrlen(szCursor));
+	TextOut(m_DC, 10, 10, szCursor, lstrlen(szCursor));
 	/////////////////////////////////////////////////////////////////
-
-	// 6. 자원 정리
-	SelectObject(hMemDC, hOldBmp);
-	DeleteObject(hBackBmp);
-	DeleteDC(hMemDC);
 
 	CTimeManager::Get_Instance()->Render();
 }
 
 void CMainGame::Release()
 {
+	if (m_hBackDC)
+	{
+		SelectObject(m_hBackDC, m_hOldBmp);
+		DeleteObject(m_hBackBmp);
+		DeleteDC(m_hBackDC);
+	}
+
 	CPeekingManager::DestroyInstance();
 	CKeyManager::Destroy_Instance();
 	CColliderManager::Destroy_Instance();
@@ -157,6 +156,15 @@ void CMainGame::Load_CharacterImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_l.bmp", L"swordman_ult_l");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_die_l.bmp", L"swordman_die_l");
 	//Effect
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_attack_ef_r.bmp", L"swordman_attack_ef_r");
+	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_attack_ef_l.bmp", L"swordman_attack_ef_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_skill_ef_r.bmp", L"swordman_skill_ef_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_skill_ef_l.bmp", L"swordman_skill_ef_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_ef_r.bmp", L"swordman_ult_ef_r");
+	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_ef_l.bmp", L"swordman_ult_ef_l");
+
+
+
 }
 
 void CMainGame::Load_TowerImg()
@@ -166,6 +174,8 @@ void CMainGame::Load_TowerImg()
 	//162x186
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueTurret.bmp", L"BlueTurret");
 	//87x149
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueTurretSmall.bmp", L"BlueTurretSmall");
+	//87x149
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueInhibitor.bmp", L"BlueInhibitor");
 	//106x121
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/BlueTurretSmall.bmp", L"BlueTurretSmall");
@@ -174,6 +184,8 @@ void CMainGame::Load_TowerImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedNexus.bmp", L"RedNexus");
 	//144x190
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedTurret.bmp", L"RedTurret");
+	//94x169
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedTurretSmall.bmp", L"RedTurretSmall");
 	//108x125
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Towers/RedInhibitor.bmp", L"RedInhibitor");
 	//94x169

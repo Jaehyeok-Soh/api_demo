@@ -142,9 +142,6 @@
     <Filter Include="01. Object\01. Weapon\01. Ranged\00. Bullet">
       <UniqueIdentifier>{203a8ce3-e613-4089-8355-a6667de9ceda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\02. Effect\00. EffectSwordman">
-      <UniqueIdentifier>{d8f21da1-0fd9-450d-a2a4-19d4c2994b13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Object\00. Character\00. Player\00. Skill">
       <UniqueIdentifier>{c2b80ad5-4e76-47ad-8134-81cd0833900f}</UniqueIdentifier>
     </Filter>
@@ -306,9 +303,6 @@
     <ClInclude Include="CBullet.h">
       <Filter>01. Object\01. Weapon\01. Ranged\00. Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="CEffectSwordman.h">
-      <Filter>01. Object\02. Effect\00. EffectSwordman</Filter>
-    </ClInclude>
     <ClInclude Include="CSkillSwordman.h">
       <Filter>01. Object\00. Character\00. Player\00. Skill\00. Swordman</Filter>
     </ClInclude>
@@ -454,9 +448,6 @@
     </ClCompile>
     <ClCompile Include="CBullet.cpp">
       <Filter>01. Object\01. Weapon\01. Ranged\00. Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="CEffectSwordman.cpp">
-      <Filter>01. Object\02. Effect\00. EffectSwordman</Filter>
     </ClCompile>
     <ClCompile Include="CSkillSwordman.cpp">
       <Filter>01. Object\00. Character\00. Player\00. Skill\00. Swordman</Filter>

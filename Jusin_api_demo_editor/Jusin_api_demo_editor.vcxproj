@@ -140,7 +140,6 @@
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CBullet.h" />
-    <ClInclude Include="CEffectSwordman.h" />
     <ClInclude Include="CHitBox.h" />
     <ClInclude Include="CRanged.h" />
     <ClInclude Include="CButton.h" />
@@ -196,7 +195,6 @@
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CBullet.cpp" />
-    <ClCompile Include="CEffectSwordman.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CRanged.cpp" />
     <ClCompile Include="CButton.cpp" />

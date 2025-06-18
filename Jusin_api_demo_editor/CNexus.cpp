@@ -5,6 +5,8 @@
 #include "CTimeManager.h"
 #include "CSceneManager.h"
 #include "CMinion.h"
+#include "CKeyManager.h"
+#include "CPeekingManager.h"
 
 CNexus::CNexus()
 	: strFrameBlueNexus(L"BlueNexus"), strFrameRedNexus(L"RedNexus"), m_fSpawnCoolDownTime(0.f)
@@ -39,12 +41,28 @@ void CNexus::Initialize()
 
 int CNexus::Update()
 {
+	POINT ptMouse;
+	GetCursorPos(&ptMouse); // 화면 좌표
+	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환
+
+	POINT vWorldMouse;
+	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
+	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
+
+	if (PtInRect(&m_tRect, vWorldMouse))
+	{
+		if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
+		{
+			CPeekingManager::GetInstance()->OnPeek(this);
+		}
+	}
+
 	m_fSpawnCoolDownTime += fDT;
 	//TODO: 일정시간마다 미니언 소환
 	//TODO: 풀링?
 
 	SpawnMinion();
-
+	__super::Update_Rect();
 	return NOEVENT;
 }
 

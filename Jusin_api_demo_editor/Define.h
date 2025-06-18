@@ -54,6 +54,7 @@ struct FRAME
 	int		iFrameStart;
 	int		iFrameEnd;
 	int		iMotion;
+	int		iStartBuffer;
 	DWORD	dwSpeed;
 	DWORD	dwTime;
 };
@@ -115,6 +116,7 @@ enum OBJID
 	OBJ_WEAPON,
 	OBJ_SKILL,
 	OBJ_HITBOX,
+	OBJ_EFFECT,
 	OBJ_TILE,
 	OBJ_UI,
 	OBJ_END

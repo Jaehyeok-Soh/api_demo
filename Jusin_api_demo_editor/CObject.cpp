@@ -48,7 +48,7 @@ void CObject::Initialize()
 
 int CObject::Update()
 {
-	return 0;
+	return NOEVENT;
 }
 
 void CObject::Late_Update()
@@ -163,6 +163,18 @@ void CObject::Update_Frame()
 
 		if (m_tFrame.iFrameStart > m_tFrame.iFrameEnd)
 			m_tFrame.iFrameStart = 0;
+	}
+}
+
+void CObject::Update_Frame_Reverse()
+{
+	if (m_tFrame.dwTime + m_tFrame.dwSpeed < GetTickCount())
+	{
+		--m_tFrame.iFrameStart;
+		m_tFrame.dwTime = GetTickCount();
+
+		if (m_tFrame.iFrameStart < m_tFrame.iFrameEnd)
+			m_tFrame.iFrameStart = m_tFrame.iStartBuffer;
 	}
 }
 

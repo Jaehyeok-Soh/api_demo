@@ -39,7 +39,9 @@ void CScene::Initialize()
 	{
 		if (i == OBJ_PLAYER
 			|| i == OBJ_MINION
-			|| i == OBJ_TOWER)
+			|| i == OBJ_TOWER
+			|| i == OBJ_HITBOX
+			|| i == OBJ_EFFECT)
 			continue;
 
 		for (CObject* pObj : m_arrObj[i])

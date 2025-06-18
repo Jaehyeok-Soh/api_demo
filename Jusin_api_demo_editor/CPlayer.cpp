@@ -116,7 +116,13 @@ int CPlayer::Update()
 	Motion_Change();
 
 	__super::Update_Rect();
-	__super::Update_Frame();
+
+	if (m_vMoveDir.x > 0)
+		__super::Update_Frame();
+
+	else
+		__super::Update_Frame_Reverse();
+
 
 	return NOEVENT;
 }
@@ -278,8 +284,8 @@ void CPlayer::Motion_Change()
 		switch (m_eCurState)
 		{
 		case IDLE:
-			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 4;
+			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
+			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
@@ -290,8 +296,8 @@ void CPlayer::Motion_Change()
 			m_fRenderScale = 1.f;
 			break;
 		case RUN:
-			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 7;
+			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
@@ -302,8 +308,8 @@ void CPlayer::Motion_Change()
 			m_fRenderScale = 1.f;
 			break;
 		case ATTACK:
-			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 4;
+			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
+			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
@@ -314,8 +320,8 @@ void CPlayer::Motion_Change()
 			m_fRenderScale = 1.f;
 			break;
 		case SKILL:
-			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 8;
+			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 8;
+			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 8 : 0;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 100;
@@ -326,8 +332,8 @@ void CPlayer::Motion_Change()
 			m_fRenderScale = 2.f;
 			break;
 		case ULT:
-			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 7;
+			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
@@ -338,8 +344,8 @@ void CPlayer::Motion_Change()
 			m_fRenderScale = 1.f;
 			break;
 		case DIE:
-			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 7;
+			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
@@ -350,6 +356,8 @@ void CPlayer::Motion_Change()
 			m_fRenderScale = 1.f;
 			break;
 		}
+
+		m_tFrame.iStartBuffer = m_tFrame.iFrameStart;
 
 		m_ePreState = m_eCurState;
 	}
@@ -552,7 +560,7 @@ void CPlayer::CreateWeapon()
 			m_pWeapon->SetName(L"Melee");
 		}
 	}
-		break;
+	break;
 	case CPlayer::ACHER:
 	{
 		if (!m_pWeapon)
@@ -561,7 +569,7 @@ void CPlayer::CreateWeapon()
 			m_pWeapon->SetName(L"Melee");
 		}
 	}
-		break;
+	break;
 	}
 
 	m_pWeapon->Initialize(this, m_tAttackInfo);
@@ -581,7 +589,7 @@ void CPlayer::CreateSkill()
 	case CPlayer::MAGICKNIGHT:
 		break;
 	}
-	
+
 }
 
 void CPlayer::AttackPoc()
