@@ -56,7 +56,12 @@ struct FRAME
 	int		iMotion;
 	DWORD	dwSpeed;
 	DWORD	dwTime;
+};
 
+struct BMPSCALE
+{
+	int iWidth;
+	int iHeight;
 };
 
 struct ATTACKINFO
@@ -78,16 +83,6 @@ struct SKILLINFO
 struct STATUSINFO
 {
 	int m_iHp;
-};
-
-struct HITBOXINFO
-{
-	float m_fDuration;
-	float m_fElapsed;
-	int m_iDamage;
-	bool m_bOnce;
-	bool m_bHitApplied;
-	CObject* m_pOwner;
 };
 
 enum TILETYPE
@@ -119,6 +114,7 @@ enum OBJID
 	OBJ_ATTACK,
 	OBJ_WEAPON,
 	OBJ_SKILL,
+	OBJ_HITBOX,
 	OBJ_TILE,
 	OBJ_UI,
 	OBJ_END

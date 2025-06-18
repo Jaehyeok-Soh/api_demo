@@ -38,6 +38,9 @@ public:
 public:
 	void OnPeek(CObject* _pObj)
 	{
+		if (m_pPlayer->GetTeam() == _pObj->GetTeam())
+			return;
+
 		static_cast<CPlayer*>(m_pPlayer)->OnPeek(_pObj);
 	}
 

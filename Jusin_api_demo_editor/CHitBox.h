@@ -5,6 +5,17 @@ class CHitbox
 	: public CObject
 {
 public:
+	struct HITBOXINFO
+	{
+		float m_fDuration;
+		float m_fElapsed;
+		int m_iDamage;
+		bool m_bOnce;
+		bool m_bHitApplied;
+		CObject* m_pOwner;
+	};
+
+public:
 	CHitbox();
 	~CHitbox();
 public:

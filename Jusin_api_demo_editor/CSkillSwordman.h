@@ -8,8 +8,8 @@ public:
 	virtual ~CSkillSwordman();
 
 public:
-	void Update() override;
-	void Initialize(CObject* _pObj) override;
+	void Update(CPlayer& _pPlayer) override;
+	void Initialize(CPlayer& _pPlayer) override;
 	void Use(CPlayer& _pPlayer, int _iDir) override;
 	bool IsFinished(CPlayer& _pPlayer, int _iDir) override;
 };

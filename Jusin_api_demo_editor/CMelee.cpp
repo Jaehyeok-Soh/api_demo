@@ -34,6 +34,6 @@ void CMelee::Release()
 void CMelee::Attack()
 {
 	m_tAttackInfo.m_fdtAttackTime += fDT;
-	static_cast<CCharacter*>(m_pOwner->GetTarget())->OnHit(m_tAttackInfo);
+	static_cast<CCharacter*>(m_pOwner->GetTarget())->OnHit(m_tAttackInfo.m_iDamage);
 	m_tAttackInfo.m_bIsAttack = true;
 }

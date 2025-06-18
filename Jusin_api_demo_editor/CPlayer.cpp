@@ -11,13 +11,15 @@
 #include "CMelee.h"
 #include "CRanged.h"
 #include "CSkillSwordman.h"
+#include "CUltSwordman.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false),
 	m_bIsHost(false),
 	m_fPlayTime(0.f),
-	m_pSkill(nullptr)
+	m_fRenderScale(1.f)
 {
+	ZeroMemory(&m_tBmpScale, sizeof(BMPSCALE));
 }
 
 CPlayer::~CPlayer()
@@ -71,7 +73,7 @@ void CPlayer::Initialize()
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
-	m_tAttackInfo.m_fAttackDelay = 0.4f;
+	m_tAttackInfo.m_fAttackDelay = 0.25f;
 	m_tAttackInfo.m_iDamage = 10.f;
 
 	m_tFrame.iFrameStart = 0;
@@ -89,7 +91,15 @@ int CPlayer::Update()
 	if (m_pCollider)
 		m_pCollider->Late_Update();
 
+	UpdateSkills();
+
 	Key_Input();
+
+	if (m_eCurState == SKILL || m_eCurState == ULT)
+	{
+		if (m_tFrame.iFrameStart == m_tFrame.iFrameEnd)
+			m_eCurState = IDLE;
+	}
 
 	if (m_eCurState == RUN)
 	{
@@ -132,15 +142,15 @@ void CPlayer::Render(HDC _dc)
 	HDC   hMemDC = CBmpManager::Get_Instance()->Find_Image(m_pFrameKey);
 
 	GdiTransparentBlt(_dc,
-		drawX - spriteW / 2,
-		drawY - spriteH / 2,
-		spriteW,
-		spriteH,
+		drawX - ((spriteW / 2) * m_fRenderScale),
+		drawY - ((spriteH / 2) * m_fRenderScale),
+		spriteW * m_fRenderScale,
+		spriteH * m_fRenderScale,
 		hMemDC,
-		(int)64 * m_tFrame.iFrameStart,
-		(int)64 * m_tFrame.iMotion,
-		(int)64,   // 복사할 비트맵 가로 세로 사이즈
-		(int)64,
+		(int)m_tBmpScale.iWidth * m_tFrame.iFrameStart,
+		(int)m_tBmpScale.iHeight * m_tFrame.iMotion,
+		(int)m_tBmpScale.iWidth,   // 복사할 비트맵 가로 세로 사이즈
+		(int)m_tBmpScale.iHeight,
 		RGB(255, 255, 255));   // 제거할 픽셀 색상 값
 
 	DebugTextOut(_dc);
@@ -211,10 +221,18 @@ void CPlayer::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Pressing('Q'))
 	{
+		if (m_vSkills.size() > 0)
+		{
+			m_vSkills[0]->Use(*this, m_vMoveDir.x);
+		}
 	}
 
 	if (CKeyManager::Get_Instance()->Key_Pressing('W'))
 	{
+		if (m_vSkills.size() > 1)
+		{
+			m_vSkills[1]->Use(*this, m_vMoveDir.x);
+		}
 	}
 }
 
@@ -265,6 +283,11 @@ void CPlayer::Motion_Change()
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
+
+			m_tBmpScale.iWidth = 64;
+			m_tBmpScale.iHeight = 64;
+
+			m_fRenderScale = 1.f;
 			break;
 		case RUN:
 			m_tFrame.iFrameStart = 0;
@@ -272,6 +295,11 @@ void CPlayer::Motion_Change()
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
+
+			m_tBmpScale.iWidth = 64;
+			m_tBmpScale.iHeight = 64;
+
+			m_fRenderScale = 1.f;
 			break;
 		case ATTACK:
 			m_tFrame.iFrameStart = 0;
@@ -279,13 +307,23 @@ void CPlayer::Motion_Change()
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
+
+			m_tBmpScale.iWidth = 64;
+			m_tBmpScale.iHeight = 64;
+
+			m_fRenderScale = 1.f;
 			break;
 		case SKILL:
 			m_tFrame.iFrameStart = 0;
-			m_tFrame.iFrameEnd = 7;
+			m_tFrame.iFrameEnd = 8;
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 200;
+			m_tFrame.dwSpeed = 100;
+
+			m_tBmpScale.iWidth = 128;
+			m_tBmpScale.iHeight = 128;
+
+			m_fRenderScale = 2.f;
 			break;
 		case ULT:
 			m_tFrame.iFrameStart = 0;
@@ -293,6 +331,11 @@ void CPlayer::Motion_Change()
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
+
+			m_tBmpScale.iWidth = 64;
+			m_tBmpScale.iHeight = 64;
+
+			m_fRenderScale = 1.f;
 			break;
 		case DIE:
 			m_tFrame.iFrameStart = 0;
@@ -300,6 +343,11 @@ void CPlayer::Motion_Change()
 			m_tFrame.iMotion = 0;
 			m_tFrame.dwTime = GetTickCount();
 			m_tFrame.dwSpeed = 200;
+
+			m_tBmpScale.iWidth = 64;
+			m_tBmpScale.iHeight = 64;
+
+			m_fRenderScale = 1.f;
 			break;
 		}
 
@@ -522,21 +570,18 @@ void CPlayer::CreateWeapon()
 
 void CPlayer::CreateSkill()
 {
-	CSkill* pSkill = nullptr;
-
 	switch (m_eJob)
 	{
 	case CPlayer::SWORDMAN:
-		pSkill = new CSkillSwordman();
+		m_vSkills.push_back(new CSkillSwordman());
+		m_vSkills.push_back(new CUltSwordman());
 		break;
-	case CPlayer::ACHER: //TODO
-	case CPlayer::MAGICKNIGHT: //TODO
-	default:
-		pSkill = nullptr;
+	case CPlayer::ACHER:
+		break;
+	case CPlayer::MAGICKNIGHT:
 		break;
 	}
-
-	m_pSkill = pSkill;
+	
 }
 
 void CPlayer::AttackPoc()
@@ -588,4 +633,12 @@ void CPlayer::AttackInit()
 {
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
 	m_tAttackInfo.m_bIsAttack = false;
+}
+
+void CPlayer::UpdateSkills()
+{
+	for (auto skill : m_vSkills)
+	{
+		skill->Update(*this);
+	}
 }

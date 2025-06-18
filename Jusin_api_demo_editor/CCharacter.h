@@ -13,7 +13,7 @@ public:
 	virtual ~CCharacter() PURE;
 
 public:
-	void OnHit(ATTACKINFO _tAttackInfo);
+	void OnHit(int _iVal);
 
 protected:
 	virtual void Motion_Change() {};

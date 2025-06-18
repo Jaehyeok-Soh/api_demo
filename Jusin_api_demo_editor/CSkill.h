@@ -8,8 +8,8 @@ public:
 	virtual ~CSkill() PURE;
 	
 public:
-	virtual void Update() PURE;
-	virtual void Initialize(CObject* _pObj) PURE;
+	virtual void Update(CPlayer& _pPlayer) PURE;
+	virtual void Initialize(CPlayer& _pPlayer) PURE;
 	virtual void Use(CPlayer& _pPlayer, int _iDir) PURE;
 	virtual bool IsFinished(CPlayer& _pPlayer, int _iDir) PURE;
 

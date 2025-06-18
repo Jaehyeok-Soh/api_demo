@@ -146,12 +146,14 @@ void CMainGame::Load_CharacterImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_idle_r.bmp", L"swordman_idle_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_run_r.bmp", L"swordman_run_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_attack_r.bmp", L"swordman_attack_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_skill_r.bmp", L"swordman_skill_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_r.bmp", L"swordman_ult_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_die_r.bmp", L"swordman_die_r");
 	//
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_idle_l.bmp", L"swordman_idle_l");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_run_l.bmp", L"swordman_run_l");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_attack_l.bmp", L"swordman_attack_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_skill_l.bmp", L"swordman_skill_l");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_l.bmp", L"swordman_ult_l");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_die_l.bmp", L"swordman_die_l");
 	//Effect

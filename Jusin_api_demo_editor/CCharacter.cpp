@@ -13,8 +13,8 @@ CCharacter::~CCharacter()
 {
 }
 
-void CCharacter::OnHit(ATTACKINFO _tAttackInfo)
+void CCharacter::OnHit(int _iVal)
 {
-	m_tStatusInfo.m_iHp -= _tAttackInfo.m_iDamage;
+	m_tStatusInfo.m_iHp -= _iVal;
 }
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CHitBox.h"
 #include "CTimeManager.h"
+#include "CCharacter.h"
 
 CHitbox::CHitbox()
 {
@@ -51,4 +52,16 @@ void CHitbox::Release()
 
 void CHitbox::OnCollisionEnter(CCollider* _pOther)
 {
+	if (_pOther->GetOwner()->GetTeam() == m_tHitboxInfo.m_pOwner->GetTeam())
+		return;
+
+	if (m_tHitboxInfo.m_bHitApplied)
+		return;
+
+	if ((GetCollider()->Get_Layer() & _pOther->Get_Mask()) != 0)
+	{
+		static_cast<CCharacter*>(_pOther->GetOwner())->OnHit(m_tHitboxInfo.m_iDamage);
+		if (m_tHitboxInfo.m_bOnce)
+			m_tHitboxInfo.m_bHitApplied = true;
+	} 
 }

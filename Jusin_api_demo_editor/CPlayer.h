@@ -7,6 +7,7 @@ class CPlayer final
 {
 public:
 	friend class CSkillSwordman;
+	friend class CUltSwordman;
 
 	enum JOB{SWORDMAN, ACHER, MAGICKNIGHT};
 
@@ -55,17 +56,20 @@ private:
 	void AttackPoc();
 	void AttackInit();
 
+	void UpdateSkills();
+
 private:
 	STATE               m_eCurState;
 	STATE               m_ePreState;
 	JOB					m_eJob;
 	wstring				m_strFrameKey;
-	CSkill*				m_pSkill;
+	vector<CSkill*>		m_vSkills;
+	BMPSCALE			m_tBmpScale;
+	float				m_fRenderScale;
 
 	bool m_bIsMine;
 	bool m_bIsHost;
 
 	float m_fPlayTime;
-	
 };
 

@@ -180,6 +180,7 @@
     <ClInclude Include="CTower.h" />
     <ClInclude Include="CTurret.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CUltSwordman.h" />
     <ClInclude Include="CWeapon.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="CTower.cpp" />
     <ClCompile Include="CTurret.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CUltSwordman.cpp" />
     <ClCompile Include="CWeapon.cpp" />
     <ClCompile Include="Jusin_api_demo_editor.cpp" />
     <ClCompile Include="pch.cpp">

@@ -318,6 +318,9 @@
     <ClInclude Include="CHitBox.h">
       <Filter>01. Object\03. HitBox</Filter>
     </ClInclude>
+    <ClInclude Include="CUltSwordman.h">
+      <Filter>01. Object\00. Character\00. Player\00. Skill\00. Swordman</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -463,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="CHitBox.cpp">
       <Filter>01. Object\03. HitBox</Filter>
+    </ClCompile>
+    <ClCompile Include="CUltSwordman.cpp">
+      <Filter>01. Object\00. Character\00. Player\00. Skill\00. Swordman</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
