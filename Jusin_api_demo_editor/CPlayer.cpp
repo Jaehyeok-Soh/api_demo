@@ -12,12 +12,16 @@
 #include "CRanged.h"
 #include "CSkillSwordman.h"
 #include "CUltSwordman.h"
+#include "DTOPlayer.h"
+#include "CTcpManager.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false),
 	m_bIsHost(false),
 	m_fPlayTime(0.f),
-	m_fRenderScale(1.f)
+	m_fRenderScale(1.f),
+	m_bIsUsingSkill(false),
+	m_iCurrentSkill(-1)
 {
 	ZeroMemory(&m_tBmpScale, sizeof(BMPSCALE));
 }
@@ -98,7 +102,10 @@ int CPlayer::Update()
 	if (m_eCurState == SKILL || m_eCurState == ULT)
 	{
 		if (m_tFrame.iFrameStart == m_tFrame.iFrameEnd)
+		{
 			m_eCurState = IDLE;
+			m_bIsUsingSkill = false;
+		}
 	}
 
 	if (m_eCurState == RUN)
@@ -123,6 +130,7 @@ int CPlayer::Update()
 	else
 		__super::Update_Frame_Reverse();
 
+	ToDTO();
 
 	return NOEVENT;
 }
@@ -190,6 +198,11 @@ void CPlayer::OnPeek(CObject* _pTargetObj)
 
 void CPlayer::Key_Input()
 {
+	//TODO: 서버에서 호스트 결정
+	//TODO: 내 플레이 캐릭터 결정 방법
+	if (m_bIsMine == false)
+		return;
+
 	POINT vWorldMouse;
 	vWorldMouse.x = g_ptMousePos.x / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = g_ptMousePos.y / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollY();
@@ -230,6 +243,8 @@ void CPlayer::Key_Input()
 		if (m_vSkills.size() > 0)
 		{
 			m_vSkills[0]->Use(*this, m_vMoveDir.x);
+			m_bIsUsingSkill = true;
+			m_iCurrentSkill = 0;
 		}
 	}
 
@@ -238,6 +253,8 @@ void CPlayer::Key_Input()
 		if (m_vSkills.size() > 1)
 		{
 			m_vSkills[1]->Use(*this, m_vMoveDir.x);
+			m_bIsUsingSkill = true;
+			m_iCurrentSkill = 1;
 		}
 	}
 }
@@ -649,4 +666,38 @@ void CPlayer::UpdateSkills()
 	{
 		skill->Update(*this);
 	}
+}
+
+void CPlayer::ToDTO()
+{
+	size_t bufferSize = (wcslen((wchar_t*)m_pFrameKey) + 1) * 4;
+	char* buffer = new char[bufferSize];
+	size_t convertedChars = 0;
+	wcstombs_s(&convertedChars, buffer, bufferSize, m_pFrameKey, _TRUNCATE);
+	string strSendFrameKey = buffer;
+	auto tDtoPlayer = DTOPLAYER{
+		m_iObjectId,
+		m_pTarget ? m_pTarget->GetObjectId() : -1,
+		m_tStatusInfo.m_iHp,
+		m_strSendName,
+		m_vPos.x,
+		m_vPos.y,
+		(m_vMoveDir.x > 0) ? 1 : -1,
+		strSendFrameKey,
+		m_tFrame.iFrameStart,
+		m_eCurState,
+		-1, //none
+		m_bIsUsingSkill,
+		m_iCurrentSkill
+	};
+
+	json j = tDtoPlayer;
+
+	CTcpManager::GetInstance()->SendSocket(j.dump(0, ' ', false, json::error_handler_t::ignore));
+
+	delete[] buffer;
+}
+
+void CPlayer::fromJson()
+{
 }

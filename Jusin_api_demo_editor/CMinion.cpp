@@ -23,8 +23,7 @@ void CMinion::Initialize()
 	CreateCollider();
 
 	//CreateGravity();
-	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
-	GetCollider()->SetScale(Vec2(8.f, 8.f));
+	GetCollider()->SetScale(Vec2(10.f, 10.f));
 	GetCollider()->Set_Layer(COL_MINION);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_TOWER
@@ -78,6 +77,12 @@ void CMinion::Initialize()
 
 int CMinion::Update()
 {
+	if (m_tStatusInfo.m_iHp <= 0)
+		Set_Dead();
+
+	if (m_bDead)
+		return DEAD;
+
 	if (m_eCurState == MOVE)
 	{
 		thread t1(&CMinion::MoveVector, this);

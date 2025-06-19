@@ -9,6 +9,8 @@
 #include "CObjectManager.h"
 #include "CTimeManager.h"
 #include "CPeekingManager.h"
+#include "CTcpManager.h"
+#include "DTOPLAYER.h"
 
 CPlay::CPlay()
 	: m_fdtPlayTime(0.f)
@@ -21,6 +23,23 @@ CPlay::~CPlay()
 
 void CPlay::Update()
 {
+	auto recMsg = CTcpManager::GetInstance()->ListenSocket();
+	cout << recMsg << "\n";
+	if (recMsg != "")
+	{
+		json j = recMsg;
+		DTOPLAYER dto = j.get<DTOPLAYER>();
+
+		for (auto a : CSceneManager::GetInstance()->GetCurScene()->GetObjectList()[OBJ_PLAYER])
+		{
+			if (!static_cast<CPlayer*>(a)->GetIsMine())
+			{
+				a->SetPosX(dto.fX - 10.f);
+				a->SetPosY(dto.fY + 10.f);
+			}
+		}
+	}
+
 	//시간 업데이트
 	m_fdtPlayTime += fDT;
 
@@ -33,6 +52,8 @@ void CPlay::Update()
 	//Late_Update
 	CTileManager::Get_Instance()->Late_Update();
 	CScene::Update();
+
+	//TODO: DTO Player to json string serialize
 }
 
 void CPlay::Render(HDC _dc)
@@ -80,6 +101,7 @@ void CPlay::Exit()
 
 void CPlay::Initialize()
 {
+ 	CTcpManager::GetInstance()->Initialize();
 	CSceneManager::GetInstance()->SetChangeScene(false, SC_EDIT);
 
 	//타일 초기화
@@ -92,8 +114,20 @@ void CPlay::Initialize()
 	pPlayer->Initialize();
 	pPlayer->SetPos(Vec2(50.f, 800.f));
 	pPlayer->SetName(L"Player");
+	static_cast<CPlayer*>(pPlayer)->SetIsMine(true);
+	static_cast<CPlayer*>(pPlayer)->SetIsHost(true);
 	AddObject(pPlayer, OBJ_PLAYER);
 	RegisterPlayer(pPlayer);
+
+	//테스트 플레이어 초기화
+	CObject* pTestListener = new CPlayer();
+	pTestListener->Initialize();
+	pTestListener->SetPos(Vec2(150.f, 800.f));
+	pTestListener->SetName(L"Player");
+	static_cast<CPlayer*>(pTestListener)->SetIsMine(false);
+	static_cast<CPlayer*>(pTestListener)->SetIsHost(false);
+	static_cast<CPlayer*>(pTestListener)->SetTeam(false);
+	AddObject(pTestListener, OBJ_PLAYER);
 
 	CPeekingManager::GetInstance()->Initialize();
 }

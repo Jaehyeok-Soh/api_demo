@@ -6,6 +6,7 @@
 #include "CKeyManager.h"
 #include "CColliderManager.h"
 #include "CPeekingManager.h"
+#include "CTcpManager.h"
 
 CMainGame::CMainGame()
 {
@@ -30,6 +31,19 @@ void CMainGame::Initialize()
 
 	CTimeManager::Get_Instance()->Initialize();
 	CSceneManager::GetInstance()->Initialize();
+
+#ifdef _DEBUG
+
+	if (::AllocConsole() == TRUE)
+	{
+		FILE* nfp[3];
+		freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
+		freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
+		freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
+		std::ios::sync_with_stdio();
+	}
+
+#endif // _DEBUG
 }
 
 void CMainGame::Update()
@@ -75,6 +89,12 @@ void CMainGame::Render()
 
 void CMainGame::Release()
 {
+#ifdef _DEBUG
+
+	FreeConsole();
+
+#endif // _DEBUG
+
 	if (m_hBackDC)
 	{
 		SelectObject(m_hBackDC, m_hOldBmp);
@@ -82,6 +102,7 @@ void CMainGame::Release()
 		DeleteDC(m_hBackDC);
 	}
 
+	CTcpManager::DestroyInstance();
 	CPeekingManager::DestroyInstance();
 	CKeyManager::Destroy_Instance();
 	CColliderManager::Destroy_Instance();

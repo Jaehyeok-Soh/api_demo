@@ -4,6 +4,8 @@
 #include "CSceneManager.h"
 #include "CScrollManager.h"
 
+UINT CObject::m_iNextObjectId = 0;
+
 CObject::CObject() 
 	: m_fSpeed(0.f),
 	m_bDead(false),
@@ -16,7 +18,8 @@ CObject::CObject()
 	m_pFrameKey(L""),
 	m_bTeam(true),
 	m_eDrawID(TILETYPE::BLUE_INHIBITER),
-	m_iOption(1)
+	m_iOption(1),
+	m_iObjectId(m_iNextObjectId++)
 	//, m_pGravity(nullptr)
 {
 	ZeroMemory(&m_tRect, sizeof(RECT));

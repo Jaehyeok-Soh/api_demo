@@ -173,6 +173,7 @@
     <ClInclude Include="CSpawnNexus.h" />
     <ClInclude Include="CSpawnTile.h" />
     <ClInclude Include="CSpawnTurret.h" />
+    <ClInclude Include="CTcpManager.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTileManager.h" />
     <ClInclude Include="CTimeManager.h" />
@@ -182,7 +183,9 @@
     <ClInclude Include="CUltSwordman.h" />
     <ClInclude Include="CWeapon.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="DTOPlayer.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Jusin_api_demo_editor.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -228,6 +231,7 @@
     <ClCompile Include="CSpawnNexus.cpp" />
     <ClCompile Include="CSpawnTile.cpp" />
     <ClCompile Include="CSpawnTurret.cpp" />
+    <ClCompile Include="CTcpManager.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTileManager.cpp" />
     <ClCompile Include="CTimeManager.cpp" />

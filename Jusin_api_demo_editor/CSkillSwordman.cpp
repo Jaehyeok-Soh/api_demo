@@ -33,10 +33,10 @@ void CSkillSwordman::Use(CPlayer& _pPlayer, int _iDir)
 	pHitbox->SetPos(pos);
 	pHitbox->SetScale(Vec2(32.f, 32.f));
 	pHitbox->Initialize(CHitbox::HITBOXINFO{
-		0.5f,		//duration
+		0.1f,		//duration
 		0.f,		//elapsed
 		40,			//damage
-		false,		//once
+		true,		//once
 		false,		//hitapplied
 		&_pPlayer	//owner
 		});
@@ -49,7 +49,7 @@ void CSkillSwordman::Use(CPlayer& _pPlayer, int _iDir)
 	tFrame.iFrameEnd = 15;
 	tFrame.iMotion = 0;
 	tFrame.iStartBuffer = 0;
-	tFrame.dwSpeed = 20;
+	tFrame.dwSpeed = 100;
 	tFrame.dwTime = GetTickCount();
 	BMPSCALE tScale;
 	tScale.iWidth = 76;

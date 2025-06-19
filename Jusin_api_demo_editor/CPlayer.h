@@ -58,6 +58,9 @@ private:
 
 	void UpdateSkills();
 
+	void ToDTO();
+	void fromJson();
+
 private:
 	STATE               m_eCurState;
 	STATE               m_ePreState;
@@ -66,6 +69,8 @@ private:
 	vector<CSkill*>		m_vSkills;
 	BMPSCALE			m_tBmpScale;
 	float				m_fRenderScale;
+	bool				m_bIsUsingSkill;
+	int					m_iCurrentSkill;
 
 	bool m_bIsMine;
 	bool m_bIsHost;

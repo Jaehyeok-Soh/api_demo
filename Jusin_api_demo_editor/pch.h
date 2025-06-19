@@ -10,6 +10,9 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
+#include "json.hpp"
+using json = nlohmann::json;
+
 using namespace std;
 
 #include <list>
@@ -21,6 +24,8 @@ using namespace std;
 #include <thread>
 #include <future>
 #include <chrono>
+
+#include <iostream>
 
 #include <algorithm>
 #include <time.h>

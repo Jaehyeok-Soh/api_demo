@@ -2,6 +2,9 @@
 #include "CComponent.h"
 #include "CCollider.h"
 
+#include <codecvt>
+#include <locale>
+
 class CCollider;
 class CObject
 {
@@ -19,7 +22,12 @@ public:
 
 public:
 	const wstring& GetName() { return m_strName; }
-	void SetName(const wstring& _strName) { m_strName = _strName; }
+	void SetName(const wstring& _strName)
+	{
+		m_strName = _strName;
+		wstring_convert<codecvt_utf8<wchar_t>> converter;
+		m_strSendName = converter.to_bytes(m_strName);
+	}
 	void SetPos(Vec2  _vPos) { m_vPos = _vPos; }
 	void SetPosX(float _f) { m_vPos.x = _f; }
 	void SetPosY(float _f) { m_vPos.y = _f; }
@@ -58,6 +66,8 @@ public:
 	const bool GetTeam() const { return m_bTeam; }
 	void SetTeam(bool _bVal) { m_bTeam = _bVal; }
 
+	const UINT GetObjectId() const { return m_iObjectId; }
+
 	void		Set_FrameKey(const TCHAR* pFrameKey) { m_pFrameKey = pFrameKey; }
 
 protected:
@@ -78,6 +88,7 @@ public:
 
 protected:
 	wstring m_strName; // ÀÌ¸§
+	string m_strSendName;
 	CObject* m_pTarget; // Å¸°Ù
 	Vec2 m_vPos; // À§Ä¡ ÁÂÇ¥
 	Vec2 m_vScale; // Å©±â
@@ -108,4 +119,7 @@ protected:
 protected:
 	const		TCHAR* m_pFrameKey;
 	FRAME		m_tFrame;
+
+	static UINT	m_iNextObjectId;
+	UINT		m_iObjectId;
 };

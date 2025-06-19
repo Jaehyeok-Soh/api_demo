@@ -16,16 +16,16 @@ void CUltSwordman::Update(CPlayer& _pPlayer)
 {
 	if (_pPlayer.m_eCurState == CPlayer::ULT && _pPlayer.m_tFrame.iFrameStart == 3)
 	{
-		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 50.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
+		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 20.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
 
 		CHitbox* pHitbox = new CHitbox();
 		pHitbox->SetPos(_pPlayer.m_vPos);
 		pHitbox->SetScale(Vec2(70.f, 50.f));
 		pHitbox->Initialize(CHitbox::HITBOXINFO{
-			0.5f,		//duration
+			0.1f,		//duration
 			0.f,		//elapsed
 			40,			//damage
-			false,		//once
+			true,		//once
 			false,		//hitapplied
 			&_pPlayer	//owner
 			});

@@ -24,7 +24,7 @@ void CHitbox::Initialize(HITBOXINFO _tVal)
 	CreateCollider();
 
 	GetCollider()->SetScale(m_vScale);
-	GetCollider()->Set_Layer(COL_PLAYER);
+	GetCollider()->Set_Layer(COL_SKILL);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_PLAYER);
 }
@@ -51,6 +51,7 @@ void CHitbox::Late_Update()
 
 void CHitbox::Render(HDC _dc)
 {
+	Component_Render(_dc);
 }
 
 void CHitbox::Release()
