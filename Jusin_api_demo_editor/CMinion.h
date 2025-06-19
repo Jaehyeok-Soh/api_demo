@@ -5,7 +5,7 @@ class CMinion final
 	: public CCharacter
 {
 public:
-	enum MINIONSTATE { MOVE, ATTACK, END };
+	enum MINIONSTATE { IDLE, MOVE, ATTACK, END };
 public:
 	CMinion();
 	~CMinion();
@@ -32,6 +32,9 @@ private:
 	void	MoveVector();
 
 	void DebugTextOut(HDC _dc);
+
+	void AttackPoc();
+	void AttackInit();
 
 private:
 	MINIONSTATE               m_eCurState;

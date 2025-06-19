@@ -8,6 +8,8 @@
 #include "CCollisionManager.h"
 #include "CKeyManager.h"
 #include "CPeekingManager.h"
+#include "CSceneManager.h"
+#include "CMelee.h"
 
 CMinion::CMinion()
 {
@@ -35,9 +37,17 @@ void CMinion::Initialize()
 
 	m_vScale = { 16.f, 16.f };
 	m_fSpeed = 100.f;
+	m_fDistance = 10.f;
 
 	m_eCurState = MOVE;
 	m_ePreState = END;
+
+	m_bOnTarget = false;
+
+	m_tAttackInfo.m_bIsAttack = false;
+	m_tAttackInfo.m_fdtAttackTime = 0.f;
+	m_tAttackInfo.m_fAttackDelay = 0.25f;
+	m_tAttackInfo.m_iDamage = 10.f;
 
 	m_tFrame.iFrameStart = 0;
 	m_tFrame.iFrameEnd = 0;
@@ -48,7 +58,7 @@ void CMinion::Initialize()
 	//move to center
 	Vec2 startIdx;
 	Vec2 endIdx;
- 	if (m_bTeam)
+	if (m_bTeam)
 	{
 		startIdx = Vec2(13.f, 44.f);
 		endIdx = Vec2(96.f, 13.f);
@@ -73,6 +83,8 @@ void CMinion::Initialize()
 		m_Path.pop_front();
 		m_eCurState = MOVE;
 	}
+
+	CreateWeapon();
 }
 
 int CMinion::Update()
@@ -104,6 +116,12 @@ int CMinion::Update()
 			CPeekingManager::GetInstance()->OnPeek(this);
 		}
 	}
+
+	if (!m_bOnTarget || !m_pTarget || m_pTarget->Get_Dead())
+		FindTarget();
+
+	if (m_bOnTarget)
+		AttackPoc();
 
 	SetFrameKey();
 
@@ -166,6 +184,14 @@ void CMinion::OnCollision(CCollider* _pOther)
 
 void CMinion::CreateWeapon()
 {
+	if (!m_pWeapon)
+	{
+		m_pWeapon = new CMelee();
+		m_pWeapon->SetName(L"Melee");
+	}
+
+	m_pWeapon->Initialize(this, m_tAttackInfo);
+	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeapon, OBJ_WEAPON);
 }
 
 void CMinion::Motion_Change()
@@ -174,6 +200,13 @@ void CMinion::Motion_Change()
 	{
 		switch (m_eCurState)
 		{
+		case IDLE:
+			m_tFrame.iFrameStart = 0;
+			m_tFrame.iFrameEnd = 0;
+			m_tFrame.iMotion = 0;
+			m_tFrame.dwTime = GetTickCount();
+			m_tFrame.dwSpeed = 200;
+			break;
 		case MOVE:
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 0;
@@ -279,5 +312,56 @@ void CMinion::DebugTextOut(HDC _dc)
 		szHP,
 		lstrlen(szHP));
 #pragma endregion
+}
+
+void CMinion::AttackPoc()
+{
+	if (!m_tAttackInfo.m_bIsAttack)
+	{
+		if (Get_DistToTarget() <= m_fDistance)
+		{
+			m_Path.clear();
+			m_eCurState = ATTACK;
+		}
+		else
+		{
+			ChaseTarget();
+			m_eCurState = MOVE;
+		}
+
+		if (m_pTarget->Get_Dead())
+		{
+			FindTarget();
+			if (m_Path.empty())
+			{
+				m_eCurState = IDLE;
+				m_bOnTarget = false;
+				m_tAttackInfo.m_bIsAttack = false;
+				m_tAttackInfo.m_fdtAttackTime = 0.f;
+			}
+			else
+				m_eCurState = MOVE;
+		}
+
+		if (m_eCurState == ATTACK)
+		{
+			m_pWeapon->Attack();
+			m_tAttackInfo.m_bIsAttack = true;
+		}
+	}
+	else
+	{
+		m_tAttackInfo.m_fdtAttackTime += fDT;
+		if (m_tAttackInfo.m_fdtAttackTime >= m_tAttackInfo.m_fAttackDelay)
+		{
+			AttackInit();
+		}
+	}
+}
+
+void CMinion::AttackInit()
+{
+	m_tAttackInfo.m_fdtAttackTime = 0.f;
+	m_tAttackInfo.m_bIsAttack = false;
 }
 

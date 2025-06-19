@@ -121,6 +121,16 @@ void CNexus::Render(HDC _dc)
 			208,
 			RGB(189, 189, 189));   // 제거할 픽셀 색상 값
 	}
+
+#pragma region 테스트용
+	std::wstring wstrHP = std::to_wstring(m_tStatusInfo.m_iHp);
+	LPCWSTR szHP = wstrHP.c_str();
+	TextOut(_dc,
+		(int)drawX + 60,
+		(int)drawY - 70,
+		szHP,
+		lstrlen(szHP));
+#pragma endregion
 }
 
 void CNexus::Release()

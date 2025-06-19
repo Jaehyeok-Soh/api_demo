@@ -111,6 +111,7 @@ void CObject::FindTarget()
 	CObject* closedObject = nullptr;
 	float fTargetDist = 99999999.f;
 	auto objectList = CSceneManager::GetInstance()->GetCurScene()->GetObjectList();
+	
 	for (auto minion : objectList[OBJ_MINION])
 	{
 		if (minion->GetTeam() == m_bTeam)
@@ -121,6 +122,22 @@ void CObject::FindTarget()
 		{
 			closedObject = minion;
 			fTargetDist = cmpDist;
+		}
+	}
+
+	if (GetCollider()->Get_Layer() == COL_MINION)
+	{
+		for (auto tower : objectList[OBJ_TOWER])
+		{
+			if (tower->GetTeam() == m_bTeam)
+				continue;
+
+			float cmpDist = Get_Dist(tower);
+			if (fTargetDist > cmpDist)
+			{
+				closedObject = tower;
+				fTargetDist = cmpDist;
+			}
 		}
 	}
 
@@ -137,8 +154,16 @@ void CObject::FindTarget()
 		}
 	}
 
-	m_pTarget = closedObject;
-	m_bOnTarget = true;
+	if (fTargetDist > 50.f)
+	{
+		m_pTarget = nullptr;
+		m_bOnTarget = false;
+	}
+	else
+	{
+		m_pTarget = closedObject;
+		m_bOnTarget = true;
+	}
 }
 
 Vec2 CObject::TargetPosToTile()

@@ -36,14 +36,17 @@ public:
 	void SetIsHost(bool _bVal) { m_bIsHost = _bVal; }
 
 	void SetState(STATE _eVal) { m_eCurState = _eVal; }
-	 
+
+	wstring		SetFrameKey();
+	void		SetFrameStart(int _iFrameStart) { m_tFrame.iFrameStart = _iFrameStart; }
+	void		SetDirection(int _iDir) { m_vMoveDir.x = _iDir; }
+
 private:
 	void    Key_Input();
 	void    Offset();
 	void    Motion_Change() override;
 
-	LPCWSTR     GetStateName(STATE eState);//Å×½ºÆ®
-	wstring		SetFrameKey();
+	LPCWSTR     GetStateName(STATE eState);//
 	void		MakeFrameKey(const TCHAR* strJob, const TCHAR* strDir);
 
 	void	MoveTile();

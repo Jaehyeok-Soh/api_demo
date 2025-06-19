@@ -45,9 +45,6 @@ void CPlayer::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
-	CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
-
 	m_tStatusInfo.m_iHp = 100;
 
 	m_vPos = Vec2{ 50, 800 };
@@ -85,6 +82,16 @@ void CPlayer::Initialize()
 	m_tFrame.iMotion = 0;
 	m_tFrame.dwTime = GetTickCount();
 	m_tFrame.dwSpeed = 200;
+
+	if (m_bTeam)
+	{
+		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
+	}
+	else
+	{
+		//TODO:
+	}
 
 	CreateWeapon();
 	CreateSkill();
@@ -130,7 +137,10 @@ int CPlayer::Update()
 	else
 		__super::Update_Frame_Reverse();
 
-	ToDTO();
+	if (m_bIsMine)
+	{
+		ToDTO();
+	}
 
 	return NOEVENT;
 }
@@ -675,6 +685,7 @@ void CPlayer::ToDTO()
 	size_t convertedChars = 0;
 	wcstombs_s(&convertedChars, buffer, bufferSize, m_pFrameKey, _TRUNCATE);
 	string strSendFrameKey = buffer;
+
 	auto tDtoPlayer = DTOPLAYER{
 		m_iObjectId,
 		m_pTarget ? m_pTarget->GetObjectId() : -1,
@@ -692,8 +703,9 @@ void CPlayer::ToDTO()
 	};
 
 	json j = tDtoPlayer;
-
-	CTcpManager::GetInstance()->SendSocket(j.dump(0, ' ', false, json::error_handler_t::ignore));
+	string msg = j.dump(0, ' ', false, json::error_handler_t::ignore);
+	msg.push_back('\n');
+	CTcpManager::GetInstance()->SendSocket(msg);
 
 	delete[] buffer;
 }

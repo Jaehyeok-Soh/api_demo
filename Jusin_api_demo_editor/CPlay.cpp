@@ -27,7 +27,7 @@ void CPlay::Update()
 	cout << recMsg << "\n";
 	if (recMsg != "")
 	{
-		json j = recMsg;
+		nlohmann::json j = nlohmann::json::parse(recMsg);
 		DTOPLAYER dto = j.get<DTOPLAYER>();
 
 		for (auto a : CSceneManager::GetInstance()->GetCurScene()->GetObjectList()[OBJ_PLAYER])
@@ -36,6 +36,13 @@ void CPlay::Update()
 			{
 				a->SetPosX(dto.fX - 10.f);
 				a->SetPosY(dto.fY + 10.f);
+				static_cast<CPlayer*>(a)->SetState((CCharacter::STATE)dto.m_iState);
+				static_cast<CPlayer*>(a)->SetFrameStart(dto.m_iFrameStart);
+
+				wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
+				static_cast<CPlayer*>(a)->Set_FrameKey(wstr.c_str());
+				
+				static_cast<CPlayer*>(a)->SetDirection(dto.m_iDir);
 			}
 		}
 	}
@@ -111,22 +118,22 @@ void CPlay::Initialize()
 
 	//플레이어 초기화
 	CObject* pPlayer = new CPlayer();
-	pPlayer->Initialize();
 	pPlayer->SetPos(Vec2(50.f, 800.f));
 	pPlayer->SetName(L"Player");
 	static_cast<CPlayer*>(pPlayer)->SetIsMine(true);
 	static_cast<CPlayer*>(pPlayer)->SetIsHost(true);
+	pPlayer->Initialize();
 	AddObject(pPlayer, OBJ_PLAYER);
 	RegisterPlayer(pPlayer);
 
 	//테스트 플레이어 초기화
 	CObject* pTestListener = new CPlayer();
-	pTestListener->Initialize();
 	pTestListener->SetPos(Vec2(150.f, 800.f));
 	pTestListener->SetName(L"Player");
 	static_cast<CPlayer*>(pTestListener)->SetIsMine(false);
 	static_cast<CPlayer*>(pTestListener)->SetIsHost(false);
 	static_cast<CPlayer*>(pTestListener)->SetTeam(false);
+	pTestListener->Initialize();
 	AddObject(pTestListener, OBJ_PLAYER);
 
 	CPeekingManager::GetInstance()->Initialize();
