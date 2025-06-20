@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "CTcpManager.h"
+#include "DTOPlayer.h"
+#include "CPlayer.h"
+#include "CSceneManager.h"
 
 CTcpManager* CTcpManager::m_pInstance = nullptr;
 SOCKET CTcpManager::m_sock = 0;
@@ -67,6 +70,35 @@ string CTcpManager::ListenSocket()
 
 	auto recMsg = string(buffer, len);
 	cout << recMsg << "\n";
+
+	if (recMsg == "")
+		return recMsg;
+
+	/*try
+	{
+		nlohmann::json j = nlohmann::json::parse(recMsg);
+		DTOPLAYER dto = j.get<DTOPLAYER>();
+
+		for (auto a : CSceneManager::GetInstance()->GetCurScene()->GetObjectList()[OBJ_PLAYER])
+		{
+			if (!static_cast<CPlayer*>(a)->GetIsMine())
+			{
+				a->SetPosX(dto.fX - 10.f);
+				a->SetPosY(dto.fY + 10.f);
+				static_cast<CPlayer*>(a)->SetState((CCharacter::STATE)dto.m_iState);
+				static_cast<CPlayer*>(a)->SetFrameStart(dto.m_iFrameStart);
+
+				wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
+				static_cast<CPlayer*>(a)->Set_FrameKey(wstr.c_str());
+
+				static_cast<CPlayer*>(a)->SetDirection(dto.m_iDir);
+			}
+		}
+	}
+	catch (const std::exception&)
+	{
+
+	}*/
 
 	return recMsg;
 }

@@ -3,10 +3,11 @@
 #include "CAStarManager.h"
 #include "CSceneManager.h"
 #include "CScrollManager.h"
+#include "CTileManager.h"
 
 UINT CObject::m_iNextObjectId = 0;
 
-CObject::CObject() 
+CObject::CObject()
 	: m_fSpeed(0.f),
 	m_bDead(false),
 	m_fAngle(0.f),
@@ -111,7 +112,7 @@ void CObject::FindTarget()
 	CObject* closedObject = nullptr;
 	float fTargetDist = 99999999.f;
 	auto objectList = CSceneManager::GetInstance()->GetCurScene()->GetObjectList();
-	
+
 	for (auto minion : objectList[OBJ_MINION])
 	{
 		if (minion->GetTeam() == m_bTeam)
@@ -170,6 +171,21 @@ Vec2 CObject::TargetPosToTile()
 {
 	Vec2 vtargetPos = m_pTarget->GetPos();
 	Vec2 endIdx = Vec2(vtargetPos.x / TILECX, vtargetPos.y / TILECY);
+
+	if (m_pTarget->GetCollider()->Get_Layer() == COL_TOWER)
+	{
+		while (CTileManager::Get_Instance()->CheckPeekDisable(endIdx.x, endIdx.y))
+		{
+			if (m_pTarget->GetTeam())
+			{
+				endIdx.x += 1;
+			}
+			else
+			{
+				endIdx.x -= 1;
+			}
+		}
+	}
 
 	return endIdx;
 }

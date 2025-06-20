@@ -9,7 +9,9 @@
 #include "CPeekingManager.h"
 
 CNexus::CNexus()
-	: strFrameBlueNexus(L"BlueNexus"), strFrameRedNexus(L"RedNexus"), m_fSpawnCoolDownTime(0.f)
+	: strFrameBlueNexus(L"BlueNexus"),
+	strFrameRedNexus(L"RedNexus"),
+	m_fSpawnCoolDownTime(0.f)
 {
 }
 
@@ -24,7 +26,6 @@ void CNexus::Initialize()
 	CreateCollider();
 	//CreateGravity();
 
-	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(64.f, 64.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
@@ -41,6 +42,9 @@ void CNexus::Initialize()
 
 int CNexus::Update()
 {
+	if (m_bDead)
+		return DEAD;
+
 	POINT ptMouse;
 	GetCursorPos(&ptMouse); // 화면 좌표
 	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환

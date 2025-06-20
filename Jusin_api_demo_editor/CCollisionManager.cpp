@@ -34,22 +34,22 @@ void CCollisionManager::Collision_Rect_Resolve(CComponent* _Dst, CComponent* _Sr
 		{
 			if (pDstCollider->GetOwner()->GetPos().y < pSrcCollider->GetOwner()->GetPos().y)
 			{
-				pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y + fHeight * 0.2f);
+				pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y + fHeight * 0.3f);
 			}
 			else
 			{
-				pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y - fHeight * 0.2f);
+				pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y - fHeight * 0.3f);
 			}
 		}
 		else
 		{
 			if (pDstCollider->GetOwner()->GetPos().x < pSrcCollider->GetOwner()->GetPos().x)
 			{
-				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x + fWidth * 0.2f);
+				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x + fWidth * 0.3f);
 			}
 			else
 			{
-				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x - fWidth * 0.2f);
+				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x - fWidth * 0.3f);
 			}
 		}
 	}

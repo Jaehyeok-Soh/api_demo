@@ -23,27 +23,37 @@ CPlay::~CPlay()
 
 void CPlay::Update()
 {
+	thread tListen(&CTcpManager::ListenSocket, CTcpManager::GetInstance());
+	tListen.detach();
+
 	auto recMsg = CTcpManager::GetInstance()->ListenSocket();
 	cout << recMsg << "\n";
 	if (recMsg != "")
 	{
-		nlohmann::json j = nlohmann::json::parse(recMsg);
-		DTOPLAYER dto = j.get<DTOPLAYER>();
-
-		for (auto a : CSceneManager::GetInstance()->GetCurScene()->GetObjectList()[OBJ_PLAYER])
+		try
 		{
-			if (!static_cast<CPlayer*>(a)->GetIsMine())
-			{
-				a->SetPosX(dto.fX - 10.f);
-				a->SetPosY(dto.fY + 10.f);
-				static_cast<CPlayer*>(a)->SetState((CCharacter::STATE)dto.m_iState);
-				static_cast<CPlayer*>(a)->SetFrameStart(dto.m_iFrameStart);
+			nlohmann::json j = nlohmann::json::parse(recMsg);
+			DTOPLAYER dto = j.get<DTOPLAYER>();
 
-				wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
-				static_cast<CPlayer*>(a)->Set_FrameKey(wstr.c_str());
-				
-				static_cast<CPlayer*>(a)->SetDirection(dto.m_iDir);
+			for (auto a : CSceneManager::GetInstance()->GetCurScene()->GetObjectList()[OBJ_PLAYER])
+			{
+				if (!static_cast<CPlayer*>(a)->GetIsMine())
+				{
+					a->SetPosX(dto.fX - 10.f);
+					a->SetPosY(dto.fY + 10.f);
+					static_cast<CPlayer*>(a)->SetState((CCharacter::STATE)dto.m_iState);
+					static_cast<CPlayer*>(a)->SetFrameStart(dto.m_iFrameStart);
+
+					wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
+					static_cast<CPlayer*>(a)->Set_FrameKey(wstr.c_str());
+
+					static_cast<CPlayer*>(a)->SetDirection(dto.m_iDir);
+				}
 			}
+		}
+		catch (const std::exception&)
+		{
+
 		}
 	}
 

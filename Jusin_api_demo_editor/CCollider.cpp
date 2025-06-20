@@ -7,7 +7,12 @@
 
 UINT CCollider::g_iNextID = 0;
 
-CCollider::CCollider() : m_iID(g_iNextID++), m_iCol(0)
+CCollider::CCollider()
+    : m_iID(g_iNextID++),
+    m_iCol(0),
+    m_eLayer(COL_END),
+    m_iMask(0)
+
 {
 
 }

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CTower.h"
+#include "CCollisionManager.h"
 
 CTower::CTower()
 {
@@ -19,7 +20,6 @@ void CTower::Initialize()
 
 	CreateCollider();
 
-	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(128.f, 128.f));
 
 	m_tStatusInfo.m_iHp = 100;
@@ -30,5 +30,15 @@ void CTower::Initialize()
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
 	m_tAttackInfo.m_fAttackDelay = 10.f;
 	m_tAttackInfo.m_iDamage = 10;
+}
+
+void CTower::OnCollision(CCollider* _pOther)
+{
+	CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
+}
+
+void CTower::OnCollisionEnter(CCollider* _pOther)
+{
+	CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
 }
 

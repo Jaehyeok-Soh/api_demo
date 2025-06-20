@@ -36,7 +36,6 @@ void CPlayer::Initialize()
 	CreateCollider();
 
 	//CreateGravity();
-	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(8.f, 8.f));
 	GetCollider()->Set_Layer(COL_PLAYER);
 	GetCollider()->Set_Mask(COL_MINION
@@ -59,16 +58,16 @@ void CPlayer::Initialize()
 	switch (m_eJob)
 	{
 	case CPlayer::SWORDMAN:
-		m_fDistance = 10.f;
+		m_fDistance = 20.f;
 		break;
 	case CPlayer::ACHER:
 		m_fDistance = 100.f;
 		break;
 	case CPlayer::MAGICKNIGHT:
-		m_fDistance = 20.f;
+		m_fDistance = 25.f;
 		break;
 	default:
-		m_fDistance = 10.f;
+		m_fDistance = 20.f;
 		break;
 	}
 
@@ -99,6 +98,9 @@ void CPlayer::Initialize()
 
 int CPlayer::Update()
 {
+	if (m_pTarget && m_pTarget->Get_Dead())
+		m_pTarget = nullptr;
+
 	if (m_pCollider)
 		m_pCollider->Late_Update();
 
@@ -122,7 +124,10 @@ int CPlayer::Update()
 		//MoveVector();
 	}
 
-	if (m_bOnTarget == true)
+	if (m_bOnTarget == true
+		&& m_pTarget
+		&& m_pTarget->GetCollider() != nullptr
+		&& (m_eCurState != SKILL && m_eCurState != ULT))
 		AttackPoc();
 
 	SetFrameKey();
@@ -217,7 +222,7 @@ void CPlayer::Key_Input()
 	vWorldMouse.x = g_ptMousePos.x / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = g_ptMousePos.y / g_fZoom - (int)CScrollManager::Get_Instance()->Get_ScrollY();
 
-	if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON) && !m_tAttackInfo.m_bIsAttack)
+	if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON))
 	{
 		if (CTileManager::Get_Instance()->Peeking_Tile(vWorldMouse))
 		{
@@ -236,10 +241,12 @@ void CPlayer::Key_Input()
 			if (!m_Path.empty())
 			{
 				m_Path.pop_front();
+				if (m_eCurState == ATTACK)
+					m_tFrame.iFrameStart = 0;
+				AttackInit();
 				m_eCurState = RUN;
 				m_bOnTarget = false;
 				m_pTarget = nullptr;
-				AttackInit();
 			}
 		}
 	}
@@ -621,9 +628,17 @@ void CPlayer::CreateSkill()
 
 void CPlayer::AttackPoc()
 {
+	if (m_pTarget == nullptr)
+	{
+		m_bOnTarget = false;
+		m_eCurState = IDLE;
+		AttackInit();
+		return;
+	}
+
 	if (!m_tAttackInfo.m_bIsAttack)
 	{
-		if (Get_DistToTarget() <= m_fDistance)
+		if (Get_DistToTarget() <= m_fDistance + (m_pTarget->GetScale().x * 0.5f))
 		{
 			m_Path.clear();
 			m_eCurState = ATTACK;

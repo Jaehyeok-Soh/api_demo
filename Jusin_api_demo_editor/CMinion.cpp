@@ -25,7 +25,7 @@ void CMinion::Initialize()
 	CreateCollider();
 
 	//CreateGravity();
-	GetCollider()->SetScale(Vec2(10.f, 10.f));
+	GetCollider()->SetScale(Vec2(4.f, 4.f));
 	GetCollider()->Set_Layer(COL_MINION);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_TOWER
@@ -37,7 +37,7 @@ void CMinion::Initialize()
 
 	m_vScale = { 16.f, 16.f };
 	m_fSpeed = 100.f;
-	m_fDistance = 10.f;
+	m_fDistance = 20.f;
 
 	m_eCurState = MOVE;
 	m_ePreState = END;
@@ -55,34 +55,18 @@ void CMinion::Initialize()
 	m_tFrame.dwTime = GetTickCount();
 	m_tFrame.dwSpeed = 200;
 
-	//move to center
-	Vec2 startIdx;
-	Vec2 endIdx;
 	if (m_bTeam)
 	{
-		startIdx = Vec2(13.f, 44.f);
-		endIdx = Vec2(96.f, 13.f);
+		m_vTatgetNexusTile = Vec2(96.f, 13.f);
 		m_vMoveDir.x = 1.f;
 	}
 	else
 	{
-		startIdx = Vec2(96.f, 13.f);
-		endIdx = Vec2(13.f, 44.f);
+		m_vTatgetNexusTile = Vec2(13.f, 44.f);
 		m_vMoveDir.x = -1.f;
 	}
 
-	auto future = async(launch::async,
-		&CAStarManager::FindPath,
-		CAStarManager::GetInstance(),
-		startIdx, endIdx);
-
-	m_Path = future.get();
-
-	if (!m_Path.empty())
-	{
-		m_Path.pop_front();
-		m_eCurState = MOVE;
-	}
+	ChaseNexus(true);
 
 	CreateWeapon();
 }
@@ -94,12 +78,6 @@ int CMinion::Update()
 
 	if (m_bDead)
 		return DEAD;
-
-	if (m_eCurState == MOVE)
-	{
-		thread t1(&CMinion::MoveVector, this);
-		t1.join();
-	}
 
 	POINT ptMouse;
 	GetCursorPos(&ptMouse); // È­¸é ÁÂÇ¥
@@ -120,8 +98,23 @@ int CMinion::Update()
 	if (!m_bOnTarget || !m_pTarget || m_pTarget->Get_Dead())
 		FindTarget();
 
-	if (m_bOnTarget)
+	if (m_bOnTarget || m_eCurState == ATTACK)
 		AttackPoc();
+
+	if (!m_bOnTarget && m_eCurState == ATTACK)
+		ChaseNexus(false);
+
+	if (m_bOnTarget && m_pTarget->Get_Dead())
+	{
+		m_pTarget = nullptr;
+		m_bOnTarget = false;
+	}
+
+	if (m_eCurState == MOVE)
+	{
+		thread t1(&CMinion::MoveTile, this);
+		t1.join();
+	}
 
 	SetFrameKey();
 
@@ -259,7 +252,7 @@ void CMinion::SetFrameKey()
 	m_pFrameKey = m_strFrameKey.c_str();
 }
 
-void CMinion::MoveVector()
+void CMinion::MoveTile()
 {
 	if (m_eCurState == MOVE && !m_Path.empty())
 	{
@@ -318,7 +311,7 @@ void CMinion::AttackPoc()
 {
 	if (!m_tAttackInfo.m_bIsAttack)
 	{
-		if (Get_DistToTarget() <= m_fDistance)
+		if (Get_DistToTarget() <= m_fDistance + (m_pTarget->GetScale().x * 0.5f))
 		{
 			m_Path.clear();
 			m_eCurState = ATTACK;
@@ -329,18 +322,15 @@ void CMinion::AttackPoc()
 			m_eCurState = MOVE;
 		}
 
-		if (m_pTarget->Get_Dead())
+		if (Get_DistToTarget() >= 100.f)
 		{
-			FindTarget();
-			if (m_Path.empty())
-			{
-				m_eCurState = IDLE;
-				m_bOnTarget = false;
-				m_tAttackInfo.m_bIsAttack = false;
-				m_tAttackInfo.m_fdtAttackTime = 0.f;
-			}
-			else
-				m_eCurState = MOVE;
+			ChaseNexus(false);
+		}
+
+		if ((m_pTarget && m_pTarget->Get_Dead())
+			|| !m_pTarget)
+		{
+			ChaseNexus(false);
 		}
 
 		if (m_eCurState == ATTACK)
@@ -356,6 +346,12 @@ void CMinion::AttackPoc()
 		{
 			AttackInit();
 		}
+
+		if ((m_pTarget && m_pTarget->Get_Dead())
+			|| !m_pTarget)
+		{
+			ChaseNexus(false);
+		}
 	}
 }
 
@@ -363,5 +359,52 @@ void CMinion::AttackInit()
 {
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
 	m_tAttackInfo.m_bIsAttack = false;
+	if (m_pTarget)
+	{
+		ChaseTarget();
+		m_eCurState = MOVE;
+	}
+	else
+	{
+		ChaseNexus(false);
+	}
+}
+
+void CMinion::ChaseNexus(bool _bIsInit)
+{
+	m_Path.clear();
+
+	Vec2 startIdx;
+	if (m_bTeam)
+	{
+		if (_bIsInit)
+			startIdx = Vec2(13.f, 44.f);
+		else
+			startIdx = Vec2(m_vPos.x / TILECX, m_vPos.y / TILECY);
+	}
+	else
+	{
+		if (_bIsInit)
+			startIdx = Vec2(96.f, 13.f);
+		else
+			startIdx = Vec2(m_vPos.x / TILECX, m_vPos.y / TILECY);
+	}
+
+	auto future = async(launch::async,
+		&CAStarManager::FindPath,
+		CAStarManager::GetInstance(),
+		startIdx, m_vTatgetNexusTile);
+
+	m_Path = future.get();
+
+	if (!m_Path.empty())
+	{
+		m_Path.pop_front();
+		m_eCurState = MOVE;
+		m_bOnTarget = false;
+		m_pTarget = nullptr;
+		m_tAttackInfo.m_bIsAttack = false;
+		m_tAttackInfo.m_fdtAttackTime = 0.f;
+	}
 }
 

@@ -219,3 +219,8 @@ const Vec2 CTileManager::MouseToTile(POINT ptMouse)
 
 	return static_cast<CTile*>(m_vecTile[iIndex])->GetPos();
 }
+
+bool CTileManager::CheckPeekDisable(int _nx, int _ny)
+{
+	return  static_cast<CTile*>(m_vecTile[_ny * TILEX + _nx])->GetDrawID() == TILETYPE::PEEK_DISABLE;
+}

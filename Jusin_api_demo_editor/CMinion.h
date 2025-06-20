@@ -29,17 +29,19 @@ private:
 	LPCWSTR     GetStateName(MINIONSTATE eState);//Å×½ºÆ®
 	void		SetFrameKey();
 
-	void	MoveVector();
+	void	MoveTile();
 
 	void DebugTextOut(HDC _dc);
 
 	void AttackPoc();
 	void AttackInit();
 
+	void ChaseNexus(bool _bIsInit);
+
 private:
 	MINIONSTATE               m_eCurState;
 	MINIONSTATE               m_ePreState;
-	wstring				m_strFrameKey;
-	deque<Vec2>			m_Path;
+	wstring					  m_strFrameKey;
+	Vec2					  m_vTatgetNexusTile;
 };
 

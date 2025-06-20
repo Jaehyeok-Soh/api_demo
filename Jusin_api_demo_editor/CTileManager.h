@@ -30,6 +30,8 @@ public:
 	const int GetMaxX() const { return iMaxX; }
 	const int GetMaxY() const { return iMaxY; }
 
+	bool CheckPeekDisable(int _nx, int _ny);
+
 public:
 	static CTileManager* Get_Instance()
 	{

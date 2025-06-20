@@ -21,7 +21,6 @@ void CTurret::Initialize()
 	CreateCollider();
 
 	//CreateGravity();
-	GetCollider()->SetOffsetPos(Vec2(0.f, 65.f));
 	GetCollider()->SetScale(Vec2(32.f, 32.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
@@ -35,6 +34,9 @@ void CTurret::Initialize()
 
 int CTurret::Update()
 {
+	if (m_bDead)
+		return DEAD;
+
 	POINT ptMouse;
 	GetCursorPos(&ptMouse); // 화면 좌표
 	ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환
