@@ -1,4 +1,6 @@
 #pragma once
+#include "DTOConnectInfo.h"
+
 #include <winsock2.h>
 #include <WS2tcpip.h>
 
@@ -40,7 +42,11 @@ public:
 	int OpenSocket();
 	void SendSocket(string sendMsg);
 	string ListenSocket();
+	void SyncPlay();
+	
 	static void CloseSocket();	
+
+	DTOConnectInfo JoinSeq();
 
 private:
 	static CTcpManager* m_pInstance;

@@ -141,6 +141,7 @@
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CHitBox.h" />
+    <ClInclude Include="CLoading.h" />
     <ClInclude Include="CRanged.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCharacter.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CHitBox.cpp" />
+    <ClCompile Include="CLoading.cpp" />
     <ClCompile Include="CRanged.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCharacter.cpp" />
@@ -240,6 +242,7 @@
     <ClCompile Include="CUIManager.cpp" />
     <ClCompile Include="CUltSwordman.cpp" />
     <ClCompile Include="CWeapon.cpp" />
+    <ClCompile Include="DTOConnectInfo.h" />
     <ClCompile Include="Jusin_api_demo_editor.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

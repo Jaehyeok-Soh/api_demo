@@ -38,7 +38,7 @@ void CButton::Late_Update()
 		{
 			if (!lstrcmp(L"ButtonPlay", m_pFrameKey))
 			{
-				CSceneManager::GetInstance()->SetChangeScene(true, SC_PLAY);
+				CSceneManager::GetInstance()->SetChangeScene(true, SC_LOADING);
 			}
 			else if (!lstrcmp(L"ButtonEdit", m_pFrameKey))
 			{

@@ -16,26 +16,30 @@ public:
 	~CPlayer();
 
 public:
-	void Initialize() override;
-	int Update() override;
-	void Late_Update() override;
-	void Render(HDC _dc) override;
-	void Release() override;
+	void	Initialize() override;
+	int		Update() override;
+	void	Late_Update() override;
+	void	Render(HDC _dc) override;
+	void	Release() override;
 
 public:
 	virtual void OnCollisionEnter(CCollider* _pOther);
 	virtual void OnCollision(CCollider* _pOther);
 
-	void OnPeek(CObject* _pTargetObj);
+	void	OnPeek(CObject* _pTargetObj);
 
 public:
 	const bool GetIsMine() const { return m_bIsMine; }
-	void SetIsMine(bool _bVal) { m_bIsMine = _bVal; }
+	void	SetIsMine(bool _bVal) { m_bIsMine = _bVal; }
 
 	const bool GetIsHost() const { return m_bIsHost; }
-	void SetIsHost(bool _bVal) { m_bIsHost = _bVal; }
+	void	SetIsHost(bool _bVal) { m_bIsHost = _bVal; }
 
-	void SetState(STATE _eVal) { m_eCurState = _eVal; }
+	const STATE GetState() const { return m_eCurState; }
+	void	SetState(STATE _eVal) { m_eCurState = _eVal; }
+
+	const int GetNetId() const { return m_iNetId; }
+	void	SetNetId(int _iVal) { m_iNetId = _iVal; }
 
 	wstring		SetFrameKey();
 	void		SetFrameStart(int _iFrameStart) { m_tFrame.iFrameStart = _iFrameStart; }
@@ -46,23 +50,23 @@ private:
 	void    Offset();
 	void    Motion_Change() override;
 
-	LPCWSTR     GetStateName(STATE eState);//
+	LPCWSTR     GetStateName(STATE eState);
 	void		MakeFrameKey(const TCHAR* strJob, const TCHAR* strDir);
 
 	void	MoveTile();
 
-	void DebugTextOut(HDC _dc);
+	void	DebugTextOut(HDC _dc);
 
 	virtual void CreateWeapon() override;
-	void CreateSkill();
+	void	CreateSkill();
 
-	void AttackPoc();
-	void AttackInit();
+	void	AttackPoc();
+	void	AttackInit();
 
-	void UpdateSkills();
+	void	UpdateSkills();
 
-	void ToDTO();
-	void fromJson();
+	void	ToDTO();
+	void	fromJson();
 
 private:
 	STATE               m_eCurState;
@@ -75,9 +79,11 @@ private:
 	bool				m_bIsUsingSkill;
 	int					m_iCurrentSkill;
 
-	bool m_bIsMine;
-	bool m_bIsHost;
+	bool				m_bIsMine;
+	bool				m_bIsHost;
 
-	float m_fPlayTime;
+	int					m_iNetId;
+
+	float				m_fPlayTime;
 };
 

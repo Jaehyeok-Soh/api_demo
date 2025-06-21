@@ -330,6 +330,9 @@
     <ClInclude Include="CTcpManager.h">
       <Filter>02. Design\12. TcpManager</Filter>
     </ClInclude>
+    <ClInclude Include="CLoading.h">
+      <Filter>04. Scene\01. Loading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -478,6 +481,12 @@
     </ClCompile>
     <ClCompile Include="CTcpManager.cpp">
       <Filter>02. Design\12. TcpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DTOConnectInfo.h">
+      <Filter>05. DTO</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoading.cpp">
+      <Filter>04. Scene\01. Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

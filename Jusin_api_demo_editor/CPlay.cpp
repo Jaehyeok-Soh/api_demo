@@ -23,39 +23,13 @@ CPlay::~CPlay()
 
 void CPlay::Update()
 {
-	thread tListen(&CTcpManager::ListenSocket, CTcpManager::GetInstance());
-	tListen.detach();
+	//auto recMsg = CTcpManager::GetInstance()->ListenSocket();
+	//CTcpManager::GetInstance()->SyncPlay
 
-	auto recMsg = CTcpManager::GetInstance()->ListenSocket();
-	cout << recMsg << "\n";
-	if (recMsg != "")
-	{
-		try
-		{
-			nlohmann::json j = nlohmann::json::parse(recMsg);
-			DTOPLAYER dto = j.get<DTOPLAYER>();
+	/*thread syncT(&CTcpManager::SyncPlay, CTcpManager::GetInstance());
+	syncT.detach();*/
 
-			for (auto a : CSceneManager::GetInstance()->GetCurScene()->GetObjectList()[OBJ_PLAYER])
-			{
-				if (!static_cast<CPlayer*>(a)->GetIsMine())
-				{
-					a->SetPosX(dto.fX - 10.f);
-					a->SetPosY(dto.fY + 10.f);
-					static_cast<CPlayer*>(a)->SetState((CCharacter::STATE)dto.m_iState);
-					static_cast<CPlayer*>(a)->SetFrameStart(dto.m_iFrameStart);
-
-					wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
-					static_cast<CPlayer*>(a)->Set_FrameKey(wstr.c_str());
-
-					static_cast<CPlayer*>(a)->SetDirection(dto.m_iDir);
-				}
-			}
-		}
-		catch (const std::exception&)
-		{
-
-		}
-	}
+	CTcpManager::GetInstance()->SyncPlay();
 
 	//시간 업데이트
 	m_fdtPlayTime += fDT;
@@ -87,6 +61,21 @@ void CPlay::Render(HDC _dc)
 
 void CPlay::Enter()
 {
+	// StageManager로부터 기존 Player 가져오기
+	CObject* pPlayer = CSceneManager::GetInstance()->GetPlayer();
+
+	if (pPlayer)
+	{
+		AddObject(pPlayer, OBJID::OBJ_PLAYER);  // 오브젝트 리스트에 다시 추가
+		RegisterPlayer(pPlayer);               // 충돌 및 중심 참조 등록
+	}
+
+	list<CObject*> otherPlayers = CSceneManager::GetInstance()->GetOtherPlayer();
+	for (auto p : otherPlayers)
+	{
+		AddObject(p, OBJID::OBJ_PLAYER);  // 오브젝트 리스트에 다시 추가
+	}
+
 	MapDC = CBmpManager::Get_Instance()->Find_Image(L"MapBig");
 	SetMaxScroll(L"MapBig");
 
@@ -118,7 +107,7 @@ void CPlay::Exit()
 
 void CPlay::Initialize()
 {
- 	CTcpManager::GetInstance()->Initialize();
+ 	//CTcpManager::GetInstance()->Initialize();
 	CSceneManager::GetInstance()->SetChangeScene(false, SC_EDIT);
 
 	//타일 초기화
@@ -126,27 +115,29 @@ void CPlay::Initialize()
 	//타일 불러오기
 	CTileManager::Get_Instance()->Load_Tile();
 
-	//플레이어 초기화
-	CObject* pPlayer = new CPlayer();
-	pPlayer->SetPos(Vec2(50.f, 800.f));
-	pPlayer->SetName(L"Player");
-	static_cast<CPlayer*>(pPlayer)->SetIsMine(true);
-	static_cast<CPlayer*>(pPlayer)->SetIsHost(true);
-	pPlayer->Initialize();
-	AddObject(pPlayer, OBJ_PLAYER);
-	RegisterPlayer(pPlayer);
+	////플레이어 초기화
+	//CObject* pPlayer = new CPlayer();
+	//pPlayer->SetPos(Vec2(50.f, 800.f));
+	//pPlayer->SetName(L"Player");
+	//static_cast<CPlayer*>(pPlayer)->SetIsMine(true);
+	//static_cast<CPlayer*>(pPlayer)->SetIsHost(true);
+	//pPlayer->Initialize();
+	//AddObject(pPlayer, OBJ_PLAYER);
+	//RegisterPlayer(pPlayer);
 
-	//테스트 플레이어 초기화
-	CObject* pTestListener = new CPlayer();
-	pTestListener->SetPos(Vec2(150.f, 800.f));
-	pTestListener->SetName(L"Player");
-	static_cast<CPlayer*>(pTestListener)->SetIsMine(false);
-	static_cast<CPlayer*>(pTestListener)->SetIsHost(false);
-	static_cast<CPlayer*>(pTestListener)->SetTeam(false);
-	pTestListener->Initialize();
-	AddObject(pTestListener, OBJ_PLAYER);
+	////테스트 플레이어 초기화
+	//CObject* pTestListener = new CPlayer();
+	//pTestListener->SetPos(Vec2(150.f, 800.f));
+	//pTestListener->SetName(L"Player");
+	//static_cast<CPlayer*>(pTestListener)->SetIsMine(false);
+	//static_cast<CPlayer*>(pTestListener)->SetIsHost(false);
+	//static_cast<CPlayer*>(pTestListener)->SetTeam(false);
+	//pTestListener->Initialize();
+	//AddObject(pTestListener, OBJ_PLAYER);
 
 	CPeekingManager::GetInstance()->Initialize();
+
+	CTcpManager::GetInstance()->SendSocket("true");
 }
 
 void CPlay::Key_Input()

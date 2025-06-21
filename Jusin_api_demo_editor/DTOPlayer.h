@@ -4,6 +4,7 @@
 
 struct DTOPLAYER
 {
+	int m_iNetId;
 	UINT m_iObjectId;
 	UINT m_iTargetId;
 	int m_iHp;
@@ -20,6 +21,7 @@ struct DTOPLAYER
 
 inline void to_json(nlohmann::json& j, const DTOPLAYER& p)
 {
+	j["m_iNetId"] = p.m_iNetId;
 	j["m_iObjectId"] = p.m_iObjectId;
 	j["m_iTargetId"] = p.m_iTargetId;
 	j["m_iHp"] = p.m_iHp;
@@ -37,6 +39,7 @@ inline void to_json(nlohmann::json& j, const DTOPLAYER& p)
 
 inline void from_json(const nlohmann::json& j, DTOPLAYER& p)
 {
+	j.at("m_iNetId").get_to(p.m_iNetId);
 	j.at("m_iObjectId").get_to(p.m_iObjectId);
 	j.at("m_iTargetId").get_to(p.m_iTargetId);
 	j.at("m_iHp").get_to(p.m_iHp);

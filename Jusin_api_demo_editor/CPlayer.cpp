@@ -46,7 +46,11 @@ void CPlayer::Initialize()
 
 	m_tStatusInfo.m_iHp = 100;
 
-	m_vPos = Vec2{ 50, 800 };
+	if (m_bTeam)
+		SetPos(Vec2(50.f, 800.f));
+	else
+		SetPos(Vec2(50.f, 800.f));
+
 	m_vScale = { 32.f, 32.f };
 	m_fSpeed = 300.f;
 	m_vMoveDir.x = 1.f;
@@ -121,7 +125,6 @@ int CPlayer::Update()
 	{
 		thread t1(&CPlayer::MoveTile, this);
 		t1.join();
-		//MoveVector();
 	}
 
 	if (m_bOnTarget == true
@@ -702,6 +705,7 @@ void CPlayer::ToDTO()
 	string strSendFrameKey = buffer;
 
 	auto tDtoPlayer = DTOPLAYER{
+		m_iNetId,
 		m_iObjectId,
 		m_pTarget ? m_pTarget->GetObjectId() : -1,
 		m_tStatusInfo.m_iHp,

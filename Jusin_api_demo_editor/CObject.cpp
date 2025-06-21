@@ -172,6 +172,9 @@ Vec2 CObject::TargetPosToTile()
 	Vec2 vtargetPos = m_pTarget->GetPos();
 	Vec2 endIdx = Vec2(vtargetPos.x / TILECX, vtargetPos.y / TILECY);
 
+	if (m_pTarget == nullptr || m_pTarget->GetCollider() == nullptr)
+		return endIdx;
+	
 	if (m_pTarget->GetCollider()->Get_Layer() == COL_TOWER)
 	{
 		while (CTileManager::Get_Instance()->CheckPeekDisable(endIdx.x, endIdx.y))

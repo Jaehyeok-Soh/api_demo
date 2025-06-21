@@ -4,6 +4,7 @@
 #include "CMenu.h"
 #include "CPlay.h"
 #include "CEdit.h"
+#include "CLoading.h"
 
 CSceneManager* CSceneManager::m_pInstance = nullptr;
 
@@ -37,6 +38,9 @@ void CSceneManager::Initialize()
 	// Scene »ý¼º
 	m_arrStage[SC_MENU] = new CMenu;
 	m_arrStage[SC_MENU]->SetName(L"MENU");
+
+	m_arrStage[SC_LOADING] = new CLoading;
+	m_arrStage[SC_LOADING]->SetName(L"LOADING");
 
 	m_arrStage[SC_PLAY] = new CPlay;
 	m_arrStage[SC_PLAY]->SetName(L"PLAY");
