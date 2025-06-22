@@ -24,38 +24,92 @@ void CTcpManager::Initialize()
 
 int CTcpManager::OpenSocket()
 {
-	WSADATA wsaData;
-	m_sock = INVALID_SOCKET;
-	sockaddr_in serverAddr;
+	//WSADATA wsaData;
+	//m_sock = INVALID_SOCKET;
+	//sockaddr_in serverAddr;
 
-	WSAStartup(MAKEWORD(2, 2), &wsaData);
+	//WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	serverAddr.sin_family = AF_INET;
-	serverAddr.sin_port = htons(9000);
-	
-	//TODO: ref config file
-	if (InetPton(AF_INET, L"192.168.0.183", &serverAddr.sin_addr) != 1)//if (InetPton(AF_INET, L"127.0.0.1", &serverAddr.sin_addr) != 1)
-	{
-		cerr << "IP conversion fail.\n";
-		closesocket(m_sock);
-		WSACleanup();
-		return -1;
-	}
+	//m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	//serverAddr.sin_family = AF_INET;
+	//serverAddr.sin_port = htons(9000);
+	//
+	////TODO: ref config file
+	////sso550.ddns.net
+	//if (InetPton(AF_INET, L"192.168.219.182", &serverAddr.sin_addr) != 1)//if (InetPton(AF_INET, L"127.0.0.1", &serverAddr.sin_addr) != 1)
+	//{
+	//	cerr << "IP conversion fail.\n";
+	//	closesocket(m_sock);
+	//	WSACleanup();
+	//	return -1;
+	//}
 
-	if (connect(m_sock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
-	{
-		cerr << "Connect fail, Error code: " << WSAGetLastError() << "\n";
-		CloseSocket();
-		return -1;
-	}
+	//if (connect(m_sock, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+	//{
+	//	cerr << "Connect fail, Error code: " << WSAGetLastError() << "\n";
+	//	CloseSocket();
+	//	return -1;
+	//}
 
-	u_long mode = 1;
-	ioctlsocket(m_sock, FIONBIO, &mode);//논블로킹
+	//u_long mode = 1;
+	//ioctlsocket(m_sock, FIONBIO, &mode);//논블로킹
 
-	cout << "Server connected.\n";
+	//cout << "Server connected.\n";
 
-	return 1;
+	//return 1;
+
+	//WSADATA wsaData;
+	//if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+	//	return -1;
+
+	//m_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	//if (m_sock == INVALID_SOCKET)
+	//	return -1;
+
+	//sockaddr_in serverAddr{};
+	//serverAddr.sin_family = AF_INET;
+	//serverAddr.sin_port = htons(9000);
+
+	//// ── 도메인 → IP ────────────────────────────────
+	//addrinfoW hints{};
+	//hints.ai_family = AF_INET;       // IPv4
+	//hints.ai_socktype = SOCK_STREAM;
+
+	//addrinfoW* res = nullptr;
+	//int ret = GetAddrInfoW(L"sso550.ddns.net", L"9000", &hints, &res);
+	//if (ret != 0 || !res)
+	//{
+	//	wcerr << L"Resolve failed: " << gai_strerrorW(ret) << '\n';
+	//	std::cerr << "Domain resolve failed: " << ret << '\n';
+	//	WSACleanup();
+	//	return -1;
+	//}
+	//serverAddr.sin_addr =
+	//	((sockaddr_in*)res->ai_addr)->sin_addr;
+	//FreeAddrInfoW(res);
+	//// ───────────────────────────────────────────────
+
+	//if (connect(m_sock,
+	//	(sockaddr*)&serverAddr,
+	//	sizeof(serverAddr)) == SOCKET_ERROR)
+	//{
+	//	std::cerr << "Connect fail, err "
+	//		<< WSAGetLastError() << '\n';
+	//	closesocket(m_sock);
+	//	WSACleanup();
+	//	return -1;
+	//}
+
+	//u_long mode = 1;                    // 논블로킹
+	////ioctlsocket(m_sock, FIONBIO, &mode);
+	//if (ioctlsocket(m_sock, FIONBIO, &mode) != NO_ERROR)
+	//{
+	//	std::cerr << "Failed to set non-blocking mode.\n";
+	//	closesocket(m_sock); WSACleanup(); return -1;
+	//}
+
+	//std::cout << "Server connected.\n";
+	//return 1;
 }
 
 DTOConnectInfo CTcpManager::JoinSeq()
