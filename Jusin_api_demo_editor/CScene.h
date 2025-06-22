@@ -12,11 +12,11 @@ public:
 	const wstring& GetName() { return m_strName; }
 
 	CObject* GetPlayer() { return m_pPlayer; }
-	//CObject* GetWeapon() { return m_pWeapon; }
+	CObject* GetWeapon() { return m_pWeapon; }
 	list<CObject*>* GetObjectList();
 
 	void RegisterPlayer(CObject* _pPlayer) { m_pPlayer = _pPlayer; }
-	//void RegisterWeapon(CObject* _pWeapon) { m_pWeapon = _pWeapon; }
+	void RegisterWeapon(CObject* _pWeapon) { m_pWeapon = _pWeapon; }
 
 	virtual void Initialize();
 	virtual void Update();
@@ -43,6 +43,7 @@ protected:
 	wstring m_strName; // Scene¿Ã∏ß
 
 	CObject* m_pPlayer;		// Player
+	CObject* m_pWeapon;
 
 protected:
 	HDC	MapDC;

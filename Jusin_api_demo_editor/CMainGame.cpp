@@ -101,7 +101,7 @@ void CMainGame::Release()
 		DeleteObject(m_hBackBmp);
 		DeleteDC(m_hBackDC);
 	}
-
+	CTcpManager::GetInstance()->SendSocket("Quit");
 	CTcpManager::DestroyInstance();
 	CPeekingManager::DestroyInstance();
 	CKeyManager::Destroy_Instance();
@@ -184,7 +184,10 @@ void CMainGame::Load_CharacterImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_ef_r.bmp", L"swordman_ult_ef_r");
 	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_ef_l.bmp", L"swordman_ult_ef_l");
 
-
+	//Acher
+	//Bullet
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_arrow_r.bmp", L"acher_arrow_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_arrow_l.bmp", L"acher_arrow_l");
 
 }
 

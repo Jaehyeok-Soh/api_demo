@@ -52,12 +52,16 @@ public:
 	void AddOtherPlayer(CObject* _pObj) { m_otherPlayerList.push_back(_pObj); }
 	list<CObject*> GetOtherPlayer() { return m_otherPlayerList; }
 
+	void AddOtherWeapon(CObject* _pObj) { m_otherWeaponList.push_back(_pObj); }
+	list<CObject*> GetOtherWeapon() { return m_otherWeaponList; }
+
 private:
 	CScene* m_arrStage[SC_END]; // 모든 씬 목록
 	CScene* m_pCurScene; // 현재 씬
 	CObject* m_pPlayer; // 플레이어 공유 포인터 추가
 	list<CObject*> m_otherPlayerList; // 다른 플레이어 정보
 	CObject* m_pWeapon;    //플레이어 웨폰 공유포인터
+	list<CObject*> m_otherWeaponList; // 다른 플레이어 웨펀 정보
 
 private:
 	static CSceneManager* m_pInstance;

@@ -17,7 +17,7 @@ CScene::~CScene()
 	{
 		/*if (i == (UINT)OBJID::OBJ_PLAYER || i == (UINT)OBJID::OBJ_WEAPON || i == (UINT)OBJID::OBJ_GROUND)
 			continue;*/
-		if (i == OBJ_PLAYER)
+		if (i == OBJ_PLAYER || i == OBJ_WEAPON)
 			continue;
 
 		for (CObject* pObj : m_arrObj[i])
@@ -38,6 +38,7 @@ void CScene::Initialize()
 	for (UINT i = 0; i < OBJ_END; ++i)
 	{
 		if (i == OBJ_PLAYER
+			|| 1 == OBJ_WEAPON
 			|| i == OBJ_MINION
 			|| i == OBJ_TOWER
 			|| i == OBJ_HITBOX
@@ -110,7 +111,8 @@ void CScene::DeleteAll()
 {
 	for (UINT i = 0; i < OBJ_END; ++i)
 	{
-		if (i == OBJ_PLAYER)
+		if (i == OBJ_PLAYER
+			|| i == OBJ_WEAPON)
 			continue; // 플레이어는 삭제하지 않음
 
 		DeleteGroup((OBJID)i);

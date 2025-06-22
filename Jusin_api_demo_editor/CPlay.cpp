@@ -26,10 +26,10 @@ void CPlay::Update()
 	//auto recMsg = CTcpManager::GetInstance()->ListenSocket();
 	//CTcpManager::GetInstance()->SyncPlay
 
-	/*thread syncT(&CTcpManager::SyncPlay, CTcpManager::GetInstance());
-	syncT.detach();*/
+	thread syncT(&CTcpManager::SyncPlay, CTcpManager::GetInstance());
+	syncT.join();
 
-	CTcpManager::GetInstance()->SyncPlay();
+	//CTcpManager::GetInstance()->SyncPlay();
 
 	//시간 업데이트
 	m_fdtPlayTime += fDT;
@@ -76,6 +76,20 @@ void CPlay::Enter()
 		AddObject(p, OBJID::OBJ_PLAYER);  // 오브젝트 리스트에 다시 추가
 	}
 
+	CObject* pWeapon = CSceneManager::GetInstance()->GetWeapon();
+
+	if (pWeapon)
+	{
+		AddObject(pWeapon, OBJID::OBJ_WEAPON);  // 오브젝트 리스트에 다시 추가
+		RegisterWeapon(pWeapon);
+	}
+
+	list<CObject*> otherWeapons = CSceneManager::GetInstance()->GetOtherWeapon();
+	for (auto p : otherWeapons)
+	{
+		AddObject(p, OBJID::OBJ_WEAPON);  // 오브젝트 리스트에 다시 추가
+	}
+
 	MapDC = CBmpManager::Get_Instance()->Find_Image(L"MapBig");
 	SetMaxScroll(L"MapBig");
 
@@ -95,7 +109,7 @@ void CPlay::Enter()
 
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_HITBOX, OBJID::OBJ_MINION);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_HITBOX, OBJID::OBJ_PLAYER);
-	
+
 	Initialize();
 }
 
@@ -107,7 +121,7 @@ void CPlay::Exit()
 
 void CPlay::Initialize()
 {
- 	//CTcpManager::GetInstance()->Initialize();
+	//CTcpManager::GetInstance()->Initialize();
 	CSceneManager::GetInstance()->SetChangeScene(false, SC_EDIT);
 
 	//타일 초기화
@@ -115,43 +129,34 @@ void CPlay::Initialize()
 	//타일 불러오기
 	CTileManager::Get_Instance()->Load_Tile();
 
-	////플레이어 초기화
-	//CObject* pPlayer = new CPlayer();
-	//pPlayer->SetPos(Vec2(50.f, 800.f));
-	//pPlayer->SetName(L"Player");
-	//static_cast<CPlayer*>(pPlayer)->SetIsMine(true);
-	//static_cast<CPlayer*>(pPlayer)->SetIsHost(true);
-	//pPlayer->Initialize();
-	//AddObject(pPlayer, OBJ_PLAYER);
-	//RegisterPlayer(pPlayer);
-
-	////테스트 플레이어 초기화
-	//CObject* pTestListener = new CPlayer();
-	//pTestListener->SetPos(Vec2(150.f, 800.f));
-	//pTestListener->SetName(L"Player");
-	//static_cast<CPlayer*>(pTestListener)->SetIsMine(false);
-	//static_cast<CPlayer*>(pTestListener)->SetIsHost(false);
-	//static_cast<CPlayer*>(pTestListener)->SetTeam(false);
-	//pTestListener->Initialize();
-	//AddObject(pTestListener, OBJ_PLAYER);
-
 	CPeekingManager::GetInstance()->Initialize();
 
 	CTcpManager::GetInstance()->SendSocket("true");
+
+	if (m_pPlayer->GetTeam())
+	{
+		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
+	}
+	else
+	{
+		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
+	}
 }
 
 void CPlay::Key_Input()
 {
-	if (g_ptMousePos.x <= 10)
+	if (g_ptMousePos.x <= 10 && g_ptMousePos.x >= -10)
 		CScrollManager::Get_Instance()->Set_ScrollX(10.f);
 
-	if (g_ptMousePos.x >= WINCX - 10)
+	if (g_ptMousePos.x >= WINCX - 10 && g_ptMousePos.x <= WINCX + 10)
 		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
 
-	if (g_ptMousePos.y <= 10)
+	if (g_ptMousePos.y <= 10 && g_ptMousePos.y >= -10)
 		CScrollManager::Get_Instance()->Set_ScrollY(10.f);
 
-	if (g_ptMousePos.y >= WINCY - 10)
+	if (g_ptMousePos.y >= WINCY - 10 && g_ptMousePos.y <= WINCY + 10)
 		CScrollManager::Get_Instance()->Set_ScrollY(-10.f);
 }
 

@@ -25,8 +25,7 @@ CSceneManager::~CSceneManager()
 		}
 	}
 
-	//if (m_NextSceneNum != STAGE_TYPE::LOGO
-	//	&& m_NextSceneNum != STAGE_TYPE::MENU)
+	//if (m_NextSceneNum != SC_MENU)
 	//{
 	//	Safe_Delete(m_pPlayer); // 플레이어 삭제
 	//	Safe_Delete(m_pWeapon);

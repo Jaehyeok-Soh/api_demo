@@ -60,7 +60,7 @@ private:
 	virtual void CreateWeapon() override;
 	void	CreateSkill();
 
-	void	AttackPoc();
+	void	AttackProc();
 	void	AttackInit();
 
 	void	UpdateSkills();

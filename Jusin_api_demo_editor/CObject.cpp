@@ -155,7 +155,7 @@ void CObject::FindTarget()
 		}
 	}
 
-	if (fTargetDist > 50.f)
+	if (fTargetDist > m_fDistance)
 	{
 		m_pTarget = nullptr;
 		m_bOnTarget = false;

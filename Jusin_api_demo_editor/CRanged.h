@@ -1,6 +1,6 @@
 #pragma once
 #include "CWeapon.h"
-class CRanged
+class CRanged final
 	: public CWeapon
 {
 public:
@@ -13,5 +13,7 @@ public:
 	void Render(HDC _dc) override;
 	void Release() override;
 
+public:
+	void Attack() override;
 };
 

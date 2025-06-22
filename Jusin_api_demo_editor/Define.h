@@ -17,6 +17,8 @@
 #define NOEVENT 1
 
 #define PI		3.141592f
+#define DEGTORAD(x) (x * (PI/180))
+#define RADTODEG(x) (x * (180/PI))
 
 #define fDT  CTimeManager::Get_Instance()->GetfDT()
 #define DT CTimeManager::Get_Instance()->GetDT()

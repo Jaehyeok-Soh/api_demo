@@ -33,7 +33,7 @@ private:
 
 	void DebugTextOut(HDC _dc);
 
-	void AttackPoc();
+	void AttackProc();
 	void AttackInit();
 
 	void ChaseNexus(bool _bIsInit);

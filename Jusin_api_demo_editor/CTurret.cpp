@@ -4,6 +4,9 @@
 #include "CBmpManager.h"
 #include "CKeyManager.h"
 #include "CPeekingManager.h"
+#include "CRanged.h"
+#include "CSceneManager.h"
+#include "CTimeManager.h"
 
 CTurret::CTurret()
 	:strFrameBlueTurret(L"BlueTurretSmall"), strFrameRedTurret(L"RedTurretSmall")
@@ -20,7 +23,6 @@ void CTurret::Initialize()
 
 	CreateCollider();
 
-	//CreateGravity();
 	GetCollider()->SetScale(Vec2(32.f, 32.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
@@ -29,7 +31,16 @@ void CTurret::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_tStatusInfo.m_iHp = 100;
+	m_tStatusInfo.m_iHp = 5000;
+
+	m_fDistance = 1000.f;
+
+	m_tAttackInfo.m_bIsAttack = false;
+	m_tAttackInfo.m_fdtAttackTime = 0.f;
+	m_tAttackInfo.m_fAttackDelay = 1.f;
+	m_tAttackInfo.m_iDamage = 20;
+
+	CreateWeapon();
 }
 
 int CTurret::Update()
@@ -53,6 +64,18 @@ int CTurret::Update()
 		}
 	}
 
+	if (!m_bOnTarget || !m_pTarget || m_pTarget->Get_Dead())
+		FindTarget();
+
+	if (m_bOnTarget || m_eCurState == ATTACK)
+		AttackProc();
+
+	if (m_bOnTarget && m_pTarget->Get_Dead())
+	{
+		m_pTarget = nullptr;
+		m_bOnTarget = false;
+	}
+
 	//__super::Update();
 	__super::Update_Rect();
 	return NOEVENT;
@@ -62,9 +85,6 @@ void CTurret::Late_Update()
 {
 	if (m_pCollider)
 		m_pCollider->Late_Update();
-
-	/*if (m_pGravity)
-		m_pGravity->Late_Update();*/
 }
 
 void CTurret::Render(HDC _dc)
@@ -131,4 +151,71 @@ void CTurret::Release()
 
 void CTurret::CreateWeapon()
 {
+	if (!m_pWeapon)
+	{
+		m_pWeapon = new CRanged();
+		m_pWeapon->SetName(L"TurretRanged");
+		m_pWeapon->Initialize(this, m_tAttackInfo);
+		CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeapon, OBJ_WEAPON);
+	}
+}
+
+void CTurret::AttackProc()
+{
+	if (m_pTarget == nullptr)
+	{
+		m_bOnTarget = false;
+		m_eCurState = IDLE;
+		AttackInit();
+		return;
+	}
+
+	if (!m_tAttackInfo.m_bIsAttack)
+	{
+		if (Get_DistToTarget() <= m_fDistance + (m_pTarget->GetScale().x * 0.5f))
+		{
+			//공격상태전환
+			m_eCurState = ATTACK;
+		}
+		else
+		{
+			//대기
+			//타겟찾기
+			m_eCurState = IDLE;
+			FindTarget();
+		}
+
+		if (m_pTarget->Get_Dead())
+		{
+			FindTarget();
+			if (m_pTarget == nullptr)
+			{
+				m_eCurState = IDLE;
+				m_bOnTarget = false;
+				AttackInit();
+			}
+			else
+				m_eCurState = IDLE;
+		}
+
+		if (m_eCurState == ATTACK)
+		{
+			m_pWeapon->Attack();
+			m_tAttackInfo.m_bIsAttack = true;
+		}
+	}
+	else
+	{
+		m_tAttackInfo.m_fdtAttackTime += fDT;
+		if (m_tAttackInfo.m_fdtAttackTime >= m_tAttackInfo.m_fAttackDelay)
+		{
+			AttackInit();
+		}
+	}
+}
+
+void CTurret::AttackInit()
+{
+	m_tAttackInfo.m_fdtAttackTime = 0.f;
+	m_tAttackInfo.m_bIsAttack = false;
 }

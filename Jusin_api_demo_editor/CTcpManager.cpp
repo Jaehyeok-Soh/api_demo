@@ -34,7 +34,8 @@ int CTcpManager::OpenSocket()
 	serverAddr.sin_family = AF_INET;
 	serverAddr.sin_port = htons(9000);
 	
-	if (InetPton(AF_INET, L"192.168.0.20", &serverAddr.sin_addr) != 1)//if (InetPton(AF_INET, L"127.0.0.1", &serverAddr.sin_addr) != 1)
+	//TODO: ref config file
+	if (InetPton(AF_INET, L"192.168.0.183", &serverAddr.sin_addr) != 1)//if (InetPton(AF_INET, L"127.0.0.1", &serverAddr.sin_addr) != 1)
 	{
 		cerr << "IP conversion fail.\n";
 		closesocket(m_sock);

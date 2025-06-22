@@ -44,12 +44,26 @@ void CPlayer::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_tStatusInfo.m_iHp = 100;
+	m_tStatusInfo.m_iHp = 5000;
 
 	if (m_bTeam)
+	{
 		SetPos(Vec2(50.f, 800.f));
+		if (m_bIsMine)
+		{
+			CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+			CScrollManager::Get_Instance()->Set_ScrollY(-1750.f);
+		}
+	}
 	else
-		SetPos(Vec2(50.f, 800.f));
+	{
+		SetPos(Vec2(150.f, 800.f));
+		if (m_bIsMine)
+		{
+			CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+			CScrollManager::Get_Instance()->Set_ScrollY(-1750.f);
+		}
+	}
 
 	m_vScale = { 32.f, 32.f };
 	m_fSpeed = 300.f;
@@ -86,16 +100,6 @@ void CPlayer::Initialize()
 	m_tFrame.dwTime = GetTickCount();
 	m_tFrame.dwSpeed = 200;
 
-	if (m_bTeam)
-	{
-		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
-		CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
-	}
-	else
-	{
-		//TODO:
-	}
-
 	CreateWeapon();
 	CreateSkill();
 }
@@ -131,7 +135,7 @@ int CPlayer::Update()
 		&& m_pTarget
 		&& m_pTarget->GetCollider() != nullptr
 		&& (m_eCurState != SKILL && m_eCurState != ULT))
-		AttackPoc();
+		AttackProc();
 
 	SetFrameKey();
 
@@ -603,7 +607,7 @@ void CPlayer::CreateWeapon()
 		if (!m_pWeapon)
 		{
 			m_pWeapon = new CRanged();
-			m_pWeapon->SetName(L"Melee");
+			m_pWeapon->SetName(L"Ranged");
 		}
 	}
 	break;
@@ -611,6 +615,11 @@ void CPlayer::CreateWeapon()
 
 	m_pWeapon->Initialize(this, m_tAttackInfo);
 	CSceneManager::GetInstance()->GetCurScene()->AddObject(m_pWeapon, OBJ_WEAPON);
+	
+	if (m_bIsMine)
+		CSceneManager::GetInstance()->SetWeapon(m_pWeapon);
+	else
+		CSceneManager::GetInstance()->AddOtherWeapon(m_pWeapon);
 }
 
 void CPlayer::CreateSkill()
@@ -629,7 +638,7 @@ void CPlayer::CreateSkill()
 
 }
 
-void CPlayer::AttackPoc()
+void CPlayer::AttackProc()
 {
 	if (m_pTarget == nullptr)
 	{

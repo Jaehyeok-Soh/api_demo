@@ -24,7 +24,6 @@ void CNexus::Initialize()
 	__super::Initialize();
 
 	CreateCollider();
-	//CreateGravity();
 
 	GetCollider()->SetScale(Vec2(64.f, 64.f));
 	GetCollider()->Set_Layer(COL_TOWER);
@@ -34,7 +33,7 @@ void CNexus::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_pFrameKey = L"Towers";
+	m_pFrameKey = L"BlueNexus";
 
 	m_tStatusInfo.m_iHp = 100;
 	m_fSpawnCoolDownTime = 30.f;

@@ -99,7 +99,7 @@ int CMinion::Update()
 		FindTarget();
 
 	if (m_bOnTarget || m_eCurState == ATTACK)
-		AttackPoc();
+		AttackProc();
 
 	if (!m_bOnTarget && m_eCurState == ATTACK)
 		ChaseNexus(false);
@@ -307,7 +307,7 @@ void CMinion::DebugTextOut(HDC _dc)
 #pragma endregion
 }
 
-void CMinion::AttackPoc()
+void CMinion::AttackProc()
 {
 	if (!m_tAttackInfo.m_bIsAttack)
 	{

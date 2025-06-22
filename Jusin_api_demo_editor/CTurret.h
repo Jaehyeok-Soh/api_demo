@@ -17,9 +17,13 @@ public:
 
 private:
 	virtual void CreateWeapon() override;
+	void AttackProc();
+	void AttackInit();
 
 private:
 	const TCHAR* strFrameBlueTurret;
 	const TCHAR* strFrameRedTurret;
+
+	STATE m_eCurState;
 };
 
