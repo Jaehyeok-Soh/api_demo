@@ -36,8 +36,8 @@ void CMinion::Initialize()
 	m_tStatusInfo.m_iHp = 100;
 
 	m_vScale = { 8.f, 8.f };
-	m_fSpeed = 60.f;
-	m_fDistance = 10.f;
+	m_fSpeed = 40.f;
+	m_fDistance = 5.f;
 
 	m_eCurState = MOVE;
 	m_ePreState = END;
@@ -136,6 +136,13 @@ void CMinion::Late_Update()
 
 void CMinion::Render(HDC _dc)
 {
+	if (m_bIsHide
+		&& (m_bTeam && static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetTeam()))
+	{
+		if (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() != m_iHideOption)
+			return;
+	}
+
 	Component_Render(_dc);
 	int iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollManager::Get_Instance()->Get_ScrollY();
@@ -333,7 +340,7 @@ void CMinion::AttackProc()
 			m_eCurState = MOVE;
 		}
 
-		if (Get_DistToTarget() >= 100.f)
+		if (Get_DistToTarget() >= 30.f)
 		{
 			ChaseNexus(false);
 		}

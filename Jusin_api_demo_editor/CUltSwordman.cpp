@@ -16,7 +16,7 @@ void CUltSwordman::Update(CPlayer& _pPlayer)
 {
 	if (_pPlayer.m_eCurState == CPlayer::ULT && _pPlayer.m_tFrame.iFrameStart == 3)
 	{
-		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 20.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
+		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 5.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
 
 		CHitbox* pHitbox = new CHitbox();
 		pHitbox->SetPos(_pPlayer.m_vPos);

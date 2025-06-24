@@ -140,6 +140,8 @@
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CBullet.h" />
+    <ClInclude Include="CBush.h" />
+    <ClInclude Include="CBushTile.h" />
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CHitBox.h" />
     <ClInclude Include="CLoading.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="CSpawnTile.h" />
     <ClInclude Include="CSpawnTurret.h" />
     <ClInclude Include="CTcpManager.h" />
+    <ClInclude Include="CTeemo.h" />
     <ClInclude Include="CTile.h" />
     <ClInclude Include="CTileManager.h" />
     <ClInclude Include="CTimeManager.h" />
@@ -200,6 +203,8 @@
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CBullet.cpp" />
+    <ClCompile Include="CBush.cpp" />
+    <ClCompile Include="CBushTile.cpp" />
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CLoading.cpp" />
@@ -236,6 +241,7 @@
     <ClCompile Include="CSpawnTile.cpp" />
     <ClCompile Include="CSpawnTurret.cpp" />
     <ClCompile Include="CTcpManager.cpp" />
+    <ClCompile Include="CTeemo.cpp" />
     <ClCompile Include="CTile.cpp" />
     <ClCompile Include="CTileManager.cpp" />
     <ClCompile Include="CTimeManager.cpp" />

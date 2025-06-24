@@ -3,7 +3,9 @@
 #include "CPlayer.h"
 
 CCharacter::CCharacter()
-	: m_pWeapon(nullptr)
+	: m_pWeapon(nullptr),
+	m_bIsHide(false),
+	m_iHideOption(0)
 {
 	ZeroMemory(&m_tAttackInfo, sizeof(ATTACKINFO));
 	ZeroMemory(&m_tStatusInfo, sizeof(STATUSINFO));

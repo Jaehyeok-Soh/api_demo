@@ -59,7 +59,6 @@ void CMainGame::Update()
 	CTimeManager::Get_Instance()->Update();
 	CSceneManager::GetInstance()->Update();
 	CKeyManager::Get_Instance()->Update();
-	CColliderManager::Get_Instance()->Update();
 	CGameManager::GetInstance()->Update();
 }
 
@@ -150,6 +149,9 @@ void CMainGame::Load_Img()
 	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig_small.bmp", L"MapBig");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig_SS.bmp", L"MapBig");
 	
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/hideonbush.bmp", L"hideonbush");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/teemo.bmp", L"teemo");
+
 	Load_CharacterImg();
 	Load_TowerImg();
 }

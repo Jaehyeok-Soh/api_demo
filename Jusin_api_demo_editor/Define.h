@@ -131,6 +131,7 @@ enum OBJID
 	OBJ_EFFECT,
 	OBJ_TILE,
 	OBJ_UI,
+	OBJ_BUSH,
 	OBJ_END
 };
 
@@ -165,6 +166,8 @@ enum COLLAYERID
 	
 	COL_ATTACK = 1 << 8,
 	COL_SKILL = 1 << 9,
+
+	COL_BUSH = 1 << 10,
 
 	COL_END
 };

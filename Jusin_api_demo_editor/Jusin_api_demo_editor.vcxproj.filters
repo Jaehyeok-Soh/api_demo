@@ -163,6 +163,18 @@
     <Filter Include="02. Design\13. GameManager">
       <UniqueIdentifier>{db44cb5a-c668-4f56-b781-8f91ae1a0ea3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\BushTile">
+      <UniqueIdentifier>{7c4e5025-4d3e-4c78-b1f0-7fdf11ebf1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\06. Terrain">
+      <UniqueIdentifier>{88ed9405-c90e-4873-bc2d-362009c01cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\06. Terrain\00. Bush">
+      <UniqueIdentifier>{baa311f3-5b6c-4db2-b07c-7612ce80fe8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\00. Character\02. Captain">
+      <UniqueIdentifier>{e806d2f4-feb9-4e3b-b3dc-87b6952f3d37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -339,6 +351,15 @@
     <ClInclude Include="CGameManager.h">
       <Filter>02. Design\13. GameManager</Filter>
     </ClInclude>
+    <ClInclude Include="CBushTile.h">
+      <Filter>02. Design\08. TileManager\Tile\BushTile</Filter>
+    </ClInclude>
+    <ClInclude Include="CBush.h">
+      <Filter>01. Object\06. Terrain\00. Bush</Filter>
+    </ClInclude>
+    <ClInclude Include="CTeemo.h">
+      <Filter>01. Object\00. Character\02. Captain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -496,6 +517,15 @@
     </ClCompile>
     <ClCompile Include="CGameManager.cpp">
       <Filter>02. Design\13. GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CBushTile.cpp">
+      <Filter>02. Design\08. TileManager\Tile\BushTile</Filter>
+    </ClCompile>
+    <ClCompile Include="CBush.cpp">
+      <Filter>01. Object\06. Terrain\00. Bush</Filter>
+    </ClCompile>
+    <ClCompile Include="CTeemo.cpp">
+      <Filter>01. Object\00. Character\02. Captain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

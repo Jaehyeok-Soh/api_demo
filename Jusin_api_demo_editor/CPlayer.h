@@ -84,6 +84,6 @@ private:
 
 	int					m_iNetId;
 
-	float				m_fPlayTime;
+
 };
 

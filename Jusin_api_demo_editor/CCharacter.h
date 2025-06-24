@@ -15,6 +15,12 @@ public:
 public:
 	void OnHit(int _iVal);
 
+	const bool	GetIsHide() const { return m_bIsHide; }
+	void		SetIsHide(bool _bVal) { m_bIsHide = _bVal; }
+
+	const int	GetHideOption() const { return m_iHideOption; }
+	void		SetHideOption(int _iVal) { m_iHideOption = _iVal; }
+
 protected:
 	virtual void Motion_Change() {};
 	virtual void CreateWeapon() PURE;
@@ -23,5 +29,8 @@ protected:
 	ATTACKINFO m_tAttackInfo;
 	STATUSINFO m_tStatusInfo;
 	CWeapon* m_pWeapon;
+
+	bool				m_bIsHide;
+	int					m_iHideOption;
 };
 

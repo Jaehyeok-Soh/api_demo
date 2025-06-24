@@ -6,6 +6,7 @@
 #include "CSpawnTurret.h"
 #include "CSpawnInhibitor.h"
 #include "CCommonTile.h"
+#include "CBushTile.h"
 
 CTileManager* CTileManager::m_pInstance = nullptr;
 
@@ -190,6 +191,10 @@ void CTileManager::Load_Tile()
 			|| iDrawID == RED_TURRET3)
 		{
 			pTile = new CSpawnTurret();
+		}
+		else if (iDrawID == TERRAIN_BUSH)
+		{
+			pTile = new CBushTile();
 		}
 		else
 		{

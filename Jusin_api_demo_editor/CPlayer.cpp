@@ -14,11 +14,11 @@
 #include "CUltSwordman.h"
 #include "DTOPlayer.h"
 #include "CTcpManager.h"
+#include "CPeekingManager.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false),
 	m_bIsHost(false),
-	m_fPlayTime(0.f),
 	m_fRenderScale(1.f),
 	m_bIsUsingSkill(false),
 	m_iCurrentSkill(-1)
@@ -35,7 +35,6 @@ void CPlayer::Initialize()
 {
 	CreateCollider();
 
-	//CreateGravity();
 	GetCollider()->SetScale(Vec2(8.f, 8.f));
 	GetCollider()->Set_Layer(COL_PLAYER);
 	GetCollider()->Set_Mask(COL_MINION
@@ -66,7 +65,7 @@ void CPlayer::Initialize()
 	}
 
 	m_vScale = { 16.f, 16.f };
-	m_fSpeed = 50.f;
+	m_fSpeed = 70.f;
 	m_vMoveDir.x = 1.f;
 
 	m_eCurState = IDLE;
@@ -137,6 +136,27 @@ int CPlayer::Update()
 		&& (m_eCurState != SKILL && m_eCurState != ULT))
 		AttackProc();
 
+	if (!m_bIsMine
+		&& !m_bIsHide
+		&& (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() != m_iHideOption))
+	{
+		POINT ptMouse;
+		GetCursorPos(&ptMouse); // 화면 좌표
+		ScreenToClient(g_hWnd, &ptMouse); // 클라이언트 좌표로 변환
+
+		POINT vWorldMouse;
+		vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
+		vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
+
+		if (PtInRect(&m_tRect, vWorldMouse))
+		{
+			if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
+			{
+				CPeekingManager::GetInstance()->OnPeek(this);
+			}
+		}
+	}
+
 	SetFrameKey();
 
 	Motion_Change();
@@ -166,6 +186,15 @@ void CPlayer::Late_Update()
 void CPlayer::Render(HDC _dc)
 {
 	Component_Render(_dc);
+
+	if (!m_bIsMine 
+		&& m_bIsHide 
+		&& (m_bTeam && static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetTeam()))
+	{
+		if (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() != m_iHideOption)
+			return;
+	}
+
 	int iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
 	int iScrollY = (int)CScrollManager::Get_Instance()->Get_ScrollY();
 

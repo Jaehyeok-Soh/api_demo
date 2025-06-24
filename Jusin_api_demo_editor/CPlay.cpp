@@ -41,10 +41,12 @@ void CPlay::Update()
 	Key_Input();
 
 	//Late_Update
-	CTileManager::Get_Instance()->Late_Update();
+	//CTileManager::Get_Instance()->Late_Update();
 	CScene::Update();
 
 	//TODO: DTO Player to json string serialize
+
+	CColliderManager::Get_Instance()->Update();
 }
 
 void CPlay::Render(HDC _dc)
@@ -99,10 +101,14 @@ void CPlay::Enter()
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_SKILL);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_ATTACK);
 
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_PLAYER, OBJID::OBJ_BUSH);
+
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_TOWER);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_MINION);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_ATTACK);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_SKILL);
+
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_MINION, OBJID::OBJ_BUSH);
 
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_ATTACK);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_TOWER, OBJID::OBJ_SKILL);
