@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CTower.h"
 #include "CCollisionManager.h"
+#include "CGameManager.h"
 
 CTower::CTower()
 {
@@ -40,5 +41,26 @@ void CTower::OnCollision(CCollider* _pOther)
 void CTower::OnCollisionEnter(CCollider* _pOther)
 {
 	CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
+}
+
+bool CTower::CheckAttackable()
+{
+	auto gamaMananger = CGameManager::GetInstance();
+	if (m_eDrawID == TILETYPE::BLUE_TURRET1 || m_eDrawID == TILETYPE::RED_TURRET2)
+		return true;
+
+	if (m_eDrawID == TILETYPE::BLUE_TURRET2 && gamaMananger->CheckSequence(TILETYPE::BLUE_TURRET1, 1))
+		return true;
+	else if (m_eDrawID == TILETYPE::RED_TURRET2 && gamaMananger->CheckSequence(TILETYPE::RED_TURRET1, 1))
+		return true;
+
+	if (m_eDrawID == TILETYPE::BLUE_NEXUS
+		&& (gamaMananger->CheckSequence(TILETYPE::BLUE_TURRET2, 1) && gamaMananger->CheckSequence(TILETYPE::BLUE_TURRET3, 1)))
+		return true;
+	else if (m_eDrawID == TILETYPE::RED_NEXUS
+		&& (gamaMananger->CheckSequence(TILETYPE::RED_TURRET2, 1) && gamaMananger->CheckSequence(TILETYPE::RED_TURRET3, 1)))
+		return true;
+
+	return false;
 }
 

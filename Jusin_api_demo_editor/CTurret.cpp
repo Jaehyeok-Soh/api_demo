@@ -7,6 +7,7 @@
 #include "CRanged.h"
 #include "CSceneManager.h"
 #include "CTimeManager.h"
+#include "CGameManager.h"
 
 CTurret::CTurret()
 	:strFrameBlueTurret(L"BlueTurretSmall"), strFrameRedTurret(L"RedTurretSmall")
@@ -23,17 +24,14 @@ void CTurret::Initialize()
 
 	CreateCollider();
 
-	GetCollider()->SetScale(Vec2(32.f, 32.f));
+	GetCollider()->SetScale(Vec2(12.f, 12.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
-		| COL_TOWER
-		| COL_ATTACK
-		| COL_PLAYER
-		| COL_SKILL);
+		| COL_PLAYER);
 
 	m_tStatusInfo.m_iHp = 5000;
 
-	m_fDistance = 1000.f;
+	m_fDistance = 50.f;
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
@@ -46,7 +44,10 @@ void CTurret::Initialize()
 int CTurret::Update()
 {
 	if (m_bDead)
+	{
+		CGameManager::GetInstance()->SetSequence(m_eDrawID, m_iOption);
 		return DEAD;
+	}
 
 	POINT ptMouse;
 	GetCursorPos(&ptMouse); // 화면 좌표
@@ -56,7 +57,10 @@ int CTurret::Update()
 	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
 
-	if (PtInRect(&m_tRect, vWorldMouse))
+	bool bAttackable = true;//CheckAttackable();
+
+
+	if (PtInRect(&m_tRect, vWorldMouse) && CheckAttackable())
 	{
 		if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
 		{
@@ -142,6 +146,15 @@ void CTurret::Render(HDC _dc)
 		(int)drawY - 70,
 		szHP,
 		lstrlen(szHP));
+#pragma endregion
+#pragma region 테스트용
+	std::wstring wstrTeam = m_bTeam ? L"Blue" : L"Red";
+	LPCWSTR szTeam = wstrTeam.c_str();
+	TextOut(_dc,
+		(int)drawX + 45,
+		(int)drawY - 70,
+		szTeam,
+		lstrlen(szTeam));
 #pragma endregion
 }
 

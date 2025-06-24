@@ -7,6 +7,7 @@
 #include "CColliderManager.h"
 #include "CPeekingManager.h"
 #include "CTcpManager.h"
+#include "CGameManager.h"
 
 CMainGame::CMainGame()
 {
@@ -14,6 +15,7 @@ CMainGame::CMainGame()
 
 CMainGame::~CMainGame()
 {
+	Release();
 }
 
 void CMainGame::Initialize()
@@ -58,6 +60,7 @@ void CMainGame::Update()
 	CSceneManager::GetInstance()->Update();
 	CKeyManager::Get_Instance()->Update();
 	CColliderManager::Get_Instance()->Update();
+	CGameManager::GetInstance()->Update();
 }
 
 void CMainGame::Late_Update()
@@ -108,6 +111,7 @@ void CMainGame::Release()
 	CColliderManager::Destroy_Instance();
 	CTimeManager::Destroy_Instance();
 	CSceneManager::DestroyInstance();
+	CGameManager::DestroyInstance();
 }
 
 void CMainGame::ClientCursorLock()
@@ -142,7 +146,9 @@ void CMainGame::Load_Img()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Ground.bmp", L"Ground");
 
 	//Map ARAM
-	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig.bmp", L"MapBig");
+	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig.bmp", L"MapBig");
+	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig_small.bmp", L"MapBig");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig_SS.bmp", L"MapBig");
 	
 	Load_CharacterImg();
 	Load_TowerImg();

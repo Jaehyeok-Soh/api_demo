@@ -2,6 +2,7 @@
 #include "CSpawnInhibitor.h"
 #include "CInhibitor.h"
 #include "CSceneManager.h"
+#include "CGameManager.h"
 
 CSpawnInhibitor::CSpawnInhibitor()
 {
@@ -25,4 +26,6 @@ void CSpawnInhibitor::Initialize()
 	inhibitor->SetOption(m_iOption);
 	inhibitor->SetTeam(inhibitor->GetDrawID() == BLUE_INHIBITER);
 	CSceneManager::GetInstance()->GetCurScene()->AddObject(inhibitor, OBJ_TOWER);
+
+	CGameManager::GetInstance()->AddSequenceObject(m_iDrawID, m_iOption);
 }

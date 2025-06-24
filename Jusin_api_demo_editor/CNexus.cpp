@@ -25,13 +25,10 @@ void CNexus::Initialize()
 
 	CreateCollider();
 
-	GetCollider()->SetScale(Vec2(64.f, 64.f));
+	GetCollider()->SetScale(Vec2(24.f, 24.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
-		| COL_TOWER
-		| COL_ATTACK
-		| COL_PLAYER
-		| COL_SKILL);
+		| COL_PLAYER);
 
 	m_pFrameKey = L"BlueNexus";
 
@@ -52,7 +49,7 @@ int CNexus::Update()
 	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
 
-	if (PtInRect(&m_tRect, vWorldMouse))
+	if (PtInRect(&m_tRect, vWorldMouse) && CheckAttackable())
 	{
 		if (CKeyManager::Get_Instance()->Key_Pressing(VK_RBUTTON))
 		{
@@ -146,7 +143,7 @@ void CNexus::CreateWeapon()
 
 void CNexus::SpawnMinion()
 {
-	if (m_fSpawnCoolDownTime >= 10.f)
+	if (m_fSpawnCoolDownTime > 20.f)
 	{
 		auto curScene = CSceneManager::GetInstance()->GetCurScene();
 

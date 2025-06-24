@@ -79,5 +79,7 @@ void CSceneManager::ChangeScene(SCENEID _eNext)
 	CScrollManager::Get_Instance()->Reset_Scroll();
 	m_pCurScene->Enter();
 
+	m_CurSceneNum = _eNext;
+
 	m_bChange = false;
 }

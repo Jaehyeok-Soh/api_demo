@@ -2,14 +2,20 @@
 
 #define PURE = 0
 
-#define WINCX 800
-#define WINCY 600
+#define WINCX 1000
+#define WINCY 800
 
-#define TILECX 16
-#define TILECY 16
+//#define TILECX 16
+//#define TILECY 16
+//
+//#define TILEX 123
+//#define TILEY 68
 
-#define TILEX 123
-#define TILEY 68
+#define TILECX 4
+#define TILECY 4
+
+#define TILEX 180
+#define TILEY 102
 
 #define VK_MAX 0xff
 
@@ -99,6 +105,7 @@ enum TILETYPE
 	BLUE_INHIBITER,
 	BLUE_TURRET1,
 	BLUE_TURRET2,
+	BLUE_TURRET3,
 	BLUE_MELEE_SP,
 
 	RED_SP = 20,
@@ -106,6 +113,7 @@ enum TILETYPE
 	RED_INHIBITER,
 	RED_TURRET1,
 	RED_TURRET2,
+	RED_TURRET3,
 	RED_MELEE_SP,
 
 	TURRET_PADDING = 30

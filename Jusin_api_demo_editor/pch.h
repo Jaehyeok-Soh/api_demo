@@ -26,6 +26,7 @@ using namespace std;
 #include <chrono>
 
 #include <iostream>
+#include <sstream>
 
 #include <algorithm>
 #include <time.h>

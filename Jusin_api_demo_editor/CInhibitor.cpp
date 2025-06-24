@@ -24,10 +24,7 @@ void CInhibitor::Initialize()
 	GetCollider()->SetScale(Vec2(32.f, 32.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
-		| COL_TOWER
-		| COL_ATTACK
-		| COL_PLAYER
-		| COL_SKILL);
+		| COL_PLAYER);
 
 	m_tStatusInfo.m_iHp = 100;
 }

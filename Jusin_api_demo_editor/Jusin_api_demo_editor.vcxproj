@@ -140,6 +140,7 @@
     <ClInclude Include="AStarNode.h" />
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CBullet.h" />
+    <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CHitBox.h" />
     <ClInclude Include="CLoading.h" />
     <ClInclude Include="CRanged.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="AStarNode.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CBullet.cpp" />
+    <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CLoading.cpp" />
     <ClCompile Include="CRanged.cpp" />

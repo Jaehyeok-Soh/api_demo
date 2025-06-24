@@ -21,31 +21,38 @@ void CLoading::Update()
 		CSceneManager::GetInstance()->SetChangeScene(true, SC_PLAY);
 	}
 
-	string msg = CTcpManager::GetInstance()->ListenSocket();
-	if (msg != "" )//&& m_arrObj[OBJ_PLAYER].size() < 2)
+	try
 	{
-		json j = nlohmann::json::parse(msg);
-		vector<DTOConnectInfo> connectInfos = j.get<vector<DTOConnectInfo>>();
+		string msg = CTcpManager::GetInstance()->ListenSocket();
+		if (msg != "")//&& m_arrObj[OBJ_PLAYER].size() < 2)
+		{
+			json j = nlohmann::json::parse(msg);
+			vector<DTOConnectInfo> connectInfos = j.get<vector<DTOConnectInfo>>();
 
-		if (connectInfos.size() == 1 && m_arrObj[OBJ_PLAYER].size() == 0)
-		{
-			AddPlayer(connectInfos.front(), true);
-		}
-		
-		if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 0)
-		{
-			AddPlayer(connectInfos.back(), true);
-		}
-
-		if(connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 1)
-		{
-			for (auto a : connectInfos)
+			if (connectInfos.size() == 1 && m_arrObj[OBJ_PLAYER].size() == 0)
 			{
-				if (a.netId
-					!= static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetNetId())
-					AddPlayer(a, false);
+				AddPlayer(connectInfos.front(), true);
+			}
+
+			if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 0)
+			{
+				AddPlayer(connectInfos.back(), true);
+			}
+
+			if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 1)
+			{
+				for (auto a : connectInfos)
+				{
+					if (a.netId
+						!= static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetNetId())
+						AddPlayer(a, false);
+				}
 			}
 		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << "\n";
 	}
 
 	CScene::Update();
@@ -81,16 +88,49 @@ void CLoading::Initialize()
 
 void CLoading::Render_Map(HDC _dc, int iScrollX, int iScrollY)
 {
+	//int iDestW = (int)(1920 * g_fZoom);
+	//int iDestH = (int)(1080 * g_fZoom);
+
+	//int iDestW = (int)(1280 * g_fZoom);
+	//int iDestH = (int)(720 * g_fZoom);
+
+	int iDestW = (int)(720 * g_fZoom);
+	int iDestH = (int)(405 * g_fZoom);
+
+	//GdiTransparentBlt(hdc,
+	//	(int)(iScrollX * g_fZoom),
+	//	(int)(iScrollY * g_fZoom),
+	//	iDestW,
+	//	iDestH,
+	//	MapDC,
+	//	0,
+	//	0,
+	//	(int)1920,	// 복사할 비트맵 가로 세로 사이즈
+	//	(int)1080,
+	//	RGB(255, 0, 255));	// 제거할 픽셀 색상 값
+
+	//GdiTransparentBlt(hdc,
+	//	(int)(iScrollX * g_fZoom),
+	//	(int)(iScrollY * g_fZoom),
+	//	iDestW,
+	//	iDestH,
+	//	MapDC,
+	//	0,
+	//	0,
+	//	1280,	// 복사할 비트맵 가로 세로 사이즈
+	//	720,
+	//	RGB(255, 0, 255));	// 제거할 픽셀 색상 값
+
 	GdiTransparentBlt(_dc,
-		iScrollX,
-		iScrollY,
-		(int)1920,
-		(int)1080,
+		(int)(iScrollX * g_fZoom),
+		(int)(iScrollY * g_fZoom),
+		iDestW,
+		iDestH,
 		MapDC,
 		0,
 		0,
-		(int)1920,	// 복사할 비트맵 가로 세로 사이즈
-		(int)1080,
+		720,	// 복사할 비트맵 가로 세로 사이즈
+		405,
 		RGB(255, 0, 255));	// 제거할 픽셀 색상 값
 }
 

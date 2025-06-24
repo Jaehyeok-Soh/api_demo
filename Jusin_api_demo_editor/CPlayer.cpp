@@ -48,7 +48,7 @@ void CPlayer::Initialize()
 
 	if (m_bTeam)
 	{
-		SetPos(Vec2(50.f, 800.f));
+		SetPos(Vec2(50.f, 300.f));
 		if (m_bIsMine)
 		{
 			CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
@@ -57,7 +57,7 @@ void CPlayer::Initialize()
 	}
 	else
 	{
-		SetPos(Vec2(150.f, 800.f));
+		SetPos(Vec2(150.f, 300.f));
 		if (m_bIsMine)
 		{
 			CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
@@ -65,8 +65,8 @@ void CPlayer::Initialize()
 		}
 	}
 
-	m_vScale = { 32.f, 32.f };
-	m_fSpeed = 300.f;
+	m_vScale = { 16.f, 16.f };
+	m_fSpeed = 50.f;
 	m_vMoveDir.x = 1.f;
 
 	m_eCurState = IDLE;
@@ -76,16 +76,16 @@ void CPlayer::Initialize()
 	switch (m_eJob)
 	{
 	case CPlayer::SWORDMAN:
-		m_fDistance = 20.f;
+		m_fDistance = 10.f;
 		break;
 	case CPlayer::ACHER:
-		m_fDistance = 100.f;
+		m_fDistance = 50.f;
 		break;
 	case CPlayer::MAGICKNIGHT:
-		m_fDistance = 25.f;
+		m_fDistance = 15.f;
 		break;
 	default:
-		m_fDistance = 20.f;
+		m_fDistance = 10.f;
 		break;
 	}
 
@@ -149,7 +149,7 @@ int CPlayer::Update()
 	else
 		__super::Update_Frame_Reverse();
 
-	if (m_bIsMine)
+	if (m_bIsMine && CSceneManager::GetInstance()->GetCurSceneNum() == SC_PLAY)
 	{
 		ToDTO();
 	}
@@ -731,8 +731,7 @@ void CPlayer::ToDTO()
 	};
 
 	json j = tDtoPlayer;
-	string msg = j.dump(0, ' ', false, json::error_handler_t::ignore);
-	msg.push_back('\n');
+	string msg = j.dump() + "\n";
 	CTcpManager::GetInstance()->SendSocket(msg);
 
 	delete[] buffer;

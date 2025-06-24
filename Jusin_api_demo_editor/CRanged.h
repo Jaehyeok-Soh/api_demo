@@ -15,5 +15,6 @@ public:
 
 public:
 	void Attack() override;
+	void OnHit();
 };
 

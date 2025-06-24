@@ -16,6 +16,9 @@ public:
 	virtual void Release() PURE;
 
 public:
+	const CObject* GetOwner() const { return m_pOwner; }
+	void SetOwner(CObject* _pObj) { m_pOwner = _pObj; }
+
 	virtual void Attack();
 
 protected:

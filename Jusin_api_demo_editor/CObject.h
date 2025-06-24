@@ -48,11 +48,11 @@ public:
 
 	Vec2 Get_Velocity() const { return m_vVelocity; }
 	const RECT& Get_Rect()const { return m_tRect; }
-	bool		Get_Dead() const { return m_bDead; }
+	bool		Get_Dead() const { return this == nullptr ? true : m_bDead; }
 
 	float		Get_DistToTarget();
 	float		Get_Dist(CObject* _pObj);
-	CObject*	GetTarget() { return m_pTarget; }
+	CObject*	GetTarget() { return this == nullptr ? nullptr : m_pTarget; }
 	void		ChaseTarget();
 	void		FindTarget();
 	Vec2		TargetPosToTile();

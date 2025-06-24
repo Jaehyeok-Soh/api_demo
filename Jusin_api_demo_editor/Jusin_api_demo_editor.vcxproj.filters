@@ -160,6 +160,9 @@
     <Filter Include="02. Design\12. TcpManager">
       <UniqueIdentifier>{e492b0d8-d621-45a5-b0f5-a48deabe0a26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Design\13. GameManager">
+      <UniqueIdentifier>{db44cb5a-c668-4f56-b781-8f91ae1a0ea3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -333,6 +336,9 @@
     <ClInclude Include="CLoading.h">
       <Filter>04. Scene\01. Loading</Filter>
     </ClInclude>
+    <ClInclude Include="CGameManager.h">
+      <Filter>02. Design\13. GameManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -487,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="CLoading.cpp">
       <Filter>04. Scene\01. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameManager.cpp">
+      <Filter>02. Design\13. GameManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

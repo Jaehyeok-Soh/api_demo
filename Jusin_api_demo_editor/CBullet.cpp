@@ -3,8 +3,11 @@
 #include "CTimeManager.h"
 #include "CScrollManager.h"
 #include "CBmpManager.h"
+#include "CWeapon.h"
+#include "CRanged.h"
 
 CBullet::CBullet()
+	: pBulletWeapon(nullptr)
 {
 }
 
@@ -15,7 +18,7 @@ CBullet::~CBullet()
 
 void CBullet::Initialize()
 {
-	m_fSpeed = 100.f;
+	m_fSpeed = 150.f;
 }
 
 void CBullet::Initialize(CObject* _pTarget)
@@ -35,6 +38,9 @@ void CBullet::Initialize(CObject* _pTarget)
 
 int CBullet::Update()
 {
+	if (m_pTarget->Get_Dead())
+		Set_Dead();
+
 	if (m_bDead)
 		return DEAD;
 
@@ -83,63 +89,81 @@ void CBullet::Render(HDC _dc)
 		16,
 		RGB(0, 0, 0));   // Á¦°ÅÇÒ ÇÈ¼¿ »ö»ó °ª
 
-#pragma region ÇöÀçÁÂÇ¥x
-	std::wstring posX = std::to_wstring(m_vPos.x);
-	LPCWSTR szPosX = posX.c_str();
-	TextOut(_dc,
-		(int)drawX - 30,
-		(int)drawY - 90,
-		szPosX,
-		lstrlen(szPosX));
-#pragma endregion
-#pragma region ÇöÀçÁÂÇ¥Y
-	std::wstring posY = std::to_wstring(m_vPos.y);
-	LPCWSTR szPosY = posY.c_str();
-	TextOut(_dc,
-		(int)drawX + 30,
-		(int)drawY - 90,
-		szPosY,
-		lstrlen(szPosY));
-#pragma endregion
-#pragma region ·£´õÁÂÇ¥x
-	std::wstring RposX = std::to_wstring(drawX - spriteW / 2);
-	LPCWSTR szRPosX = RposX.c_str();
-	TextOut(_dc,
-		(int)drawX - 30,
-		(int)drawY - 110,
-		szRPosX,
-		lstrlen(szRPosX));
-#pragma endregion
-#pragma region ·»´õÁÂÇ¥Y
-	std::wstring RposY = std::to_wstring(drawY - spriteH / 2);
-	LPCWSTR szRPosY = RposY.c_str();
-	TextOut(_dc,
-		(int)drawX + 30,
-		(int)drawY - 110,
-		szRPosY,
-		lstrlen(szRPosY));
-#pragma endregion
+//#pragma region ÇöÀçÁÂÇ¥x
+//	std::wstring posX = std::to_wstring(m_vPos.x);
+//	LPCWSTR szPosX = posX.c_str();
+//	TextOut(_dc,
+//		(int)drawX - 30,
+//		(int)drawY - 90,
+//		szPosX,
+//		lstrlen(szPosX));
+//#pragma endregion
+//#pragma region ÇöÀçÁÂÇ¥Y
+//	std::wstring posY = std::to_wstring(m_vPos.y);
+//	LPCWSTR szPosY = posY.c_str();
+//	TextOut(_dc,
+//		(int)drawX + 30,
+//		(int)drawY - 90,
+//		szPosY,
+//		lstrlen(szPosY));
+//#pragma endregion
+//#pragma region ·£´õÁÂÇ¥x
+//	std::wstring RposX = std::to_wstring(drawX - spriteW / 2);
+//	LPCWSTR szRPosX = RposX.c_str();
+//	TextOut(_dc,
+//		(int)drawX - 30,
+//		(int)drawY - 110,
+//		szRPosX,
+//		lstrlen(szRPosX));
+//#pragma endregion
+//#pragma region ·»´õÁÂÇ¥Y
+//	std::wstring RposY = std::to_wstring(drawY - spriteH / 2);
+//	LPCWSTR szRPosY = RposY.c_str();
+//	TextOut(_dc,
+//		(int)drawX + 30,
+//		(int)drawY - 110,
+//		szRPosY,
+//		lstrlen(szRPosY));
+//#pragma endregion
 }
 
 void CBullet::Release()
 {
 }
 
+void CBullet::OnCollisionEnter(CCollider* _pOther)
+{
+	if ((GetCollider()->Get_Layer() & _pOther->Get_Mask()) != 0)
+	{
+		if (static_cast<CWeapon*>(pBulletWeapon)->GetOwner()->GetTeam()
+			!= _pOther->GetOwner()->GetTeam())
+		{
+			static_cast<CRanged*>(pBulletWeapon)->OnHit();
+			Set_Dead();
+		}
+			
+	}
+}
+
+void CBullet::OnCollision(CCollider* _pOther)
+{
+}
+
 void CBullet::CalcAngle()
 {
-	float m_fWidth = m_vPos.x - m_pTarget->GetPos().x;
-	float m_fHeight = m_vPos.y - m_pTarget->GetPos().y;
+	float m_fWidth = m_pTarget->GetPos().x - m_vPos.x;
+	float m_fHeight = m_pTarget->GetPos().y - m_vPos.y;
 	float m_fDist = sqrt(m_fWidth * m_fWidth + m_fHeight * m_fHeight);
 	m_fAngle = acosf(m_fWidth/m_fDist);
 	
-	if (m_vPos.y <= m_pTarget->GetPos().y)
+	if (m_pTarget->GetPos().y > m_vPos.y)
 		m_fAngle *= -1.f;
 }
 
 void CBullet::MoveToAngle()
 {
-	m_vMoveDir.x = cosf(RADTODEG(m_fAngle)) > 0 ? 1 : -1;
+	m_vMoveDir.x = cosf(m_fAngle) > 0 ? 1 : -1;
 	
-	m_vPos.x += ((m_fSpeed * cosf(RADTODEG(m_fAngle))) * fDT);
-	m_vPos.y += ((m_fSpeed * sinf(RADTODEG(m_fAngle))) * fDT);
+	m_vPos.x += (m_fSpeed * fDT) * cosf(m_fAngle);
+	m_vPos.y -= (m_fSpeed * fDT) * sinf(m_fAngle);
 }

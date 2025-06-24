@@ -121,8 +121,19 @@ void CPlay::Exit()
 
 void CPlay::Initialize()
 {
+	/*thread syncT([]() {
+		while (true)
+		{
+			CTcpManager::GetInstance()->SyncPlay();
+			this_thread::sleep_for(10ms);
+		}
+	});
+	syncT.detach();*/
+
 	//CTcpManager::GetInstance()->Initialize();
-	CSceneManager::GetInstance()->SetChangeScene(false, SC_EDIT);
+	CSceneManager::GetInstance()->SetChangeScene(false, SC_PLAY);
+
+	CTcpManager::GetInstance()->SendSocket("true");
 
 	//타일 초기화
 	CTileManager::Get_Instance()->Initialize();
@@ -130,8 +141,6 @@ void CPlay::Initialize()
 	CTileManager::Get_Instance()->Load_Tile();
 
 	CPeekingManager::GetInstance()->Initialize();
-
-	CTcpManager::GetInstance()->SendSocket("true");
 
 	if (m_pPlayer->GetTeam())
 	{
@@ -151,19 +160,19 @@ void CPlay::Key_Input()
 		CScrollManager::Get_Instance()->Set_ScrollX(10.f);
 
 	if (g_ptMousePos.x >= WINCX - 10 && g_ptMousePos.x <= WINCX + 10)
-		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
+		CScrollManager::Get_Instance()->Set_ScrollX(-5.f);
 
 	if (g_ptMousePos.y <= 10 && g_ptMousePos.y >= -10)
 		CScrollManager::Get_Instance()->Set_ScrollY(10.f);
 
 	if (g_ptMousePos.y >= WINCY - 10 && g_ptMousePos.y <= WINCY + 10)
-		CScrollManager::Get_Instance()->Set_ScrollY(-10.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(-5.f);
 }
 
 void CPlay::Render_Map(HDC hdc, int iScrollX, int iScrollY)
 {
-	int iDestW = (int)(1920 * g_fZoom);
-	int iDestH = (int)(1080 * g_fZoom);
+	int iDestW = (int)(720 * g_fZoom);
+	int iDestH = (int)(405 * g_fZoom);
 
 	GdiTransparentBlt(hdc,
 		(int)(iScrollX * g_fZoom),
@@ -173,7 +182,7 @@ void CPlay::Render_Map(HDC hdc, int iScrollX, int iScrollY)
 		MapDC,
 		0,
 		0,
-		(int)1920,	// 복사할 비트맵 가로 세로 사이즈
-		(int)1080,
+		720,	// 복사할 비트맵 가로 세로 사이즈
+		405,
 		RGB(255, 0, 255));	// 제거할 픽셀 색상 값
 }

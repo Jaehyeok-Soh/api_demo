@@ -25,7 +25,7 @@ void CMinion::Initialize()
 	CreateCollider();
 
 	//CreateGravity();
-	GetCollider()->SetScale(Vec2(4.f, 4.f));
+	GetCollider()->SetScale(Vec2(2.f, 2.f));
 	GetCollider()->Set_Layer(COL_MINION);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_TOWER
@@ -35,9 +35,9 @@ void CMinion::Initialize()
 
 	m_tStatusInfo.m_iHp = 100;
 
-	m_vScale = { 16.f, 16.f };
-	m_fSpeed = 100.f;
-	m_fDistance = 20.f;
+	m_vScale = { 8.f, 8.f };
+	m_fSpeed = 60.f;
+	m_fDistance = 10.f;
 
 	m_eCurState = MOVE;
 	m_ePreState = END;
@@ -57,12 +57,14 @@ void CMinion::Initialize()
 
 	if (m_bTeam)
 	{
-		m_vTatgetNexusTile = Vec2(96.f, 13.f);
+		//m_vTatgetNexusTile = Vec2(96.f, 13.f);
+		m_vTatgetNexusTile = Vec2(144.f, 19.f);
 		m_vMoveDir.x = 1.f;
 	}
 	else
 	{
-		m_vTatgetNexusTile = Vec2(13.f, 44.f);
+		//m_vTatgetNexusTile = Vec2(13.f, 44.f);
+		m_vTatgetNexusTile = Vec2(16.f, 69.f);
 		m_vMoveDir.x = -1.f;
 	}
 
@@ -305,6 +307,15 @@ void CMinion::DebugTextOut(HDC _dc)
 		szHP,
 		lstrlen(szHP));
 #pragma endregion
+#pragma region 테스트용
+	std::wstring wstrTeam = m_bTeam ? L"Blue" : L"Red";
+	LPCWSTR szTeam = wstrTeam.c_str();
+	TextOut(_dc,
+		(int)drawX + 45,
+		(int)drawY - 70,
+		szTeam,
+		lstrlen(szTeam));
+#pragma endregion
 }
 
 void CMinion::AttackProc()
@@ -378,14 +389,14 @@ void CMinion::ChaseNexus(bool _bIsInit)
 	if (m_bTeam)
 	{
 		if (_bIsInit)
-			startIdx = Vec2(13.f, 44.f);
+			startIdx = Vec2(16.f, 69.f);
 		else
 			startIdx = Vec2(m_vPos.x / TILECX, m_vPos.y / TILECY);
 	}
 	else
 	{
 		if (_bIsInit)
-			startIdx = Vec2(96.f, 13.f);
+			startIdx = Vec2(144.f, 19.f);
 		else
 			startIdx = Vec2(m_vPos.x / TILECX, m_vPos.y / TILECY);
 	}

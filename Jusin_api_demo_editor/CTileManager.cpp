@@ -156,7 +156,7 @@ void CTileManager::Load_Tile()
 
 	Release();
 
-	TILETYPE	iDrawID(TILETYPE::BLUE_TURRET1);
+	TILETYPE	iDrawID(TILETYPE::PEEK_DISABLE);
 	int iOption(0);
 	DWORD	dwByte(0);
 	Vec2	vPos{};
@@ -184,8 +184,10 @@ void CTileManager::Load_Tile()
 		}
 		else if (iDrawID == BLUE_TURRET1 
 			|| iDrawID == BLUE_TURRET2
+			|| iDrawID == BLUE_TURRET3
 			|| iDrawID == RED_TURRET1
-			|| iDrawID == RED_TURRET2)
+			|| iDrawID == RED_TURRET2
+			|| iDrawID == RED_TURRET3)
 		{
 			pTile = new CSpawnTurret();
 		}
@@ -204,7 +206,7 @@ void CTileManager::Load_Tile()
 
 	CloseHandle(hFile);
 
-	MessageBox(g_hWnd, L"Tile Load", L"성공", MB_OK);
+	//MessageBox(g_hWnd, L"Tile Load", L"성공", MB_OK);
 }
 
 const Vec2 CTileManager::MouseToTile(POINT ptMouse)

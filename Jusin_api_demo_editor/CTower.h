@@ -12,4 +12,7 @@ public:
 	virtual void Initialize() override;
 	virtual void OnCollision(CCollider* _pOther) override;
 	virtual void OnCollisionEnter(CCollider* _pOther) override;
+
+public:
+	bool CheckAttackable();
 };

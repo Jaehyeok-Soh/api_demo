@@ -4,6 +4,7 @@
 #include "CSceneManager.h"
 #include "CScrollManager.h"
 #include "CTileManager.h"
+#include "CTower.h"
 
 UINT CObject::m_iNextObjectId = 0;
 
@@ -34,11 +35,6 @@ CObject::CObject(const CObject& _origin) : m_strName(_origin.m_strName), m_vPos(
 		m_pCollider = new CCollider(*_origin.m_pCollider);
 		m_pCollider->m_pOwner = this;
 	}
-	/*if (_origin.m_pGravity)
-	{
-		m_pGravity = new CGravity(*_origin.m_pGravity);
-		m_pGravity->m_pOwner = this;
-	}*/
 }
 
 CObject::~CObject()
@@ -130,7 +126,7 @@ void CObject::FindTarget()
 	{
 		for (auto tower : objectList[OBJ_TOWER])
 		{
-			if (tower->GetTeam() == m_bTeam)
+			if (tower->GetTeam() == m_bTeam || !static_cast<CTower*>(tower)->CheckAttackable())
 				continue;
 
 			float cmpDist = Get_Dist(tower);
@@ -155,7 +151,7 @@ void CObject::FindTarget()
 		}
 	}
 
-	if (fTargetDist > m_fDistance)
+	if (fTargetDist > 50.f)
 	{
 		m_pTarget = nullptr;
 		m_bOnTarget = false;

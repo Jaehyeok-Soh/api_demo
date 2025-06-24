@@ -40,6 +40,8 @@ public:
 public:
 	CScene* GetCurScene() { return m_pCurScene; }
 
+	const SCENEID GetCurSceneNum() const { return m_CurSceneNum; }
+
 	void SetPlayer(CObject* _pPlayer) { m_pPlayer = _pPlayer; }
 	void SetWeapon(CObject* _pWeapon) { m_pWeapon = _pWeapon; }
 
