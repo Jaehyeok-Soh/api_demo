@@ -76,9 +76,11 @@ int CTcpManager::OpenSocket()
 	hints.ai_socktype = SOCK_STREAM;
 
 	addrinfoW* res = nullptr;
-	
+
 	//int ret = GetAddrInfoW(L"sso550.ddns.net", L"9000", &hints, &res);
-	int ret = GetAddrInfoW(L"192.168.219.182", L"9000", &hints, &res);
+	//int ret = GetAddrInfoW(L"192.168.219.182", L"9000", &hints, &res);
+	int ret = GetAddrInfoW(L"192.168.219.152", L"9000", &hints, &res);
+
 	if (ret != 0 || !res)
 	{
 		wcerr << L"Resolve failed: " << gai_strerrorW(ret) << '\n';
@@ -157,7 +159,7 @@ void CTcpManager::SyncPlay()
 	while (getline(ss, line)) {
 		if (line.empty()) continue;
 
-		try 
+		try
 		{
 			nlohmann::json j = nlohmann::json::parse(line);
 			DTOPLAYER dto = j.get<DTOPLAYER>();

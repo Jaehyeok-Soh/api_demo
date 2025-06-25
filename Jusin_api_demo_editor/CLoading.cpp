@@ -5,6 +5,7 @@
 #include "CPlayer.h"
 #include "CScrollManager.h"
 #include "CBmpManager.h"
+#include "CLoadingSpinner.h"
 
 CLoading::CLoading()
 {
@@ -16,44 +17,44 @@ CLoading::~CLoading()
 
 void CLoading::Update()
 {
-	//if (m_arrObj[OBJ_PLAYER].size() >= 2)
-	//{
-	//	CSceneManager::GetInstance()->SetChangeScene(true, SC_PLAY);
-	//}
+	if (m_arrObj[OBJ_PLAYER].size() >= 2)
+	{
+		CSceneManager::GetInstance()->SetChangeScene(true, SC_PLAY);
+	}
 
-	//try
-	//{
-	//	string msg = CTcpManager::GetInstance()->ListenSocket();
-	//	if (msg != "")//&& m_arrObj[OBJ_PLAYER].size() < 2)
-	//	{
-	//		json j = nlohmann::json::parse(msg);
-	//		vector<DTOConnectInfo> connectInfos = j.get<vector<DTOConnectInfo>>();
+	try
+	{
+		string msg = CTcpManager::GetInstance()->ListenSocket();
+		if (msg != "")//&& m_arrObj[OBJ_PLAYER].size() < 2)
+		{
+			json j = nlohmann::json::parse(msg);
+			vector<DTOConnectInfo> connectInfos = j.get<vector<DTOConnectInfo>>();
 
-	//		if (connectInfos.size() == 1 && m_arrObj[OBJ_PLAYER].size() == 0)
-	//		{
-	//			AddPlayer(connectInfos.front(), true);
-	//		}
+			if (connectInfos.size() == 1 && m_arrObj[OBJ_PLAYER].size() == 0)
+			{
+				AddPlayer(connectInfos.front(), true);
+			}
 
-	//		if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 0)
-	//		{
-	//			AddPlayer(connectInfos.back(), true);
-	//		}
+			if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 0)
+			{
+				AddPlayer(connectInfos.back(), true);
+			}
 
-	//		if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 1)
-	//		{
-	//			for (auto a : connectInfos)
-	//			{
-	//				if (a.netId
-	//					!= static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetNetId())
-	//					AddPlayer(a, false);
-	//			}
-	//		}
-	//	}
-	//}
-	//catch (const std::exception& e)
-	//{
-	//	std::cerr << e.what() << "\n";
-	//}
+			if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 1)
+			{
+				for (auto a : connectInfos)
+				{
+					if (a.netId
+						!= static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetNetId())
+						AddPlayer(a, false);
+				}
+			}
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << "\n";
+	}
 
 	CScene::Update();
 }
@@ -78,7 +79,13 @@ void CLoading::Exit()
 
 void CLoading::Initialize()
 {
-	//CTcpManager::GetInstance()->OpenSocket();
+	CObject* pSpinner = new CLoadingSpinner();
+	pSpinner->Initialize();
+	pSpinner->SetPos(Vec2(635, 360));
+
+	AddObject(pSpinner, OBJ_UI);
+
+	CTcpManager::GetInstance()->OpenSocket();
 }
 
 void CLoading::Render_Map(HDC _dc)

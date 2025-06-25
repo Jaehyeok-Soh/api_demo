@@ -14,4 +14,10 @@ public:
 	void Late_Update() override;
 	void Render(HDC _dc) override;
 	void Release() override;
+
+private:
+	void Frame_Update_Spinner();
+
+private:
+	HDC   m_hMemDC;
 };

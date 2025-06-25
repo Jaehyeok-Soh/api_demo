@@ -182,7 +182,18 @@ void CMainGame::Load_UiImg()
 	//BG
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingBg.bmp", L"loadingBg");
 	//Loadingscreen_spinner
+	//256x128
+	//8x4
+	//32x32
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingscreen_spinner.bmp", L"loadingscreen_spinner");
+	//Load screen
+	//308x561
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadScreen.bmp", L"loadScreen");
+	//308x560
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingFrameBlue.bmp", L"loadingFrameBlue");
+	//308x560
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingFrameRed.bmp", L"loadingFrameRed");
+
 }
 
 void CMainGame::Load_CharacterImg()
