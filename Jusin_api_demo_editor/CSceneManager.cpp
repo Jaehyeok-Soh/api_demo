@@ -2,15 +2,21 @@
 #include "CSceneManager.h"
 #include "CScrollManager.h"
 #include "CMenu.h"
+#include "CLogin.h"
 #include "CPlay.h"
 #include "CEdit.h"
 #include "CLoading.h"
+#include "CLobby.h"
+#include "CWaitRoom.h"
 
 CSceneManager* CSceneManager::m_pInstance = nullptr;
 
-CSceneManager::CSceneManager() :m_arrStage{}, m_pCurScene(nullptr), m_pPlayer(nullptr), m_bChange(false)
+CSceneManager::CSceneManager()
+	: m_arrStage{},
+	m_pCurScene(nullptr),
+	m_pPlayer(nullptr),
+	m_bChange(false)
 {
-
 }
 
 CSceneManager::~CSceneManager()
@@ -37,6 +43,15 @@ void CSceneManager::Initialize()
 	// Scene »ý¼º
 	m_arrStage[SC_MENU] = new CMenu;
 	m_arrStage[SC_MENU]->SetName(L"MENU");
+
+	m_arrStage[SC_LOGIN] = new CLogin;
+	m_arrStage[SC_LOGIN]->SetName(L"LOGIN");
+
+	m_arrStage[SC_LOBBY] = new CLobby;
+	m_arrStage[SC_LOBBY]->SetName(L"LOBBY");
+
+	m_arrStage[SC_WAITROOM] = new CWaitRoom;
+	m_arrStage[SC_WAITROOM]->SetName(L"WAITROOM");
 
 	m_arrStage[SC_LOADING] = new CLoading;
 	m_arrStage[SC_LOADING]->SetName(L"LOADING");

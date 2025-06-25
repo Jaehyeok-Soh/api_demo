@@ -25,6 +25,6 @@ public:
 private:
 	void Initialize();
 
-	void Render_Map(HDC _dc, int iScrollX, int iScrollY);
+	void Render_Map(HDC _dc);
 };
 

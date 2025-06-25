@@ -20,6 +20,8 @@ float g_fZoom = 5.1f;
 bool bColRender = false;
 bool bTileRender = false;
 POINT g_ptMousePos = {};
+HCURSOR g_hHandCursor = LoadCursor(NULL, IDC_HAND);
+HCURSOR g_hDefaultCursor = LoadCursor(NULL, NULL);
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -151,7 +153,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
     HWND hWnd = CreateWindowW(szWindowClass,         // 앞서 정의한 윈도우 클래스의 전달한 클래스 이름을 넣어줌
         szTitle,                // 창 상단의 출력할 문자열
-        WS_OVERLAPPEDWINDOW,    // 윈도우 창 스타일 지정(기본 값으로 사용되는 창 모양)
+        WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, //WS_POPUP | WS_DLGFRAME, //   // 윈도우 창 스타일 지정(기본 값으로 사용되는 창 모양)
         CW_USEDEFAULT, 0,       // 창 출력 좌표(x,y 좌표)
         rc.right - rc.left,
         rc.bottom - rc.top,       // 창 가로, 세로 사이즈
@@ -166,6 +168,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     }
 
     g_hWnd = hWnd;
+
+    //LONG_PTR style = GetWindowLongPtr(hWnd, GWL_STYLE);
+    //style &= ~WS_CAPTION; // 기존 스타일에서 WS_CAPTION 제거
+    //style |= WS_POPUP;   // WS_POPUP 스타일 추가
+    //style |= WS_DLGFRAME;
+    //SetWindowLongPtr(hWnd, GWL_STYLE, style);
+
+    //AdjustWindowRectEx(&rc, WS_POPUP, FALSE, 0);
+    //SetWindowPos(hWnd, nullptr, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+    //// 변경사항 적용
+    //SetWindowPos(hWnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);

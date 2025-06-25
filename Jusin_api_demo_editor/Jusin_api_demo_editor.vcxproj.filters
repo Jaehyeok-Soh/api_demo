@@ -67,9 +67,6 @@
     <Filter Include="02. Design\08. TileManager\Tile">
       <UniqueIdentifier>{a48d2636-202b-498d-a1f0-7716c9a13bf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\05. Button">
-      <UniqueIdentifier>{24915f15-14f2-4c62-b081-8d6197254379}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Scene">
       <UniqueIdentifier>{a1eae43d-4f6b-4f4e-b238-e8487bb2f89d}</UniqueIdentifier>
     </Filter>
@@ -166,14 +163,41 @@
     <Filter Include="02. Design\08. TileManager\Tile\BushTile">
       <UniqueIdentifier>{7c4e5025-4d3e-4c78-b1f0-7fdf11ebf1a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\06. Terrain">
-      <UniqueIdentifier>{88ed9405-c90e-4873-bc2d-362009c01cb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Object\06. Terrain\00. Bush">
-      <UniqueIdentifier>{baa311f3-5b6c-4db2-b07c-7612ce80fe8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Object\00. Character\02. Captain">
       <UniqueIdentifier>{e806d2f4-feb9-4e3b-b3dc-87b6952f3d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\04. WaitRoom">
+      <UniqueIdentifier>{958149f5-7356-4942-b357-762a8bca3339}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\04. Terrain">
+      <UniqueIdentifier>{88ed9405-c90e-4873-bc2d-362009c01cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\04. Terrain\00. Bush">
+      <UniqueIdentifier>{baa311f3-5b6c-4db2-b07c-7612ce80fe8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI">
+      <UniqueIdentifier>{653dbc4b-6653-44f4-9453-73d70044aa82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\00. MenuButton">
+      <UniqueIdentifier>{24915f15-14f2-4c62-b081-8d6197254379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\01. WaitRoom">
+      <UniqueIdentifier>{dd4c9c2b-1fa8-4105-9c55-86aceaf7ed81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\01. WaitRoom\WaitMember">
+      <UniqueIdentifier>{08060f2a-0c8a-4860-8f8f-b634913d9858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\00. Login">
+      <UniqueIdentifier>{9a2d05f7-bb1c-4987-8ea9-06c8f37368ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\00. Login">
+      <UniqueIdentifier>{a7f53256-e204-4144-8156-25cfa34610dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Scene\05. Lobby">
+      <UniqueIdentifier>{7568979d-7875-4f1b-91f9-26755caf203b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\01. Lobby">
+      <UniqueIdentifier>{30d9278a-7ae2-448c-83cc-65c1416bd538}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -259,7 +283,7 @@
       <Filter>02. Design\08. TileManager\Tile</Filter>
     </ClInclude>
     <ClInclude Include="CButton.h">
-      <Filter>01. Object\05. Button</Filter>
+      <Filter>01. Object\05. UI\00. MenuButton</Filter>
     </ClInclude>
     <ClInclude Include="CMenu.h">
       <Filter>04. Scene\00. Menu</Filter>
@@ -355,10 +379,28 @@
       <Filter>02. Design\08. TileManager\Tile\BushTile</Filter>
     </ClInclude>
     <ClInclude Include="CBush.h">
-      <Filter>01. Object\06. Terrain\00. Bush</Filter>
+      <Filter>01. Object\04. Terrain\00. Bush</Filter>
     </ClInclude>
     <ClInclude Include="CTeemo.h">
       <Filter>01. Object\00. Character\02. Captain</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaitRoom.h">
+      <Filter>04. Scene\04. WaitRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="CWaitRoomUI.h">
+      <Filter>01. Object\05. UI\01. WaitRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="CLogin.h">
+      <Filter>04. Scene\00. Login</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoginButton.h">
+      <Filter>01. Object\05. UI\00. Login</Filter>
+    </ClInclude>
+    <ClInclude Include="CLobby.h">
+      <Filter>04. Scene\05. Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="CStartButton.h">
+      <Filter>01. Object\05. UI\01. Lobby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -429,7 +471,7 @@
       <Filter>02. Design\08. TileManager\Tile</Filter>
     </ClCompile>
     <ClCompile Include="CButton.cpp">
-      <Filter>01. Object\05. Button</Filter>
+      <Filter>01. Object\05. UI\00. MenuButton</Filter>
     </ClCompile>
     <ClCompile Include="CMenu.cpp">
       <Filter>04. Scene\00. Menu</Filter>
@@ -522,10 +564,28 @@
       <Filter>02. Design\08. TileManager\Tile\BushTile</Filter>
     </ClCompile>
     <ClCompile Include="CBush.cpp">
-      <Filter>01. Object\06. Terrain\00. Bush</Filter>
+      <Filter>01. Object\04. Terrain\00. Bush</Filter>
     </ClCompile>
     <ClCompile Include="CTeemo.cpp">
       <Filter>01. Object\00. Character\02. Captain</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaitRoom.cpp">
+      <Filter>04. Scene\04. WaitRoom</Filter>
+    </ClCompile>
+    <ClCompile Include="CWaitRoomUI.cpp">
+      <Filter>01. Object\05. UI\01. WaitRoom</Filter>
+    </ClCompile>
+    <ClCompile Include="CLogin.cpp">
+      <Filter>04. Scene\00. Login</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoginButton.cpp">
+      <Filter>01. Object\05. UI\00. Login</Filter>
+    </ClCompile>
+    <ClCompile Include="CLobby.cpp">
+      <Filter>04. Scene\05. Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="CStartButton.cpp">
+      <Filter>01. Object\05. UI\01. Lobby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

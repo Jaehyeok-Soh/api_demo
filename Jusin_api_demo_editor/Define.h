@@ -2,8 +2,8 @@
 
 #define PURE = 0
 
-#define WINCX 1000
-#define WINCY 800
+#define WINCX 1280
+#define WINCY 720
 
 //#define TILECX 16
 //#define TILECY 16
@@ -48,6 +48,8 @@ extern float g_fZoom;
 extern bool bTileRender;
 extern POINT g_ptMousePos;
 extern HINSTANCE hInst;
+extern HCURSOR g_hHandCursor;
+extern HCURSOR g_hDefaultCursor;
 
 struct INFO
 {
@@ -137,8 +139,10 @@ enum OBJID
 
 enum SCENEID
 {
+	SC_LOGIN,
 	SC_MENU,
 	SC_LOBBY,
+	SC_WAITROOM,
 	SC_LOADING,
 	SC_PLAY,
 	SC_EDIT,

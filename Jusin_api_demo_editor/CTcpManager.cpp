@@ -77,8 +77,8 @@ int CTcpManager::OpenSocket()
 
 	addrinfoW* res = nullptr;
 	
-	int ret = GetAddrInfoW(L"sso550.ddns.net", L"9000", &hints, &res);
-	//int ret = GetAddrInfoW(L"192.168.0.183", L"9000", &hints, &res);
+	//int ret = GetAddrInfoW(L"sso550.ddns.net", L"9000", &hints, &res);
+	int ret = GetAddrInfoW(L"192.168.219.182", L"9000", &hints, &res);
 	if (ret != 0 || !res)
 	{
 		wcerr << L"Resolve failed: " << gai_strerrorW(ret) << '\n';

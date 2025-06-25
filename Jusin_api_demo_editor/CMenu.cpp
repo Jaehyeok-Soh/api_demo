@@ -75,38 +75,8 @@ void CMenu::Initialize()
 
 void CMenu::Render_Map(HDC hdc, int iScrollX, int iScrollY)
 {
-	//int iDestW = (int)(1920 * g_fZoom);
-	//int iDestH = (int)(1080 * g_fZoom);
-
-	//int iDestW = (int)(1280 * g_fZoom);
-	//int iDestH = (int)(720 * g_fZoom);
-
 	int iDestW = (int)(720 * g_fZoom);
 	int iDestH = (int)(405 * g_fZoom);
-
-	//GdiTransparentBlt(hdc,
-	//	(int)(iScrollX * g_fZoom),
-	//	(int)(iScrollY * g_fZoom),
-	//	iDestW,
-	//	iDestH,
-	//	MapDC,
-	//	0,
-	//	0,
-	//	(int)1920,	// 복사할 비트맵 가로 세로 사이즈
-	//	(int)1080,
-	//	RGB(255, 0, 255));	// 제거할 픽셀 색상 값
-
-	//GdiTransparentBlt(hdc,
-	//	(int)(iScrollX * g_fZoom),
-	//	(int)(iScrollY * g_fZoom),
-	//	iDestW,
-	//	iDestH,
-	//	MapDC,
-	//	0,
-	//	0,
-	//	1280,	// 복사할 비트맵 가로 세로 사이즈
-	//	720,
-	//	RGB(255, 0, 255));	// 제거할 픽셀 색상 값
 
 	GdiTransparentBlt(hdc,
 		(int)(iScrollX * g_fZoom),

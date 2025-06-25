@@ -3,6 +3,7 @@
 
 struct DTOConnectInfo
 {
+	wstring account;
 	bool isHost;
 	int netId;
 	bool team;

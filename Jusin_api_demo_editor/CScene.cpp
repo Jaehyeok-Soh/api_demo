@@ -7,7 +7,7 @@
 
 CScene::CScene() : m_pPlayer(nullptr), m_bFade(false)
 {
-
+	ZeroMemory(&m_tFrame, sizeof(FRAME));
 }
 
 CScene::~CScene()
@@ -42,7 +42,8 @@ void CScene::Initialize()
 			|| i == OBJ_MINION
 			|| i == OBJ_TOWER
 			|| i == OBJ_HITBOX
-			|| i == OBJ_EFFECT)
+			|| i == OBJ_EFFECT
+			|| i == OBJ_UI)
 			continue;
 
 		for (CObject* pObj : m_arrObj[i])

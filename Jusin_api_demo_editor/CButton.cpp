@@ -4,7 +4,8 @@
 #include "CSceneManager.h"
 #include "CKeyManager.h"
 
-CButton::CButton() : m_iDrawID(0)
+CButton::CButton()
+	: m_iDrawID(0)
 {
 }
 
@@ -38,7 +39,7 @@ void CButton::Late_Update()
 		{
 			if (!lstrcmp(L"ButtonPlay", m_pFrameKey))
 			{
-				CSceneManager::GetInstance()->SetChangeScene(true, SC_LOADING);
+				CSceneManager::GetInstance()->SetChangeScene(true, SC_LOGIN);
 			}
 			else if (!lstrcmp(L"ButtonEdit", m_pFrameKey))
 			{

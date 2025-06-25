@@ -77,6 +77,8 @@ void CMainGame::Render()
 	// 5. 백버퍼 → 실제 화면으로 복사
 	BitBlt(m_DC, 0, 0, WINCX, WINCY, m_hBackDC, 0, 0, SRCCOPY);
 
+	if (!bColRender)
+		return;
 	/////////////////////////////////////////////////////////////////
 	// pt.x, pt.y를 문자열로 변환
 	WCHAR szCursor[64];
@@ -145,15 +147,42 @@ void CMainGame::Load_Img()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/Ground.bmp", L"Ground");
 
 	//Map ARAM
-	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig.bmp", L"MapBig");
-	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig_small.bmp", L"MapBig");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/MapBig_SS.bmp", L"MapBig");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Minimap.bmp", L"Minimap");
 	
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/hideonbush.bmp", L"hideonbush");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/teemo.bmp", L"teemo");
 
+	Load_UiImg();
 	Load_CharacterImg();
 	Load_TowerImg();
+}
+
+void CMainGame::Load_UiImg()
+{
+	//Login
+	//BG
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/login/loginBg.bmp", L"loginBg");
+	//LoginButton
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/login/loginButton.bmp", L"loginButton");
+
+	//Lobby
+	//BG
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/lobbyBg.bmp", L"lobbyBg");
+	//StartButton
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/startButton.bmp", L"startButton");
+
+	//Lobby
+	//BG
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/waitroom/waitRoomBg.bmp", L"waitRoomBg");
+	//StartButton
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/startButton3.bmp", L"startButton3");
+
+	//Lobby
+	//BG
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingBg.bmp", L"loadingBg");
+	//Loadingscreen_spinner
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingscreen_spinner.bmp", L"loadingscreen_spinner");
 }
 
 void CMainGame::Load_CharacterImg()

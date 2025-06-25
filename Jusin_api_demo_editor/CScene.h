@@ -48,5 +48,7 @@ protected:
 protected:
 	HDC	MapDC;
 	bool	m_bFade;
+
+	FRAME m_tFrame;
 };
 

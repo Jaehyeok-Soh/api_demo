@@ -17,8 +17,5 @@ private:
 	void Initialize();
 
 	void Render_Map(HDC hdc, int iScrollX, int iScrollY);
-
-private:
-	FRAME m_tFrame;
 };
 

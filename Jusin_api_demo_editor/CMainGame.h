@@ -18,6 +18,7 @@ public:
 
 private:
 	void		Load_Img();
+	void		Load_UiImg();
 	void		Load_CharacterImg();
 	void		Load_TowerImg();
 

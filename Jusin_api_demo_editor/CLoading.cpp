@@ -16,63 +16,58 @@ CLoading::~CLoading()
 
 void CLoading::Update()
 {
-	if (m_arrObj[OBJ_PLAYER].size() >= 2)
-	{
-		CSceneManager::GetInstance()->SetChangeScene(true, SC_PLAY);
-	}
+	//if (m_arrObj[OBJ_PLAYER].size() >= 2)
+	//{
+	//	CSceneManager::GetInstance()->SetChangeScene(true, SC_PLAY);
+	//}
 
-	try
-	{
-		string msg = CTcpManager::GetInstance()->ListenSocket();
-		if (msg != "")//&& m_arrObj[OBJ_PLAYER].size() < 2)
-		{
-			json j = nlohmann::json::parse(msg);
-			vector<DTOConnectInfo> connectInfos = j.get<vector<DTOConnectInfo>>();
+	//try
+	//{
+	//	string msg = CTcpManager::GetInstance()->ListenSocket();
+	//	if (msg != "")//&& m_arrObj[OBJ_PLAYER].size() < 2)
+	//	{
+	//		json j = nlohmann::json::parse(msg);
+	//		vector<DTOConnectInfo> connectInfos = j.get<vector<DTOConnectInfo>>();
 
-			if (connectInfos.size() == 1 && m_arrObj[OBJ_PLAYER].size() == 0)
-			{
-				AddPlayer(connectInfos.front(), true);
-			}
+	//		if (connectInfos.size() == 1 && m_arrObj[OBJ_PLAYER].size() == 0)
+	//		{
+	//			AddPlayer(connectInfos.front(), true);
+	//		}
 
-			if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 0)
-			{
-				AddPlayer(connectInfos.back(), true);
-			}
+	//		if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 0)
+	//		{
+	//			AddPlayer(connectInfos.back(), true);
+	//		}
 
-			if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 1)
-			{
-				for (auto a : connectInfos)
-				{
-					if (a.netId
-						!= static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetNetId())
-						AddPlayer(a, false);
-				}
-			}
-		}
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << e.what() << "\n";
-	}
+	//		if (connectInfos.size() > 1 && m_arrObj[OBJ_PLAYER].size() == 1)
+	//		{
+	//			for (auto a : connectInfos)
+	//			{
+	//				if (a.netId
+	//					!= static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetNetId())
+	//					AddPlayer(a, false);
+	//			}
+	//		}
+	//	}
+	//}
+	//catch (const std::exception& e)
+	//{
+	//	std::cerr << e.what() << "\n";
+	//}
 
 	CScene::Update();
 }
 
 void CLoading::Render(HDC _dc)
 {
-	int iScrollX = CScrollManager::Get_Instance()->Get_ScrollX();
-	int iScrollY = CScrollManager::Get_Instance()->Get_ScrollY();
-
-	Render_Map(_dc, iScrollX, iScrollY);
+	Render_Map(_dc);
 
 	CScene::Render(_dc);
 }
 
 void CLoading::Enter()
 {
-	MapDC = CBmpManager::Get_Instance()->Find_Image(L"MapBig");
-	SetMaxScroll(L"MapBig");
-
+	MapDC = CBmpManager::Get_Instance()->Find_Image(L"loadingBg");
 	Initialize();
 }
 
@@ -83,55 +78,22 @@ void CLoading::Exit()
 
 void CLoading::Initialize()
 {
-	CTcpManager::GetInstance()->OpenSocket();
+	//CTcpManager::GetInstance()->OpenSocket();
 }
 
-void CLoading::Render_Map(HDC _dc, int iScrollX, int iScrollY)
+void CLoading::Render_Map(HDC _dc)
 {
-	//int iDestW = (int)(1920 * g_fZoom);
-	//int iDestH = (int)(1080 * g_fZoom);
-
-	//int iDestW = (int)(1280 * g_fZoom);
-	//int iDestH = (int)(720 * g_fZoom);
-
-	int iDestW = (int)(720 * g_fZoom);
-	int iDestH = (int)(405 * g_fZoom);
-
-	//GdiTransparentBlt(hdc,
-	//	(int)(iScrollX * g_fZoom),
-	//	(int)(iScrollY * g_fZoom),
-	//	iDestW,
-	//	iDestH,
-	//	MapDC,
-	//	0,
-	//	0,
-	//	(int)1920,	// 복사할 비트맵 가로 세로 사이즈
-	//	(int)1080,
-	//	RGB(255, 0, 255));	// 제거할 픽셀 색상 값
-
-	//GdiTransparentBlt(hdc,
-	//	(int)(iScrollX * g_fZoom),
-	//	(int)(iScrollY * g_fZoom),
-	//	iDestW,
-	//	iDestH,
-	//	MapDC,
-	//	0,
-	//	0,
-	//	1280,	// 복사할 비트맵 가로 세로 사이즈
-	//	720,
-	//	RGB(255, 0, 255));	// 제거할 픽셀 색상 값
-
 	GdiTransparentBlt(_dc,
-		(int)(iScrollX * g_fZoom),
-		(int)(iScrollY * g_fZoom),
-		iDestW,
-		iDestH,
+		0,
+		0,
+		WINCX,
+		WINCY,
 		MapDC,
 		0,
 		0,
-		720,	// 복사할 비트맵 가로 세로 사이즈
-		405,
-		RGB(255, 0, 255));	// 제거할 픽셀 색상 값
+		1024,	// 복사할 비트맵 가로 세로 사이즈
+		512,
+		RGB(1, 1, 1));	// 제거할 픽셀 색상 값
 }
 
 void CLoading::AddPlayer(DTOConnectInfo _playerConnectInfo, bool _isMine)
