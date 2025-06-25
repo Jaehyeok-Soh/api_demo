@@ -145,6 +145,7 @@
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CHitBox.h" />
     <ClInclude Include="CLoading.h" />
+    <ClInclude Include="CLoadingSpinner.h" />
     <ClInclude Include="CLobby.h" />
     <ClInclude Include="CLogin.h" />
     <ClInclude Include="CLoginButton.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CLoading.cpp" />
+    <ClCompile Include="CLoadingSpinner.cpp" />
     <ClCompile Include="CLobby.cpp" />
     <ClCompile Include="CLogin.cpp" />
     <ClCompile Include="CLoginButton.cpp" />

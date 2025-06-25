@@ -181,12 +181,6 @@
     <Filter Include="01. Object\05. UI\00. MenuButton">
       <UniqueIdentifier>{24915f15-14f2-4c62-b081-8d6197254379}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Object\05. UI\01. WaitRoom">
-      <UniqueIdentifier>{dd4c9c2b-1fa8-4105-9c55-86aceaf7ed81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Object\05. UI\01. WaitRoom\WaitMember">
-      <UniqueIdentifier>{08060f2a-0c8a-4860-8f8f-b634913d9858}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Scene\00. Login">
       <UniqueIdentifier>{9a2d05f7-bb1c-4987-8ea9-06c8f37368ed}</UniqueIdentifier>
     </Filter>
@@ -198,6 +192,15 @@
     </Filter>
     <Filter Include="01. Object\05. UI\01. Lobby">
       <UniqueIdentifier>{30d9278a-7ae2-448c-83cc-65c1416bd538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\02. WaitRoom">
+      <UniqueIdentifier>{dd4c9c2b-1fa8-4105-9c55-86aceaf7ed81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\02. WaitRoom\WaitMember">
+      <UniqueIdentifier>{08060f2a-0c8a-4860-8f8f-b634913d9858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\05. UI\03. Loading">
+      <UniqueIdentifier>{de7c23c5-62e2-4cf6-81ac-eda645d39d97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -388,7 +391,7 @@
       <Filter>04. Scene\04. WaitRoom</Filter>
     </ClInclude>
     <ClInclude Include="CWaitRoomUI.h">
-      <Filter>01. Object\05. UI\01. WaitRoom</Filter>
+      <Filter>01. Object\05. UI\02. WaitRoom</Filter>
     </ClInclude>
     <ClInclude Include="CLogin.h">
       <Filter>04. Scene\00. Login</Filter>
@@ -401,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="CStartButton.h">
       <Filter>01. Object\05. UI\01. Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="CLoadingSpinner.h">
+      <Filter>01. Object\05. UI\03. Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -573,7 +579,7 @@
       <Filter>04. Scene\04. WaitRoom</Filter>
     </ClCompile>
     <ClCompile Include="CWaitRoomUI.cpp">
-      <Filter>01. Object\05. UI\01. WaitRoom</Filter>
+      <Filter>01. Object\05. UI\02. WaitRoom</Filter>
     </ClCompile>
     <ClCompile Include="CLogin.cpp">
       <Filter>04. Scene\00. Login</Filter>
@@ -586,6 +592,9 @@
     </ClCompile>
     <ClCompile Include="CStartButton.cpp">
       <Filter>01. Object\05. UI\01. Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="CLoadingSpinner.cpp">
+      <Filter>01. Object\05. UI\03. Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
