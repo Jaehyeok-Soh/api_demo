@@ -408,6 +408,12 @@
     <ClInclude Include="CLoadingSpinner.h">
       <Filter>01. Object\05. UI\03. Loading</Filter>
     </ClInclude>
+    <ClInclude Include="DTOReceivePack.h">
+      <Filter>05. DTO</Filter>
+    </ClInclude>
+    <ClInclude Include="DTOSendPack.h">
+      <Filter>05. DTO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">

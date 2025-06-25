@@ -33,6 +33,18 @@ void CLobby::Update()
 void CLobby::Render(HDC _dc)
 {
 	Render_Map(_dc);
+	HDC adDc = CBmpManager::Get_Instance()->Find_Image(L"shrroom");
+	GdiTransparentBlt(_dc,
+		100,
+		200,
+		887,
+		221,
+		adDc,
+		0,
+		0,
+		887,	// 복사할 비트맵 가로 세로 사이즈
+		221,
+		RGB(1, 1, 1));	// 제거할 픽셀 색상 값
 
 	CScene::Render(_dc);
 }

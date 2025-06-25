@@ -169,6 +169,7 @@ void CMainGame::Load_UiImg()
 	//Lobby
 	//BG
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/lobbyBg.bmp", L"lobbyBg");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/shrroom.bmp", L"shrroom");
 	//StartButton
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/startButton.bmp", L"startButton");
 
