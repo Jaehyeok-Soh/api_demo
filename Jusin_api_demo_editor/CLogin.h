@@ -25,6 +25,6 @@ private:
 
 private:
 	HWND		m_hChildHandle;
-	wstring		m_wstrInput;
+	wstring m_wstrInput;
 	CLoginButton* m_LoginButton;
 };

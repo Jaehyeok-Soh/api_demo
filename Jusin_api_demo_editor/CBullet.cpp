@@ -61,9 +61,27 @@ void CBullet::Late_Update()
 void CBullet::Render(HDC _dc)
 {
 	if (m_vMoveDir.x > 0)
-		m_pFrameKey = L"acher_arrow_r";
+	{
+		if (pBulletWeapon->GetName() == L"TurretRanged")
+		{
+			m_pFrameKey = static_cast<CWeapon*>(pBulletWeapon)->GetOwner()->GetTeam() ? L"blueBullet" : L"redBullet";
+		}
+		else
+		{
+			m_pFrameKey = L"acher_arrow_r";
+		}
+	}
 	else
-		m_pFrameKey = L"acher_arrow_l";
+	{
+		if (pBulletWeapon->GetName() == L"TurretRanged")
+		{
+			m_pFrameKey = static_cast<CWeapon*>(pBulletWeapon)->GetOwner()->GetTeam() ? L"blueBullet" : L"redBullet";
+		}
+		else
+		{
+			m_pFrameKey = L"acher_arrow_l";
+		}
+	}
 
 	Component_Render(_dc);
 	int iScrollX = (int)CScrollManager::Get_Instance()->Get_ScrollX();
@@ -77,54 +95,34 @@ void CBullet::Render(HDC _dc)
 
 	HDC   hMemDC = CBmpManager::Get_Instance()->Find_Image(m_pFrameKey);
 
-	GdiTransparentBlt(_dc,
-		drawX - (spriteW / 2),
-		drawY - (spriteH / 2),
-		spriteW,
-		spriteH,
-		hMemDC,
-		0,
-		0,
-		16,   // º¹»çÇÒ ºñÆ®¸Ê °¡·Î ¼¼·Î »çÀÌÁî
-		16,
-		RGB(0, 0, 0));   // Á¦°ÅÇÒ ÇÈ¼¿ »ö»ó °ª
-
-//#pragma region ÇöÀçÁÂÇ¥x
-//	std::wstring posX = std::to_wstring(m_vPos.x);
-//	LPCWSTR szPosX = posX.c_str();
-//	TextOut(_dc,
-//		(int)drawX - 30,
-//		(int)drawY - 90,
-//		szPosX,
-//		lstrlen(szPosX));
-//#pragma endregion
-//#pragma region ÇöÀçÁÂÇ¥Y
-//	std::wstring posY = std::to_wstring(m_vPos.y);
-//	LPCWSTR szPosY = posY.c_str();
-//	TextOut(_dc,
-//		(int)drawX + 30,
-//		(int)drawY - 90,
-//		szPosY,
-//		lstrlen(szPosY));
-//#pragma endregion
-//#pragma region ·£´õÁÂÇ¥x
-//	std::wstring RposX = std::to_wstring(drawX - spriteW / 2);
-//	LPCWSTR szRPosX = RposX.c_str();
-//	TextOut(_dc,
-//		(int)drawX - 30,
-//		(int)drawY - 110,
-//		szRPosX,
-//		lstrlen(szRPosX));
-//#pragma endregion
-//#pragma region ·»´õÁÂÇ¥Y
-//	std::wstring RposY = std::to_wstring(drawY - spriteH / 2);
-//	LPCWSTR szRPosY = RposY.c_str();
-//	TextOut(_dc,
-//		(int)drawX + 30,
-//		(int)drawY - 110,
-//		szRPosY,
-//		lstrlen(szRPosY));
-//#pragma endregion
+	if (pBulletWeapon->GetName() == L"TurretRanged")
+	{
+		GdiTransparentBlt(_dc,
+			drawX - (spriteW / 2),
+			drawY - (spriteH / 2),
+			spriteW,
+			spriteH,
+			hMemDC,
+			0,
+			0,
+			64,
+			64,
+			RGB(0, 0, 0));
+	}
+	else
+	{
+		GdiTransparentBlt(_dc,
+			drawX - (spriteW / 2),
+			drawY - (spriteH / 2),
+			spriteW,
+			spriteH,
+			hMemDC,
+			0,
+			0,
+			16,
+			16,
+			RGB(0, 0, 0));
+	}
 }
 
 void CBullet::Release()
@@ -141,7 +139,6 @@ void CBullet::OnCollisionEnter(CCollider* _pOther)
 			static_cast<CRanged*>(pBulletWeapon)->OnHit();
 			Set_Dead();
 		}
-			
 	}
 }
 

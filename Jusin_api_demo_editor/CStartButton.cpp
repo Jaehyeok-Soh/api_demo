@@ -47,7 +47,8 @@ void CStartButton::Late_Update()
 				if (!lstrcmp(L"startButton", m_pFrameKey))
 				{
 					m_iDrawID = 2;
-					CSceneManager::GetInstance()->SetChangeScene(true, SC_WAITROOM);
+					//CSceneManager::GetInstance()->SetChangeScene(true, SC_WAITROOM);
+					CSceneManager::GetInstance()->SetChangeScene(true, SC_LOADING);
 				}
 				else if (!lstrcmp(L"startButton3", m_pFrameKey))
 				{

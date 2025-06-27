@@ -4,6 +4,7 @@
 #include "CPlayer.h"
 #include "CSceneManager.h"
 #include "DTOConnectInfo.h"
+#include "CPlay.h"
 
 CTcpManager* CTcpManager::m_pInstance = nullptr;
 SOCKET CTcpManager::m_sock = 0;
@@ -78,8 +79,9 @@ int CTcpManager::OpenSocket()
 	addrinfoW* res = nullptr;
 
 	//int ret = GetAddrInfoW(L"sso550.ddns.net", L"9000", &hints, &res);
-	//int ret = GetAddrInfoW(L"192.168.219.182", L"9000", &hints, &res);
-	int ret = GetAddrInfoW(L"192.168.219.152", L"9000", &hints, &res);
+	//int ret = GetAddrInfoW(L"192.168.0.183", L"9000", &hints, &res);
+	//int ret = GetAddrInfoW(L"192.168.219.152", L"9000", &hints, &res);
+	int ret = GetAddrInfoW(L"192.168.219.125", L"9000", &hints, &res);
 
 	if (ret != 0 || !res)
 	{
@@ -173,6 +175,7 @@ void CTcpManager::SyncPlay()
 					player->SetPosX(dto.fX);
 					player->SetPosY(dto.fY);
 					player->SetState((CCharacter::STATE)dto.m_iState);
+					player->SetTargetId(dto.m_iTargetId);
 					player->SetFrameStart(dto.m_iFrameStart);
 
 					wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
@@ -180,7 +183,41 @@ void CTcpManager::SyncPlay()
 					player->SetDirection(dto.m_iDir);
 				}
 			}
-			break;
+			//break;
+
+			if (dto.winner != "")
+			{
+				auto sceneManager = CSceneManager::GetInstance();
+				auto curScene = static_cast<CPlay*>(sceneManager->GetCurScene());
+				auto player = static_cast<CPlayer*>(sceneManager->GetPlayer());
+				if (dto.winner == "BLUEWIN")
+				{
+					if (player->GetTeam())
+					{
+						//플레이 씬 종료 연출 승
+						curScene->GameSet(true);
+
+					}
+					else
+					{
+						//플레이 씬 종료 연출 패
+						curScene->GameSet(false);
+					}
+				}
+				else
+				{
+					if (player->GetTeam())
+					{
+						//플레이 씬 종료 연출 패
+						curScene->GameSet(false);
+					}
+					else
+					{
+						//플레이 씬 종료 연출 승
+						curScene->GameSet(true);
+					}
+				}
+			}
 		}
 		catch (const std::exception& e)
 		{

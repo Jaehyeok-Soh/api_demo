@@ -3,7 +3,8 @@
 #include "CSkillSwordman.h"
 
 CSkill::CSkill()
-	: m_bEnabled(false)
+	: m_bEnabled(false),
+	m_bIsTrigger(false)
 {
 	ZeroMemory(&m_tSkill, sizeof(SKILLINFO));
 }

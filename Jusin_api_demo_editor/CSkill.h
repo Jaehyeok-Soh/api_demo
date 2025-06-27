@@ -16,5 +16,6 @@ public:
 protected:
 	SKILLINFO m_tSkill;
 	bool m_bEnabled;
+	bool m_bIsTrigger;
 };
 

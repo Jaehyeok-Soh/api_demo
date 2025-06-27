@@ -41,8 +41,8 @@ CSceneManager::~CSceneManager()
 void CSceneManager::Initialize()
 {
 	// Scene 생성
-	m_arrStage[SC_MENU] = new CMenu;
-	m_arrStage[SC_MENU]->SetName(L"MENU");
+	//m_arrStage[SC_MENU] = new CMenu;
+	//m_arrStage[SC_MENU]->SetName(L"MENU");
 
 	m_arrStage[SC_LOGIN] = new CLogin;
 	m_arrStage[SC_LOGIN]->SetName(L"LOGIN");
@@ -50,8 +50,8 @@ void CSceneManager::Initialize()
 	m_arrStage[SC_LOBBY] = new CLobby;
 	m_arrStage[SC_LOBBY]->SetName(L"LOBBY");
 
-	m_arrStage[SC_WAITROOM] = new CWaitRoom;
-	m_arrStage[SC_WAITROOM]->SetName(L"WAITROOM");
+	//m_arrStage[SC_WAITROOM] = new CWaitRoom;
+	//m_arrStage[SC_WAITROOM]->SetName(L"WAITROOM");
 
 	m_arrStage[SC_LOADING] = new CLoading;
 	m_arrStage[SC_LOADING]->SetName(L"LOADING");
@@ -63,7 +63,7 @@ void CSceneManager::Initialize()
 	m_arrStage[SC_EDIT]->SetName(L"EDIT");
 
 	// 현재 씬 지정
-	m_CurSceneNum = SC_MENU;
+	m_CurSceneNum = SC_LOGIN;
 
 	m_pCurScene = m_arrStage[m_CurSceneNum];
 	m_pCurScene->Enter();

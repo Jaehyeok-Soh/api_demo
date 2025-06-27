@@ -26,5 +26,12 @@ private:
 	void Initialize();
 
 	void Render_Map(HDC _dc);
+	void Render_LoadScreen(HDC _dc);
+
+private:
+	HDC m_loadScreenBlueDC;
+	HDC m_loadScreenRedDC;
+	HDC m_loadFrameBlueDC;
+	HDC m_loadFrameRedDC;
 };
 

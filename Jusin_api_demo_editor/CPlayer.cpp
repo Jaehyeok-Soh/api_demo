@@ -12,6 +12,8 @@
 #include "CRanged.h"
 #include "CSkillSwordman.h"
 #include "CUltSwordman.h"
+#include "CSkillAcher.h"
+#include "CUltAcher.h"
 #include "DTOPlayer.h"
 #include "CTcpManager.h"
 #include "CPeekingManager.h"
@@ -43,7 +45,7 @@ void CPlayer::Initialize()
 		| COL_PLAYER
 		| COL_SKILL);
 
-	m_tStatusInfo.m_iHp = 5000;
+	m_tStatusInfo.m_iHp = 1000;
 
 	if (m_bTeam)
 	{
@@ -70,15 +72,16 @@ void CPlayer::Initialize()
 
 	m_eCurState = IDLE;
 	m_ePreState = END;
-	m_eJob = SWORDMAN;
 
 	switch (m_eJob)
 	{
 	case CPlayer::SWORDMAN:
 		m_fDistance = 10.f;
+		m_rgbColor = RGB(255, 255, 255);
 		break;
 	case CPlayer::ACHER:
 		m_fDistance = 50.f;
+		m_rgbColor = RGB(0, 0, 0);
 		break;
 	case CPlayer::MAGICKNIGHT:
 		m_fDistance = 15.f;
@@ -105,13 +108,16 @@ void CPlayer::Initialize()
 
 int CPlayer::Update()
 {
+	if (!m_bIsMine && (m_iTargetId > 0))
+	{
+		FindTargetToId();
+	}
+
 	if (m_pTarget && m_pTarget->Get_Dead())
 		m_pTarget = nullptr;
 
 	if (m_pCollider)
 		m_pCollider->Late_Update();
-
-	UpdateSkills();
 
 	Key_Input();
 
@@ -123,6 +129,8 @@ int CPlayer::Update()
 			m_bIsUsingSkill = false;
 		}
 	}
+
+	UpdateSkills();
 
 	if (m_eCurState == RUN)
 	{
@@ -137,8 +145,7 @@ int CPlayer::Update()
 		AttackProc();
 
 	if (!m_bIsMine
-		&& !m_bIsHide
-		&& (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() != m_iHideOption))
+		&& (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() == m_iHideOption))
 	{
 		POINT ptMouse;
 		GetCursorPos(&ptMouse); // 화면 좌표
@@ -171,7 +178,7 @@ int CPlayer::Update()
 
 	if (m_bIsMine && CSceneManager::GetInstance()->GetCurSceneNum() == SC_PLAY)
 	{
-		ToDTO();
+		ToDTO(false, false, "");
 	}
 
 	return NOEVENT;
@@ -189,7 +196,7 @@ void CPlayer::Render(HDC _dc)
 
 	if (!m_bIsMine 
 		&& m_bIsHide 
-		&& (m_bTeam && static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetTeam()))
+		&& (m_bTeam != static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetTeam()))
 	{
 		if (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() != m_iHideOption)
 			return;
@@ -214,9 +221,12 @@ void CPlayer::Render(HDC _dc)
 		hMemDC,
 		(int)m_tBmpScale.iWidth * m_tFrame.iFrameStart,
 		(int)m_tBmpScale.iHeight * m_tFrame.iMotion,
-		(int)m_tBmpScale.iWidth,   // 복사할 비트맵 가로 세로 사이즈
+		(int)m_tBmpScale.iWidth,
 		(int)m_tBmpScale.iHeight,
-		RGB(255, 255, 255));   // 제거할 픽셀 색상 값
+		m_rgbColor);
+
+	if (!bColRender)
+		return;
 
 	DebugTextOut(_dc);
 }
@@ -351,80 +361,161 @@ void CPlayer::Motion_Change()
 {
 	if (m_ePreState != m_eCurState)
 	{
-		switch (m_eCurState)
+		if (m_eJob == SWORDMAN)
 		{
-		case IDLE:
-			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
-			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
-			m_tFrame.iMotion = 0;
-			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 200;
+			switch (m_eCurState)
+			{
+			case IDLE:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
 
-			m_tBmpScale.iWidth = 64;
-			m_tBmpScale.iHeight = 64;
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
 
-			m_fRenderScale = 1.f;
-			break;
-		case RUN:
-			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
-			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
-			m_tFrame.iMotion = 0;
-			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 200;
+				m_fRenderScale = 1.f;
+				break;
+			case RUN:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
 
-			m_tBmpScale.iWidth = 64;
-			m_tBmpScale.iHeight = 64;
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
 
-			m_fRenderScale = 1.f;
-			break;
-		case ATTACK:
-			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
-			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
-			m_tFrame.iMotion = 0;
-			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 200;
+				m_fRenderScale = 1.f;
+				break;
+			case ATTACK:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
 
-			m_tBmpScale.iWidth = 64;
-			m_tBmpScale.iHeight = 64;
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
 
-			m_fRenderScale = 1.f;
-			break;
-		case SKILL:
-			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 8;
-			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 8 : 0;
-			m_tFrame.iMotion = 0;
-			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 100;
+				m_fRenderScale = 1.f;
+				break;
+			case SKILL:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 8;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 8 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 100;
 
-			m_tBmpScale.iWidth = 128;
-			m_tBmpScale.iHeight = 128;
+				m_tBmpScale.iWidth = 128;
+				m_tBmpScale.iHeight = 128;
 
-			m_fRenderScale = 2.f;
-			break;
-		case ULT:
-			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
-			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
-			m_tFrame.iMotion = 0;
-			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 200;
+				m_fRenderScale = 2.f;
+				break;
+			case ULT:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 10;
 
-			m_tBmpScale.iWidth = 64;
-			m_tBmpScale.iHeight = 64;
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
 
-			m_fRenderScale = 1.f;
-			break;
-		case DIE:
-			m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
-			m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
-			m_tFrame.iMotion = 0;
-			m_tFrame.dwTime = GetTickCount();
-			m_tFrame.dwSpeed = 200;
+				m_fRenderScale = 1.f;
+				break;
+			case DIE:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
 
-			m_tBmpScale.iWidth = 64;
-			m_tBmpScale.iHeight = 64;
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
 
-			m_fRenderScale = 1.f;
-			break;
+				m_fRenderScale = 1.f;
+				break;
+			}
+		}
+		else if (m_eJob == ACHER)
+		{
+			switch (m_eCurState)
+			{
+			case IDLE:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 4;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 4 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
+
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
+
+				m_fRenderScale = 1.f;
+				break;
+			case RUN:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 8;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 8 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
+
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
+
+				m_fRenderScale = 1.f;
+				break;
+			case ATTACK:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 5;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 5 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
+
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
+
+				m_fRenderScale = 1.f;
+				break;
+			case SKILL:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 7;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 7 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 100;
+
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
+
+				m_fRenderScale = 1.f;
+				break;
+			case ULT:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 8;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 8 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
+
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
+
+				m_fRenderScale = 1.f;
+				break;
+			case DIE:
+				m_tFrame.iFrameStart = (m_vMoveDir.x > 0) ? 0 : 9;
+				m_tFrame.iFrameEnd = (m_vMoveDir.x > 0) ? 9 : 0;
+				m_tFrame.iMotion = 0;
+				m_tFrame.dwTime = GetTickCount();
+				m_tFrame.dwSpeed = 200;
+
+				m_tBmpScale.iWidth = 64;
+				m_tBmpScale.iHeight = 64;
+
+				m_fRenderScale = 1.f;
+				break;
+			}
 		}
 
 		m_tFrame.iStartBuffer = m_tFrame.iFrameStart;
@@ -660,6 +751,8 @@ void CPlayer::CreateSkill()
 		m_vSkills.push_back(new CUltSwordman());
 		break;
 	case CPlayer::ACHER:
+		m_vSkills.push_back(new CSkillAcher());
+		m_vSkills.push_back(new CUltAcher());
 		break;
 	case CPlayer::MAGICKNIGHT:
 		break;
@@ -734,7 +827,7 @@ void CPlayer::UpdateSkills()
 	}
 }
 
-void CPlayer::ToDTO()
+void CPlayer::ToDTO(bool isStart, bool isQuit, string winner)
 {
 	size_t bufferSize = (wcslen((wchar_t*)m_pFrameKey) + 1) * 4;
 	char* buffer = new char[bufferSize];
@@ -756,7 +849,10 @@ void CPlayer::ToDTO()
 		m_eCurState,
 		-1, //none
 		m_bIsUsingSkill,
-		m_iCurrentSkill
+		m_iCurrentSkill,
+		isStart,
+		isQuit,
+		winner
 	};
 
 	json j = tDtoPlayer;

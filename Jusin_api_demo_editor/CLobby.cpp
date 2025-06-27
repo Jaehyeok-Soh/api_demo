@@ -2,6 +2,7 @@
 #include "CLobby.h"
 #include "CBmpManager.h"
 #include "CStartButton.h"
+#include "CGameManager.h"
 
 CLobby::CLobby()
 {
@@ -61,6 +62,14 @@ void CLobby::Exit()
 
 void CLobby::Render_Map(HDC hdc)
 {
+	auto a = CGameManager::GetInstance()->GetAccount().c_str();
+	LPCWSTR szState = CGameManager::GetInstance()->GetAccount().c_str();
+	TextOut(MapDC,
+		1000,
+		100,
+		szState,
+		lstrlen(szState));
+
 	GdiTransparentBlt(hdc,
 		0,
 		0,

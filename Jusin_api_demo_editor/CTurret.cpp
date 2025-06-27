@@ -24,18 +24,19 @@ void CTurret::Initialize()
 
 	CreateCollider();
 
-	GetCollider()->SetScale(Vec2(12.f, 12.f));
+	GetCollider()->SetScale(Vec2(8.f, 8.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
-		| COL_PLAYER);
+		| COL_PLAYER
+		| COL_ATTACK);
 
-	m_tStatusInfo.m_iHp = 5000;
+	m_tStatusInfo.m_iHp = 100;
 
 	m_fDistance = 50.f;
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
-	m_tAttackInfo.m_fAttackDelay = 1.f;
+	m_tAttackInfo.m_fAttackDelay = 2.f;
 	m_tAttackInfo.m_iDamage = 20;
 
 	CreateWeapon();
@@ -147,15 +148,15 @@ void CTurret::Render(HDC _dc)
 		szHP,
 		lstrlen(szHP));
 #pragma endregion
-#pragma region 테스트용
-	std::wstring wstrTeam = m_bTeam ? L"Blue" : L"Red";
-	LPCWSTR szTeam = wstrTeam.c_str();
-	TextOut(_dc,
-		(int)drawX + 45,
-		(int)drawY - 70,
-		szTeam,
-		lstrlen(szTeam));
-#pragma endregion
+//#pragma region 테스트용
+//	std::wstring wstrTeam = m_bTeam ? L"Blue" : L"Red";
+//	LPCWSTR szTeam = wstrTeam.c_str();
+//	TextOut(_dc,
+//		(int)drawX + 45,
+//		(int)drawY - 70,
+//		szTeam,
+//		lstrlen(szTeam));
+//#pragma endregion
 }
 
 void CTurret::Release()

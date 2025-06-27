@@ -55,6 +55,7 @@ public:
 	CObject*	GetTarget() { return this == nullptr ? nullptr : m_pTarget; }
 	void		ChaseTarget();
 	void		FindTarget();
+	void		FindTargetToId();
 	Vec2		TargetPosToTile();
 
 	const TILETYPE GetDrawID() { return m_eDrawID; }
@@ -103,6 +104,7 @@ protected:
 	float		m_fAngle;
 	bool		m_bDead;
 	bool		m_bOnTarget;
+	int			m_iTargetId;
 
 	// Component
 	CCollider* m_pCollider; // 콜라이더(충돌체)

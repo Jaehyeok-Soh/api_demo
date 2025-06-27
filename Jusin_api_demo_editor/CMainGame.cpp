@@ -59,7 +59,6 @@ void CMainGame::Update()
 	CTimeManager::Get_Instance()->Update();
 	CSceneManager::GetInstance()->Update();
 	CKeyManager::Get_Instance()->Update();
-	CGameManager::GetInstance()->Update();
 }
 
 void CMainGame::Late_Update()
@@ -105,14 +104,15 @@ void CMainGame::Release()
 		DeleteObject(m_hBackBmp);
 		DeleteDC(m_hBackDC);
 	}
-	CTcpManager::GetInstance()->SendSocket("Quit");
-	CTcpManager::DestroyInstance();
+
+	static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->ToDTO(false, true, "");
 	CPeekingManager::DestroyInstance();
 	CKeyManager::Destroy_Instance();
 	CColliderManager::Destroy_Instance();
-	CTimeManager::Destroy_Instance();
 	CSceneManager::DestroyInstance();
 	CGameManager::DestroyInstance();
+	CTimeManager::Destroy_Instance();
+	CTcpManager::DestroyInstance();
 }
 
 void CMainGame::ClientCursorLock()
@@ -173,13 +173,13 @@ void CMainGame::Load_UiImg()
 	//StartButton
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/startButton.bmp", L"startButton");
 
-	//Lobby
+	//waitroom
 	//BG
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/waitroom/waitRoomBg.bmp", L"waitRoomBg");
 	//StartButton
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/lobby/startButton3.bmp", L"startButton3");
 
-	//Lobby
+	//Loading
 	//BG
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingBg.bmp", L"loadingBg");
 	//Loadingscreen_spinner
@@ -194,7 +194,43 @@ void CMainGame::Load_UiImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingFrameBlue.bmp", L"loadingFrameBlue");
 	//308x560
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingFrameRed.bmp", L"loadingFrameRed");
+	
 
+	//Play
+	//ScoreBoard
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/scoreBoard.bmp", L"scoreBoard");
+	//MiniMap
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/Minimap.bmp", L"Minimap");
+	//MiniMap Border
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/minimapBorder.bmp", L"minimapBorder");
+	//MiniMap minion
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/minionmapcircle.bmp", L"minionmapcircle");
+	//LifeState
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/loading/loadingBg.bmp", L"loadingBg");
+	//BlueBullet
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/blueBullet.bmp", L"blueBullet");
+	//RedBullet
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/redBullet.bmp", L"redBullet");
+	//playBottom 900x170
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/HUD/playBottom.bmp", L"playBottom");
+	//bar_big1
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/HUD/bar_big1.bmp", L"bar_big1");
+	//bar_big_marker
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/HUD/bar_big_marker.bmp", L"bar_big_marker");
+	//End of game
+	//683x683
+	//46pg
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog.bmp", L"eog");
+	//eog win base
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_base.bmp", L"eog_base");
+	//eog defeat base
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_defeat_base.bmp", L"eog_defeat_base");
+	//win
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_victory.bmp", L"eog_victory");
+	//defeat
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_defeat.bmp", L"eog_defeat");
+	//eog color
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_fb_color.bmp", L"eog_fb_color");
 }
 
 void CMainGame::Load_CharacterImg()
@@ -234,6 +270,28 @@ void CMainGame::Load_CharacterImg()
 	//CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/swordman/swordman_ult_ef_l.bmp", L"swordman_ult_ef_l");
 
 	//Acher
+	//Motion
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_idle_r.bmp", L"acher_idle_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_run_r.bmp", L"acher_run_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_attack_r.bmp", L"acher_attack_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_skill_r.bmp", L"acher_skill_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_ult_r.bmp", L"acher_ult_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_die_r.bmp", L"acher_die_r");
+	//
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_idle_l.bmp", L"acher_idle_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_run_l.bmp", L"acher_run_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_attack_l.bmp", L"acher_attack_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_skill_l.bmp", L"acher_skill_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_ult_l.bmp", L"acher_ult_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_die_l.bmp", L"acher_die_l");
+	//Effect
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_attack_ef_r.bmp", L"acher_attack_ef_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_skill_ef_r.bmp", L"acher_skill_ef_r");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_ult_ef_r.bmp", L"acher_ult_ef_r");
+	//
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_attack_ef_l.bmp", L"acher_attack_ef_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_skill_ef_l.bmp", L"acher_skill_ef_l");
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_ult_ef_l.bmp", L"acher_ult_ef_l");
 	//Bullet
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_arrow_r.bmp", L"acher_arrow_r");
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Character/acher/acher_arrow_l.bmp", L"acher_arrow_l");

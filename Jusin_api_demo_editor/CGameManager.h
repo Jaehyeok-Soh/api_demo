@@ -41,8 +41,15 @@ public:
 	void SetSequence(TILETYPE _eVal, int _iOption) { (*(*m_mapGameSequence.find(_eVal)).second.find(_iOption)).second = true; }
 	const pair<TILETYPE, unordered_map<int, bool>> GetGameSeqPair(TILETYPE _eVal, int _iOption) const { return (*m_mapGameSequence.find(_eVal)); }
 
-	void SetAccount(wstring _wstrVal) { m_wstrAccount = _wstrVal; }
+	void SetAccount(wstring _wstrVal)
+	{
+		m_wstrAccount = _wstrVal;
+		auto a = 1;
+	}
 	const wstring GetAccount() const { return m_wstrAccount; }
+
+public:
+	void CheckEndOfGame();
 
 public:
 	void Update();

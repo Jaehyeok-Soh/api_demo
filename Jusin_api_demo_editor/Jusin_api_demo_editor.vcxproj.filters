@@ -202,6 +202,9 @@
     <Filter Include="01. Object\05. UI\03. Loading">
       <UniqueIdentifier>{de7c23c5-62e2-4cf6-81ac-eda645d39d97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Design\14. BlendingManager">
+      <UniqueIdentifier>{73c5fded-bb57-436b-ab79-92d21d571011}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -414,6 +417,21 @@
     <ClInclude Include="DTOSendPack.h">
       <Filter>05. DTO</Filter>
     </ClInclude>
+    <ClInclude Include="DTOReceiveRoomInfo.h">
+      <Filter>05. DTO</Filter>
+    </ClInclude>
+    <ClInclude Include="CCommunityManager.h">
+      <Filter>02. Design\12. TcpManager</Filter>
+    </ClInclude>
+    <ClInclude Include="CSkillAcher.h">
+      <Filter>01. Object\00. Character\00. Player\00. Skill\01. Acher</Filter>
+    </ClInclude>
+    <ClInclude Include="CUltAcher.h">
+      <Filter>01. Object\00. Character\00. Player\00. Skill\01. Acher</Filter>
+    </ClInclude>
+    <ClInclude Include="CBlendingManager.h">
+      <Filter>02. Design\14. BlendingManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -601,6 +619,18 @@
     </ClCompile>
     <ClCompile Include="CLoadingSpinner.cpp">
       <Filter>01. Object\05. UI\03. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="CCommunityManager.cpp">
+      <Filter>02. Design\12. TcpManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkillAcher.cpp">
+      <Filter>01. Object\00. Character\00. Player\00. Skill\01. Acher</Filter>
+    </ClCompile>
+    <ClCompile Include="CUltAcher.cpp">
+      <Filter>01. Object\00. Character\00. Player\00. Skill\01. Acher</Filter>
+    </ClCompile>
+    <ClCompile Include="CBlendingManager.cpp">
+      <Filter>02. Design\14. BlendingManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

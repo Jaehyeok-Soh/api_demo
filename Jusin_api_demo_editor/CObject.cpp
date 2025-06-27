@@ -28,7 +28,12 @@ CObject::CObject()
 	ZeroMemory(&m_tFrame, sizeof(FRAME));
 }
 
-CObject::CObject(const CObject& _origin) : m_strName(_origin.m_strName), m_vPos(_origin.m_vPos), m_vScale(_origin.m_vScale), m_bDead(_origin.m_bDead)//, m_pColider(nullptr)
+CObject::CObject(const CObject& _origin) 
+	: m_strName(_origin.m_strName),
+	m_vPos(_origin.m_vPos),
+	m_vScale(_origin.m_vScale),
+	m_bDead(_origin.m_bDead),
+	m_iTargetId(-1)//, m_pColider(nullptr)
 {
 	if (_origin.m_pCollider)
 	{
@@ -109,15 +114,15 @@ void CObject::FindTarget()
 	float fTargetDist = 99999999.f;
 	auto objectList = CSceneManager::GetInstance()->GetCurScene()->GetObjectList();
 
-	for (auto minion : objectList[OBJ_MINION])
+	for (auto otherPlayer : objectList[OBJ_PLAYER])
 	{
-		if (minion->GetTeam() == m_bTeam)
+		if (otherPlayer->GetTeam() == m_bTeam)
 			continue;
 
-		float cmpDist = Get_Dist(minion);
+		float cmpDist = Get_Dist(otherPlayer);
 		if (fTargetDist > cmpDist)
 		{
-			closedObject = minion;
+			closedObject = otherPlayer;
 			fTargetDist = cmpDist;
 		}
 	}
@@ -138,20 +143,20 @@ void CObject::FindTarget()
 		}
 	}
 
-	for (auto otherPlayer : objectList[OBJ_PLAYER])
+	for (auto minion : objectList[OBJ_MINION])
 	{
-		if (otherPlayer->GetTeam() == m_bTeam)
+		if (minion->GetTeam() == m_bTeam)
 			continue;
 
-		float cmpDist = Get_Dist(otherPlayer);
+		float cmpDist = Get_Dist(minion);
 		if (fTargetDist > cmpDist)
 		{
-			closedObject = otherPlayer;
+			closedObject = minion;
 			fTargetDist = cmpDist;
 		}
 	}
 
-	if (fTargetDist > 20.f)
+	if (fTargetDist > 100.f)
 	{
 		m_pTarget = nullptr;
 		m_bOnTarget = false;
@@ -163,6 +168,55 @@ void CObject::FindTarget()
 	}
 }
 
+void CObject::FindTargetToId()
+{
+	CObject* pTarget = nullptr;
+	bool ifFind = false;
+	auto objectList = CSceneManager::GetInstance()->GetCurScene()->GetObjectList();
+
+	for (auto otherPlayer : objectList[OBJ_PLAYER])
+	{
+		if (otherPlayer->GetTeam() != m_bTeam && otherPlayer->GetObjectId() == m_iTargetId)
+		{
+			m_pTarget = otherPlayer;
+			m_bOnTarget = true;
+			ifFind = true;
+			return;
+		}
+	}
+
+	for (auto tower : objectList[OBJ_TOWER])
+	{
+		if (tower->GetTeam() != m_bTeam
+			&& static_cast<CTower*>(tower)->CheckAttackable()
+			&& tower->GetObjectId() == m_iTargetId)
+		{
+			m_pTarget = tower;
+			m_bOnTarget = true;
+			ifFind = true;
+			return;
+		}
+	}
+
+	for (auto minion : objectList[OBJ_MINION])
+	{
+		if (minion->GetTeam() != m_bTeam && minion->GetObjectId() == m_iTargetId)
+		{
+			m_pTarget = minion;
+			m_bOnTarget = true;
+			ifFind = true;
+			return;
+		}
+	}
+
+	if (!ifFind)
+	{
+		m_iTargetId = -1;
+		m_pTarget = nullptr;
+		m_bOnTarget = false;
+	}
+}
+
 Vec2 CObject::TargetPosToTile()
 {
 	Vec2 vtargetPos = m_pTarget->GetPos();
@@ -170,7 +224,7 @@ Vec2 CObject::TargetPosToTile()
 
 	if (m_pTarget == nullptr || m_pTarget->GetCollider() == nullptr)
 		return endIdx;
-	
+
 	if (m_pTarget->GetCollider()->Get_Layer() == COL_TOWER)
 	{
 		while (CTileManager::Get_Instance()->CheckPeekDisable(endIdx.x, endIdx.y))

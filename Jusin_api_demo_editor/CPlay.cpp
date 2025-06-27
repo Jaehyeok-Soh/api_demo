@@ -11,28 +11,32 @@
 #include "CPeekingManager.h"
 #include "CTcpManager.h"
 #include "DTOPLAYER.h"
+#include "CGameManager.h"
+#include "CBlendingManager.h"
 
 CPlay::CPlay()
-	: m_fdtPlayTime(0.f)
+	: gameSet(false),
+	win(-1),
+	m_EogDC(0)
 {
+	ZeroMemory(&m_tEndingFrame, sizeof(FRAME));
+	ZeroMemory(&m_tEndingAuroraFrame, sizeof(FRAME));
 }
 
 CPlay::~CPlay()
 {
+	CBlendingManager::GetInstance()->Release();
 }
 
 void CPlay::Update()
 {
-	//auto recMsg = CTcpManager::GetInstance()->ListenSocket();
-	//CTcpManager::GetInstance()->SyncPlay
+	CGameManager::GetInstance()->Update();
 
-	thread syncT(&CTcpManager::SyncPlay, CTcpManager::GetInstance());
-	syncT.join();
-
-	//CTcpManager::GetInstance()->SyncPlay();
-
-	//시간 업데이트
-	m_fdtPlayTime += fDT;
+	if (!gameSet)
+	{
+		thread syncT(&CTcpManager::SyncPlay, CTcpManager::GetInstance());
+		syncT.join();
+	}
 
 	//타일 업데이트
 	CTileManager::Get_Instance()->Update();
@@ -40,13 +44,27 @@ void CPlay::Update()
 	//키 입력
 	Key_Input();
 
-	//Late_Update
-	//CTileManager::Get_Instance()->Late_Update();
-	CScene::Update();
-
-	//TODO: DTO Player to json string serialize
+	if (!gameSet)
+	{
+		//Late_Update
+		CScene::Update();
+	}
 
 	CColliderManager::Get_Instance()->Update();
+
+	Update_Frame();
+
+	if (gameSet)
+	{
+		Update_Eog_Frame();
+		//update end act
+		if (win)
+		{
+		}
+		else
+		{
+		}
+	}
 }
 
 void CPlay::Render(HDC _dc)
@@ -59,6 +77,23 @@ void CPlay::Render(HDC _dc)
 	CTileManager::Get_Instance()->Render(_dc);
 
 	CScene::Render(_dc);
+
+	Render_UI(_dc);
+
+	if (gameSet)
+	{
+		Render_Eog(_dc);
+		if (m_tEndingFrame.iFrameStart >= 17)
+		{
+			Render_Eog_Color(_dc);
+			Render_Eog_Base(_dc);
+		}
+
+		if (m_tEndingFrame.iFrameStart >= 23)
+		{
+			Render_Eog_Title(_dc);
+		}
+	}
 }
 
 void CPlay::Enter()
@@ -127,19 +162,11 @@ void CPlay::Exit()
 
 void CPlay::Initialize()
 {
-	/*thread syncT([]() {
-		while (true)
-		{
-			CTcpManager::GetInstance()->SyncPlay();
-			this_thread::sleep_for(10ms);
-		}
-	});
-	syncT.detach();*/
+	CBlendingManager::GetInstance()->Initialize();
 
-	//CTcpManager::GetInstance()->Initialize();
 	CSceneManager::GetInstance()->SetChangeScene(false, SC_PLAY);
 
-	CTcpManager::GetInstance()->SendSocket("true");
+	static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->ToDTO(true, false, "");
 
 	//타일 초기화
 	CTileManager::Get_Instance()->Initialize();
@@ -158,10 +185,27 @@ void CPlay::Initialize()
 		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
 		CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
 	}
+
+	m_tFrame.dwSpeed = 200;
+	m_tFrame.dwTime = GetTickCount();
+	m_tFrame.iFrameStart = 0;
+	m_tFrame.iFrameEnd = 7;
+	m_tFrame.iMotion = 0;
+
+	m_EogDC = CBmpManager::Get_Instance()->Find_Image(L"eog");
+
+	m_tEndingFrame.dwSpeed = 200;
+	m_tEndingFrame.dwTime;
+	m_tEndingFrame.iFrameStart = 0;
+	m_tEndingFrame.iFrameEnd = 45;
+	m_tEndingFrame.iMotion = 0;
 }
 
 void CPlay::Key_Input()
 {
+	if (gameSet)
+		return;
+	
 	if (g_ptMousePos.x <= 10 && g_ptMousePos.x >= -10)
 		CScrollManager::Get_Instance()->Set_ScrollX(10.f);
 
@@ -188,7 +232,181 @@ void CPlay::Render_Map(HDC hdc, int iScrollX, int iScrollY)
 		MapDC,
 		0,
 		0,
-		720,	// 복사할 비트맵 가로 세로 사이즈
+		720,
 		405,
-		RGB(255, 0, 255));	// 제거할 픽셀 색상 값
+		RGB(255, 0, 255));
+}
+
+void CPlay::Render_UI(HDC hdc)
+{
+	HDC scoreBoard = CBmpManager::Get_Instance()->Find_Image(L"scoreBoard");
+	GdiTransparentBlt(hdc,
+		435,
+		0,
+		510,
+		54,
+		scoreBoard,
+		0,
+		0,
+		510,
+		54,
+		RGB(255, 255, 255));
+
+	HDC minimapBorder = CBmpManager::Get_Instance()->Find_Image(L"minimapBorder");
+	HDC Minimap = CBmpManager::Get_Instance()->Find_Image(L"Minimap");
+	GdiTransparentBlt(minimapBorder,
+		10,
+		10,
+		290,
+		290,
+		Minimap,
+		0,
+		0,
+		512,
+		512,
+		RGB(1, 1, 1));
+
+	GdiTransparentBlt(hdc,
+		1080,
+		520,
+		200,
+		200,
+		minimapBorder,
+		0,
+		0,
+		310,
+		310,
+		RGB(255, 255, 255));
+
+	HDC playBottom = CBmpManager::Get_Instance()->Find_Image(L"playBottom");
+	GdiTransparentBlt(hdc,
+		135,
+		550,
+		900,
+		170,
+		playBottom,
+		0,
+		0,
+		900,
+		170,
+		RGB(255, 255, 255));
+
+	int iHp = static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetStatus().m_iHp;
+	HDC bar_big1 = CBmpManager::Get_Instance()->Find_Image(L"bar_big1");
+	GdiTransparentBlt(hdc,
+		135 + 171,
+		551 + 112,
+		(int)(467.f * ((float)iHp / 1000.f)),
+		43,
+		bar_big1,
+		58 * m_tFrame.iFrameStart,
+		0,
+		58,
+		43,
+		RGB(1, 1, 1));
+
+	HDC bar_big_marker = CBmpManager::Get_Instance()->Find_Image(L"bar_big_marker");
+	GdiTransparentBlt(hdc,
+		773 - (467 - (int)(467.f * ((float)iHp / 1000.f))) - 6,
+		663,
+		12,
+		44,
+		bar_big_marker,
+		0,
+		0,
+		12,
+		44,
+		RGB(255, 255, 255));
+}
+
+void CPlay::Render_Eog(HDC hdc)
+{
+	/*GdiTransparentBlt(hdc,
+		350,
+		50,
+		683,
+		683,
+		m_EogDC,
+		683 * m_tEndingFrame.iFrameStart,
+		0,
+		683,
+		683,
+		RGB(0, 0, 0));*/
+
+	CBlendingManager::GetInstance()->Render(MapDC, L"", 350, 50, 683 * m_tEndingFrame.iFrameStart, 683);
+}
+
+void CPlay::Render_Eog_Base(HDC hdc)
+{
+	HDC baseDC = 0;
+	if (win)
+	{
+		baseDC = CBmpManager::Get_Instance()->Find_Image(L"eog_base");
+	}
+	else
+	{
+		baseDC = CBmpManager::Get_Instance()->Find_Image(L"eog_defeat_base");
+	}
+
+	GdiTransparentBlt(hdc,
+		400,
+		250,
+		512,
+		256,
+		baseDC,
+		0,
+		0,
+		512,
+		256,
+		RGB(255, 255, 255));
+}
+
+void CPlay::Render_Eog_Title(HDC hdc)
+{
+	HDC titleDC = 0;
+	if (win)
+	{
+		titleDC = CBmpManager::Get_Instance()->Find_Image(L"eog_victory");
+	}
+	else
+	{
+		titleDC = CBmpManager::Get_Instance()->Find_Image(L"eog_defeat");
+	}
+
+	GdiTransparentBlt(hdc,
+		400,
+		250,
+		512,
+		256,
+		titleDC,
+		0,
+		0,
+		512,
+		256,
+		RGB(255, 255, 255));
+}
+
+void CPlay::Render_Eog_Color(HDC hdc)
+{
+}
+
+void CPlay::Update_Frame()
+{
+	if (m_tFrame.dwTime + m_tFrame.dwSpeed < GetTickCount())
+	{
+		++m_tFrame.iFrameStart;
+		m_tFrame.dwTime = GetTickCount();
+
+		if (m_tFrame.iFrameStart > m_tFrame.iFrameEnd)
+			m_tFrame.iFrameStart = 0;
+	}
+}
+
+void CPlay::Update_Eog_Frame()
+{
+	if (m_tEndingFrame.dwTime + m_tEndingFrame.dwSpeed < GetTickCount())
+	{
+		++m_tEndingFrame.iFrameStart;
+		m_tEndingFrame.dwTime = GetTickCount();
+	}
 }

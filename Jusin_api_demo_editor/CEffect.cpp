@@ -16,11 +16,12 @@ void CEffect::Initialize()
 {
 }
 
-void CEffect::Initialize(FRAME _fFrame, BMPSCALE _tScale, const TCHAR* _pFrameKey)
+void CEffect::Initialize(FRAME _fFrame, BMPSCALE _tScale, const TCHAR* _pFrameKey, COLORREF _rgb)
 {
 	m_tFrame = _fFrame;
 	m_pFrameKey = _pFrameKey;
 	m_tBmpScale = _tScale;
+	m_rgbColor = _rgb;
 }
 
 int CEffect::Update()
@@ -63,7 +64,7 @@ void CEffect::Render(HDC _dc)
 		(int)m_tBmpScale.iHeight * m_tFrame.iMotion,
 		(int)m_tBmpScale.iWidth,   // 복사할 비트맵 가로 세로 사이즈
 		(int)m_tBmpScale.iHeight,
-		RGB(255, 255, 255));   // 제거할 픽셀 색상 값
+		m_rgbColor);   // 제거할 픽셀 색상 값
 }
 
 void CEffect::Release()

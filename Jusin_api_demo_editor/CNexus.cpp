@@ -7,6 +7,7 @@
 #include "CMinion.h"
 #include "CKeyManager.h"
 #include "CPeekingManager.h"
+#include "CGameManager.h"
 
 CNexus::CNexus()
 	: strFrameBlueNexus(L"BlueNexus"),
@@ -28,7 +29,8 @@ void CNexus::Initialize()
 	GetCollider()->SetScale(Vec2(24.f, 24.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
-		| COL_PLAYER);
+		| COL_PLAYER
+		| COL_ATTACK);
 
 	m_pFrameKey = L"BlueNexus";
 
@@ -39,7 +41,10 @@ void CNexus::Initialize()
 int CNexus::Update()
 {
 	if (m_bDead)
+	{
+		CGameManager::GetInstance()->SetSequence(m_eDrawID, m_iOption);
 		return DEAD;
+	}
 
 	POINT ptMouse;
 	GetCursorPos(&ptMouse); // È­¸é ÁÂÇ¥

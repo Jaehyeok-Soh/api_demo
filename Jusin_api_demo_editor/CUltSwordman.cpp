@@ -16,19 +16,25 @@ void CUltSwordman::Update(CPlayer& _pPlayer)
 {
 	if (_pPlayer.m_eCurState == CPlayer::ULT && _pPlayer.m_tFrame.iFrameStart == 3)
 	{
-		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 5.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
-
 		CHitbox* pHitbox = new CHitbox();
-		pHitbox->SetPos(_pPlayer.m_vPos);
+		pHitbox->SetPosX(_pPlayer.m_vPos.x + 10.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f));
+		pHitbox->SetPosY(_pPlayer.m_vPos.y);
 		pHitbox->SetScale(Vec2(70.f, 50.f));
 		pHitbox->Initialize(CHitbox::HITBOXINFO{
 			0.1f,		//duration
 			0.f,		//elapsed
 			40,			//damage
-			true,		//once
+			false,		//once
 			false,		//hitapplied
 			&_pPlayer	//owner
 			});
+
+		if (m_bIsTrigger)
+			return;
+
+		m_bIsTrigger = true;
+
+		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 40.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
 
 		CSceneManager::GetInstance()->GetCurScene()->AddObject(pHitbox, OBJ_HITBOX);
 
@@ -38,16 +44,21 @@ void CUltSwordman::Update(CPlayer& _pPlayer)
 		tFrame.iFrameEnd = 6;
 		tFrame.iMotion = 0;
 		tFrame.iStartBuffer = 0;
-		tFrame.dwSpeed = 200;
+		tFrame.dwSpeed = 100;
 		tFrame.dwTime = GetTickCount();
 		BMPSCALE tScale;
 		tScale.iWidth = 384;
 		tScale.iHeight = 384;
-		pEffect->SetPos(_pPlayer.m_vPos);
+		pEffect->SetPosX(_pPlayer.m_vPos.x + 30.f * ((_pPlayer.m_vMoveDir.x > 0) ? -1.f : 1.f));
+		pEffect->SetPosY(_pPlayer.m_vPos.y);
 		pEffect->SetScale(Vec2(70.f, 50.f));
-		pEffect->Initialize(tFrame, tScale, L"swordman_ult_ef_r");
+		pEffect->Initialize(tFrame, tScale, L"swordman_ult_ef_r", RGB(255, 255, 255));
 		CSceneManager::GetInstance()->GetCurScene()->AddObject(pEffect, OBJ_EFFECT);
 	}
+
+	if (_pPlayer.m_eCurState == CPlayer::ULT && (_pPlayer.m_tFrame.iFrameStart == _pPlayer.m_tFrame.iFrameEnd)
+		|| _pPlayer.m_eCurState != CPlayer::ULT)
+		m_bIsTrigger = false;
 }
 
 void CUltSwordman::Initialize(CPlayer& _pPlayer)

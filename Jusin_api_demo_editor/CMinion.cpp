@@ -46,7 +46,7 @@ void CMinion::Initialize()
 
 	m_tAttackInfo.m_bIsAttack = false;
 	m_tAttackInfo.m_fdtAttackTime = 0.f;
-	m_tAttackInfo.m_fAttackDelay = 0.25f;
+	m_tAttackInfo.m_fAttackDelay = 2.f;
 	m_tAttackInfo.m_iDamage = 10.f;
 
 	m_tFrame.iFrameStart = 0;
@@ -137,7 +137,7 @@ void CMinion::Late_Update()
 void CMinion::Render(HDC _dc)
 {
 	if (m_bIsHide
-		&& (m_bTeam && static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetTeam()))
+		&& (m_bTeam != static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetTeam()))
 	{
 		if (static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetHideOption() != m_iHideOption)
 			return;
@@ -297,6 +297,9 @@ void CMinion::DebugTextOut(HDC _dc)
 	int spriteW = int(m_vScale.x * g_fZoom);
 	int spriteH = int(m_vScale.y * g_fZoom);
 
+	if (!bColRender)
+		return;
+
 #pragma region 테스트용
 	LPCWSTR szState = GetStateName(m_eCurState);
 	TextOut(_dc,
@@ -340,7 +343,7 @@ void CMinion::AttackProc()
 			m_eCurState = MOVE;
 		}
 
-		if (Get_DistToTarget() >= 30.f)
+		if (Get_DistToTarget() >= 44.f)
 		{
 			ChaseNexus(false);
 		}

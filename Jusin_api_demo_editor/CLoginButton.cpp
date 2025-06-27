@@ -91,5 +91,6 @@ void CLoginButton::Release()
 void CLoginButton::GetAccount()
 {
 	auto loginScene = static_cast<CLogin*>(CSceneManager::GetInstance()->GetCurScene());
+	auto a = loginScene->GetAccountText();
 	CGameManager::GetInstance()->SetAccount(loginScene->GetAccountText());
 }

@@ -19,8 +19,8 @@ void CSpawnTurret::Initialize()
 	CObject* pObj = new CTurret();
 	auto turret = static_cast<CTurret*>(pObj);
 	turret->Initialize();
-	turret->SetPos(Vec2(m_vPos.x - 6, m_vPos.y + 6));
-	turret->SetScale(Vec2(20.f, 20.f));
+	turret->SetPos(Vec2(m_vPos.x - 6, m_vPos.y));
+	turret->SetScale(Vec2(24.f, 24.f));
 	turret->SetName(L"Turret");
 	turret->SetDrawID(m_iDrawID);
 	turret->SetOption(m_iOption);

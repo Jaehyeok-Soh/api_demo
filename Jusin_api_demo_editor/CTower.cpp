@@ -46,12 +46,17 @@ void CTower::OnCollisionEnter(CCollider* _pOther)
 bool CTower::CheckAttackable()
 {
 	auto gamaMananger = CGameManager::GetInstance();
-	if (m_eDrawID == TILETYPE::BLUE_TURRET1 || m_eDrawID == TILETYPE::RED_TURRET2)
+	if (m_eDrawID == TILETYPE::BLUE_TURRET1 || m_eDrawID == TILETYPE::RED_TURRET1)
 		return true;
 
 	if (m_eDrawID == TILETYPE::BLUE_TURRET2 && gamaMananger->CheckSequence(TILETYPE::BLUE_TURRET1, 1))
 		return true;
 	else if (m_eDrawID == TILETYPE::RED_TURRET2 && gamaMananger->CheckSequence(TILETYPE::RED_TURRET1, 1))
+		return true;
+
+	if (m_eDrawID == TILETYPE::BLUE_TURRET3 && gamaMananger->CheckSequence(TILETYPE::BLUE_TURRET1, 1))
+		return true;
+	else if (m_eDrawID == TILETYPE::RED_TURRET3 && gamaMananger->CheckSequence(TILETYPE::RED_TURRET1, 1))
 		return true;
 
 	if (m_eDrawID == TILETYPE::BLUE_NEXUS

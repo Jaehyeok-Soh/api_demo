@@ -138,10 +138,12 @@
     <ClInclude Include="..\Jusin_api_demo\CEnemy.h" />
     <ClInclude Include="CAStarManager.h" />
     <ClInclude Include="AStarNode.h" />
+    <ClInclude Include="CBlendingManager.h" />
     <ClInclude Include="CBmpManager.h" />
     <ClInclude Include="CBullet.h" />
     <ClInclude Include="CBush.h" />
     <ClInclude Include="CBushTile.h" />
+    <ClInclude Include="CCommunityManager.h" />
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CHitBox.h" />
     <ClInclude Include="CLoading.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CScrollManager.h" />
     <ClInclude Include="CSkill.h" />
+    <ClInclude Include="CSkillAcher.h" />
     <ClInclude Include="CSkillSwordman.h" />
     <ClInclude Include="CSpawnInhibitor.h" />
     <ClInclude Include="CSpawnNexus.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="CTower.h" />
     <ClInclude Include="CTurret.h" />
     <ClInclude Include="CUIManager.h" />
+    <ClInclude Include="CUltAcher.h" />
     <ClInclude Include="CUltSwordman.h" />
     <ClInclude Include="CWaitRoom.h" />
     <ClInclude Include="CWaitRoomUI.h" />
@@ -211,10 +215,12 @@
     <ClCompile Include="..\Jusin_api_demo\CEnemy.cpp" />
     <ClCompile Include="CAStarManager.cpp" />
     <ClCompile Include="AStarNode.cpp" />
+    <ClCompile Include="CBlendingManager.cpp" />
     <ClCompile Include="CBmpManager.cpp" />
     <ClCompile Include="CBullet.cpp" />
     <ClCompile Include="CBush.cpp" />
     <ClCompile Include="CBushTile.cpp" />
+    <ClCompile Include="CCommunityManager.cpp" />
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CLoading.cpp" />
@@ -249,6 +255,7 @@
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CScrollManager.cpp" />
     <ClCompile Include="CSkill.cpp" />
+    <ClCompile Include="CSkillAcher.cpp" />
     <ClCompile Include="CSkillSwordman.cpp" />
     <ClCompile Include="CSpawnInhibitor.cpp" />
     <ClCompile Include="CSpawnNexus.cpp" />
@@ -263,6 +270,7 @@
     <ClCompile Include="CTower.cpp" />
     <ClCompile Include="CTurret.cpp" />
     <ClCompile Include="CUIManager.cpp" />
+    <ClCompile Include="CUltAcher.cpp" />
     <ClCompile Include="CUltSwordman.cpp" />
     <ClCompile Include="CWaitRoom.cpp" />
     <ClCompile Include="CWaitRoomUI.cpp" />

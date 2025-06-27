@@ -17,6 +17,9 @@ struct DTOPLAYER
 	int m_iBushOption;
 	bool m_bIsUsingSkill;
 	int m_iCurrentSkill;
+	bool isStart = false;
+	bool isQuit = false;
+	string winner = "";
 };
 
 inline void to_json(nlohmann::json& j, const DTOPLAYER& p)
@@ -35,6 +38,9 @@ inline void to_json(nlohmann::json& j, const DTOPLAYER& p)
 	j["m_iBushOption"] = p.m_iBushOption;
 	j["m_bIsUsingSkill"] = p.m_bIsUsingSkill;
 	j["m_iCurrentSkill"] = p.m_iCurrentSkill;
+	j["isStart"] = p.isStart;
+	j["isQuit"] = p.isQuit;
+	j["winner"] = p.winner;
 }
 
 inline void from_json(const nlohmann::json& j, DTOPLAYER& p)
@@ -53,4 +59,7 @@ inline void from_json(const nlohmann::json& j, DTOPLAYER& p)
 	j.at("m_iBushOption").get_to(p.m_iBushOption);
 	j.at("m_bIsUsingSkill").get_to(p.m_bIsUsingSkill);
 	j.at("m_iCurrentSkill").get_to(p.m_iCurrentSkill);
+	j.at("isStart").get_to(p.isStart);
+	j.at("isQuit").get_to(p.isQuit);
+	j.at("winner").get_to(p.winner);
 }
