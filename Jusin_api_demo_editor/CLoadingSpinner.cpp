@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CLoadingSpinner.h"
 #include "CBmpManager.h"
+#include "CBlendingManager.h"
 
 CLoadingSpinner::CLoadingSpinner()
     : m_hMemDC(0)
@@ -41,17 +42,28 @@ void CLoadingSpinner::Late_Update()
 
 void CLoadingSpinner::Render(HDC _dc)
 {
-    GdiTransparentBlt(_dc,
-        m_tRect.left,
-        m_tRect.top,
-        m_vScale.x,
-        m_vScale.y,
-        m_hMemDC,
+    //GdiTransparentBlt(_dc,
+    //    m_tRect.left,
+    //    m_tRect.top,
+    //    m_vScale.x,
+    //    m_vScale.y,
+    //    m_hMemDC,
+    //    m_vScale.x * m_tFrame.iFrameStart,
+    //    m_vScale.y * m_tFrame.iMotion,
+    //    m_vScale.x,   // 복사할 비트맵 가로 세로 사이즈
+    //    m_vScale.y,
+    //    RGB(255, 255, 255));   // 제거할 픽셀 색상 값
+
+    //../Image/ApiDemo/Client/loading/loadingscreen_spinner.bmp
+    CBlendingManager::GetInstance()->Render(_dc,
+        L"../Image/ApiDemo/Client/loading/loadingscreen_spinner.png",
+        Rect(m_tRect.left, m_tRect.top, m_vScale.x, m_vScale.y),
         m_vScale.x * m_tFrame.iFrameStart,
         m_vScale.y * m_tFrame.iMotion,
-        m_vScale.x,   // 복사할 비트맵 가로 세로 사이즈
+        m_vScale.x,
         m_vScale.y,
-        RGB(255, 255, 255));   // 제거할 픽셀 색상 값
+        1.f);
+
 }
 
 void CLoadingSpinner::Frame_Update_Spinner()

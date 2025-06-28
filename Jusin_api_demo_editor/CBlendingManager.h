@@ -26,7 +26,8 @@ public:
 
 public:
 	void Initialize();
-	void Render(HDC _dc, wstring _path, float x, float y, float cx, float cy);
+	void Render(HDC _dc, const TCHAR* _path, Rect destRect, float x, float y, float cx, float cy, float _alpha);
+	void RenderBlend(HDC _dc, wstring _path, Rect destRect, float x, float y, float cx, float cy, float _alpha);
 	void Release();
 
 private:

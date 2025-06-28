@@ -6,6 +6,7 @@
 #include "CScrollManager.h"
 #include "CBmpManager.h"
 #include "CLoadingSpinner.h"
+#include "CBlendingManager.h"
 
 CLoading::CLoading()
 {
@@ -13,6 +14,7 @@ CLoading::CLoading()
 
 CLoading::~CLoading()
 {
+	CBlendingManager::GetInstance()->Release();
 }
 
 void CLoading::Update()
@@ -86,6 +88,8 @@ void CLoading::Exit()
 
 void CLoading::Initialize()
 {
+	CBlendingManager::GetInstance()->Initialize();
+
 	CObject* pSpinner = new CLoadingSpinner();
 	pSpinner->Initialize();
 	pSpinner->SetPos(Vec2(635, 360));
@@ -112,101 +116,47 @@ void CLoading::Render_Map(HDC _dc)
 
 void CLoading::Render_LoadScreen(HDC _dc)
 {
-	HDC m_loadScreenBlueDC = CBmpManager::Get_Instance()->Find_Image(L"loadScreen");
-	HDC blue = CBmpManager::Get_Instance()->Find_Image(L"swordman_attack_r");
+	const TCHAR* path_frameblue = L"../Image/ApiDemo/Client/loading/loadingFrameBlue.png";
+	const TCHAR* path_loadScreen = L"../Image/ApiDemo/Client/loading/loadScreen.png";
+	const TCHAR* path_FrameRed = L"../Image/ApiDemo/Client/loading/loadingFrameRed.png";
 
-	GdiTransparentBlt(m_loadScreenBlueDC,
-		0,
-		0,
-		309,
-		559,
-		blue,
-		64 * 3,
-		0,
-		64,
-		64,
-		RGB(255, 255, 255));
+	if (m_arrObj[OBJ_PLAYER].size() == 0)
+		return;
+	else if (m_arrObj[OBJ_PLAYER].size() >= 1)
+	{
+		CBlendingManager::GetInstance()->Render(_dc, L"../Image/ApiDemo/Client/loading/loadingFrameBlue.png", Rect(557, 40, 153, 280), 0, 0, 308, 559, 1.f);
+		CBlendingManager::GetInstance()->Render(_dc, L"../Image/ApiDemo/Client/loading/loadScreen.png", Rect(557, 40, 154, 281), 0, 0, 308, 561, 1.f);
+		HDC blue = CBmpManager::Get_Instance()->Find_Image(L"swordman_attack_r");
+		GdiTransparentBlt(_dc,
+			557 + 8,
+			40,
+			153,
+			281,
+			blue,
+			64 * 3,
+			0,
+			64,
+			64,
+			RGB(255, 255, 255));
 
-	GdiTransparentBlt(m_loadScreenBlueDC,
-		0,
-		0,
-		309,
-		559,
-		m_loadFrameBlueDC,
-		0,
-		0,
-		308,
-		560,
-		RGB(255, 255, 255));
-
-	GdiTransparentBlt(_dc,
-		557,
-		40,
-		154,
-		281,
-		m_loadScreenBlueDC,
-		0,
-		0,
-		308,
-		561,
-		RGB(255, 255, 255));
-
-	HDC hDC = GetDC(g_hWnd);
-
-	HDC m_loadScreenRedDC = CreateCompatibleDC(hDC);
-
-	ReleaseDC(g_hWnd, hDC);
-	const TCHAR* path = L"../Image/ApiDemo/Client/loading/loadScreen.bmp";
-	HBITMAP hBitMap = (HBITMAP)LoadImage(NULL,
-		path,
-		IMAGE_BITMAP,
-		0,
-		0,
-		LR_LOADFROMFILE | LR_CREATEDIBSECTION);
-
-	HBITMAP m_hOldMap = (HBITMAP)SelectObject(m_loadScreenRedDC, hBitMap);
-
-	//m_loadScreenRedDC = CBmpManager::Get_Instance()->Find_Image(L"loadScreen");
-	HDC red = CBmpManager::Get_Instance()->Find_Image(L"swordman_attack_l");
-	GdiTransparentBlt(m_loadScreenRedDC,
-		0,
-		0,
-		309,
-		559,
-		red,
-		0,
-		0,
-		64,
-		64,
-		RGB(255, 255, 255));
-
-	GdiTransparentBlt(m_loadScreenRedDC,
-		0,
-		0,
-		309,
-		559,
-		m_loadFrameRedDC,
-		0,
-		0,
-		308,
-		560,
-		RGB(255, 255, 255));
-
-	GdiTransparentBlt(_dc,
-		557,
-		400,
-		154,
-		281,
-		m_loadScreenRedDC,
-		0,
-		0,
-		308,
-		561,
-		RGB(255, 255, 255));
-
-	//SelectObject(hDC, m_hOldMap); // 이전 비트맵 복원
-	DeleteObject(hBitMap);
-	DeleteDC(hDC);
+		if (m_arrObj[OBJ_PLAYER].size() >= 2)
+		{
+			CBlendingManager::GetInstance()->Render(_dc, L"../Image/ApiDemo/Client/loading/loadingFrameRed.png", Rect(557, 400, 153, 280), 0, 0, 308, 559, 1.f);
+			CBlendingManager::GetInstance()->Render(_dc, L"../Image/ApiDemo/Client/loading/loadScreen.png", Rect(557, 400, 154, 281), 0, 0, 308, 561, 1.f);
+			HDC red = CBmpManager::Get_Instance()->Find_Image(L"acher_attack_l");
+			GdiTransparentBlt(_dc,
+				557 + 8,
+				400,
+				153,
+				281,
+				red,
+				64 * 3,
+				0,
+				64,
+				64,
+				RGB(0, 0, 0));
+		}
+	}
 }
 
 void CLoading::AddPlayer(DTOConnectInfo _playerConnectInfo, bool _isMine)

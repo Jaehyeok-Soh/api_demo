@@ -83,7 +83,7 @@ void CPlay::Render(HDC _dc)
 	if (gameSet)
 	{
 		Render_Eog(_dc);
-		if (m_tEndingFrame.iFrameStart >= 17)
+		if (m_tEndingFrame.iFrameStart >= 16)
 		{
 			Render_Eog_Color(_dc);
 			Render_Eog_Base(_dc);
@@ -194,10 +194,10 @@ void CPlay::Initialize()
 
 	m_EogDC = CBmpManager::Get_Instance()->Find_Image(L"eog");
 
-	m_tEndingFrame.dwSpeed = 200;
+	m_tEndingFrame.dwSpeed = 50;
 	m_tEndingFrame.dwTime;
 	m_tEndingFrame.iFrameStart = 0;
-	m_tEndingFrame.iFrameEnd = 45;
+	m_tEndingFrame.iFrameEnd = 44;
 	m_tEndingFrame.iMotion = 0;
 }
 
@@ -321,69 +321,64 @@ void CPlay::Render_UI(HDC hdc)
 
 void CPlay::Render_Eog(HDC hdc)
 {
-	/*GdiTransparentBlt(hdc,
-		350,
-		50,
-		683,
-		683,
-		m_EogDC,
-		683 * m_tEndingFrame.iFrameStart,
-		0,
-		683,
-		683,
-		RGB(0, 0, 0));*/
+	wstring _path;
 
-	CBlendingManager::GetInstance()->Render(MapDC, L"", 350, 50, 683 * m_tEndingFrame.iFrameStart, 683);
+	if (m_tEndingFrame.iFrameStart >= 0 && m_tEndingFrame.iFrameStart <= 16)
+	{
+		_path = L"../Image/ApiDemo/Client/endofgame/eog_fb/eog_fb_color_01_";
+		if (m_tEndingFrame.iFrameStart + 1 < 10)
+			_path += to_wstring(0);
+		_path += to_wstring(m_tEndingFrame.iFrameStart + 1);
+		_path += L".png";
+	}
+	else if (m_tEndingFrame.iFrameStart >= 16 && m_tEndingFrame.iFrameStart <= 32)
+	{
+		_path = L"../Image/ApiDemo/Client/endofgame/eog_fb/eog_fb_color_02_";
+		if (m_tEndingFrame.iFrameStart - 15 < 10)
+			_path += to_wstring(0);
+		_path += to_wstring(m_tEndingFrame.iFrameStart - 15);
+		_path += L".png";
+	}
+	else if (m_tEndingFrame.iFrameStart >= 33 && m_tEndingFrame.iFrameStart <= 45)
+	{
+		_path = L"../Image/ApiDemo/Client/endofgame/eog_fb/eog_fb_color_03_";
+		if (m_tEndingFrame.iFrameStart - 32 < 10)
+			_path += to_wstring(0);
+		_path += to_wstring(m_tEndingFrame.iFrameStart - 32);
+		_path += L".png";
+	}
+
+	//CBlendingManager::GetInstance()->RenderBlend(hdc, _path, Rect(0, 0, WINCX, WINCY), 0, 0, 683, 683, 0.5f);
+
+	thread i1(&CBlendingManager::RenderBlend, CBlendingManager::GetInstance(), hdc, _path, Rect(0, 0, WINCX, WINCY), 0, 0, 683, 683, 0.5f);
+	i1.join();
 }
 
 void CPlay::Render_Eog_Base(HDC hdc)
 {
-	HDC baseDC = 0;
 	if (win)
 	{
-		baseDC = CBmpManager::Get_Instance()->Find_Image(L"eog_base");
+		//CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/endofgame/eog_base.png", Rect(400, 200, 512, 256), 0, 0, 512, 256, 1.f);
+
+		thread i1(&CBlendingManager::RenderBlend, CBlendingManager::GetInstance(), hdc, L"../Image/ApiDemo/Client/endofgame/eog_base.png", Rect(400, 200, 512, 256), 0, 0, 512, 256, 1.f);
+		i1.join();
 	}
 	else
 	{
-		baseDC = CBmpManager::Get_Instance()->Find_Image(L"eog_defeat_base");
+		CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/endofgame/eog_defeat_base.png", Rect(400, 200, 512, 256), 0, 0, 512, 256, 1.f);
 	}
-
-	GdiTransparentBlt(hdc,
-		400,
-		250,
-		512,
-		256,
-		baseDC,
-		0,
-		0,
-		512,
-		256,
-		RGB(255, 255, 255));
 }
 
 void CPlay::Render_Eog_Title(HDC hdc)
 {
-	HDC titleDC = 0;
 	if (win)
 	{
-		titleDC = CBmpManager::Get_Instance()->Find_Image(L"eog_victory");
+		CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/endofgame/eog_victory.png", Rect(400, 200, 512, 256), 0, 0, 512, 256, 1.f);
 	}
 	else
 	{
-		titleDC = CBmpManager::Get_Instance()->Find_Image(L"eog_defeat");
+		CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/endofgame/eog_defeat.png", Rect(400, 200, 512, 256), 0, 0, 512, 256, 1.f);
 	}
-
-	GdiTransparentBlt(hdc,
-		400,
-		250,
-		512,
-		256,
-		titleDC,
-		0,
-		0,
-		512,
-		256,
-		RGB(255, 255, 255));
 }
 
 void CPlay::Render_Eog_Color(HDC hdc)
@@ -408,5 +403,10 @@ void CPlay::Update_Eog_Frame()
 	{
 		++m_tEndingFrame.iFrameStart;
 		m_tEndingFrame.dwTime = GetTickCount();
+
+		if (m_tEndingFrame.iFrameStart > m_tEndingFrame.iFrameEnd)
+		{
+			m_tEndingFrame.iFrameStart = 33;
+		}
 	}
 }
