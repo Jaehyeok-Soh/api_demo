@@ -8,6 +8,7 @@
 #include "CSceneManager.h"
 #include "CTimeManager.h"
 #include "CGameManager.h"
+#include "CBlendingManager.h"
 
 CTurret::CTurret()
 	:strFrameBlueTurret(L"BlueTurretSmall"), strFrameRedTurret(L"RedTurretSmall")
@@ -24,7 +25,7 @@ void CTurret::Initialize()
 
 	CreateCollider();
 
-	GetCollider()->SetScale(Vec2(8.f, 8.f));
+	GetCollider()->SetScale(Vec2(12.f, 12.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_PLAYER
@@ -57,9 +58,6 @@ int CTurret::Update()
 	POINT vWorldMouse;
 	vWorldMouse.x = ptMouse.x / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollX();
 	vWorldMouse.y = ptMouse.y / g_fZoom - CScrollManager::Get_Instance()->Get_ScrollY();
-
-	bool bAttackable = true;//CheckAttackable();
-
 
 	if (PtInRect(&m_tRect, vWorldMouse) && CheckAttackable())
 	{
@@ -139,24 +137,22 @@ void CTurret::Render(HDC _dc)
 			RGB(189, 189, 189));   // 제거할 픽셀 색상 값
 	}
 
-#pragma region 테스트용
-	std::wstring wstrHP = std::to_wstring(m_tStatusInfo.m_iHp);
-	LPCWSTR szHP = wstrHP.c_str();
-	TextOut(_dc,
-		(int)drawX + 60,
-		(int)drawY - 70,
-		szHP,
-		lstrlen(szHP));
-#pragma endregion
-//#pragma region 테스트용
-//	std::wstring wstrTeam = m_bTeam ? L"Blue" : L"Red";
-//	LPCWSTR szTeam = wstrTeam.c_str();
-//	TextOut(_dc,
-//		(int)drawX + 45,
-//		(int)drawY - 70,
-//		szTeam,
-//		lstrlen(szTeam));
-//#pragma endregion
+	int barSpriteW = int(8.25f * g_fZoom);
+	int barSpriteH = int(1.375f * g_fZoom);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/volume_guage.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, (int)(barSpriteW * ((float)m_tStatusInfo.m_iHp / 100.f)), barSpriteH),
+		0, 0,
+		73, 5,
+		1.f);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/guage_bg.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, barSpriteW, barSpriteH),
+		0, 0,
+		46, 11,
+		1.f);
 }
 
 void CTurret::Release()

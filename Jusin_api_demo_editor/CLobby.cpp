@@ -47,6 +47,13 @@ void CLobby::Render(HDC _dc)
 		221,
 		RGB(1, 1, 1));	// 제거할 픽셀 색상 값
 
+	auto str = CGameManager::GetInstance()->GetAccount();
+	TextOut(MapDC,
+		1140,
+		25,
+		str.c_str(),
+		lstrlen(str.c_str()));
+
 	CScene::Render(_dc);
 }
 
@@ -62,14 +69,6 @@ void CLobby::Exit()
 
 void CLobby::Render_Map(HDC hdc)
 {
-	auto a = CGameManager::GetInstance()->GetAccount().c_str();
-	LPCWSTR szState = CGameManager::GetInstance()->GetAccount().c_str();
-	TextOut(MapDC,
-		1000,
-		100,
-		szState,
-		lstrlen(szState));
-
 	GdiTransparentBlt(hdc,
 		0,
 		0,

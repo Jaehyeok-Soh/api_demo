@@ -10,6 +10,7 @@
 #include "CPeekingManager.h"
 #include "CSceneManager.h"
 #include "CMelee.h"
+#include "CBlendingManager.h"
 
 CMinion::CMinion()
 {
@@ -31,7 +32,8 @@ void CMinion::Initialize()
 		| COL_TOWER
 		| COL_ATTACK
 		| COL_PLAYER
-		| COL_SKILL);
+		| COL_SKILL
+		| COL_WALL);
 
 	m_tStatusInfo.m_iHp = 100;
 
@@ -166,6 +168,23 @@ void CMinion::Render(HDC _dc)
 		(int)46,   // 복사할 비트맵 가로 세로 사이즈
 		(int)41,
 		RGB(255, 0, 255));   // 제거할 픽셀 색상 값
+
+	int barSpriteW = int(8.25f * g_fZoom);
+	int barSpriteH = int(1.375f * g_fZoom);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/volume_guage.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, (int)(barSpriteW * ((float)m_tStatusInfo.m_iHp / 100.f)), barSpriteH),
+		0, 0,
+		73, 5,
+		1.f);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/guage_bg.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, barSpriteW, barSpriteH),
+		0, 0,
+		46, 11,
+		1.f);
 
 	DebugTextOut(_dc);
 }
@@ -428,4 +447,3 @@ void CMinion::ChaseNexus(bool _bIsInit)
 		m_tAttackInfo.m_fdtAttackTime = 0.f;
 	}
 }
-

@@ -33,6 +33,7 @@ LRESULT CALLBACK EditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 }
 
 CLogin::CLogin()
+	: m_wstrInput(L"")
 {
 }
 

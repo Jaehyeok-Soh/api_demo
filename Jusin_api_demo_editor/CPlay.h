@@ -30,12 +30,13 @@ private:
 
 	void Update_Frame();
 	void Update_Eog_Frame();
+	void Update_Eog_Color_Frame();
 private:
 	bool gameSet;
 	int win;
 
 	FRAME m_tEndingFrame;
-	FRAME m_tEndingAuroraFrame;
+	FRAME m_tEogColorFrame;
 	HDC m_EogDC;
 };
 

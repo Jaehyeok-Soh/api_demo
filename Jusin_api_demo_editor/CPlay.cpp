@@ -20,11 +20,13 @@ CPlay::CPlay()
 	m_EogDC(0)
 {
 	ZeroMemory(&m_tEndingFrame, sizeof(FRAME));
-	ZeroMemory(&m_tEndingAuroraFrame, sizeof(FRAME));
+	ZeroMemory(&m_tEogColorFrame, sizeof(FRAME));
 }
 
 CPlay::~CPlay()
 {
+	static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->ToDTO(false, true, "");
+	CTcpManager::DestroyInstance();
 	CBlendingManager::GetInstance()->Release();
 }
 
@@ -57,12 +59,14 @@ void CPlay::Update()
 	if (gameSet)
 	{
 		Update_Eog_Frame();
-		//update end act
-		if (win)
+		if (m_tEndingFrame.iFrameStart >= 20)
 		{
+			Update_Eog_Color_Frame();
 		}
-		else
+
+		if (m_tEndingFrame.iFrameStart == m_tEndingFrame.iFrameEnd)
 		{
+			//add object eogbutton
 		}
 	}
 }
@@ -82,10 +86,71 @@ void CPlay::Render(HDC _dc)
 
 	if (gameSet)
 	{
+		auto scrollManager = CScrollManager::Get_Instance();
+		auto team = CSceneManager::GetInstance()->GetPlayer()->GetTeam();
+
+		if (team)
+		{
+			if (win)
+			{
+				if (scrollManager->Get_ScrollX() > -469.f)
+				{
+					scrollManager->Set_ScrollX(-10.f);
+				}
+				if (scrollManager->Get_ScrollY() < 0)
+				{
+					scrollManager->Set_ScrollY(10.f);
+				}
+			}
+			else
+			{
+				if (scrollManager->Get_ScrollX() < -10.f)
+				{
+					scrollManager->Set_ScrollX(10.f);
+				}
+				if (scrollManager->Get_ScrollY() > -1750.f)
+				{
+					scrollManager->Set_ScrollY(-10.f);
+				}
+			}
+		}
+		else
+		{
+			if (win)
+			{
+				if (scrollManager->Get_ScrollX() < -10.f)
+				{
+					scrollManager->Set_ScrollX(10.f);
+				}
+				if (scrollManager->Get_ScrollY() > -1750.f)
+				{
+					scrollManager->Set_ScrollY(-10.f);
+				}
+			}
+			else
+			{
+				if (scrollManager->Get_ScrollX() > -469.f)
+				{
+					scrollManager->Set_ScrollX(-10.f);
+				}
+				if (scrollManager->Get_ScrollY() < 0)
+				{
+					scrollManager->Set_ScrollY(10.f);
+				}
+			}
+		}
+
+		
+		
 		Render_Eog(_dc);
-		if (m_tEndingFrame.iFrameStart >= 16)
+
+		if (m_tEndingFrame.iFrameStart >= 20)
 		{
 			Render_Eog_Color(_dc);
+		}
+
+		if (m_tEndingFrame.iFrameStart >= 16)
+		{
 			Render_Eog_Base(_dc);
 		}
 
@@ -151,6 +216,9 @@ void CPlay::Enter()
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_HITBOX, OBJID::OBJ_MINION);
 	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_HITBOX, OBJID::OBJ_PLAYER);
 
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_WALL, OBJID::OBJ_PLAYER);
+	CColliderManager::Get_Instance()->CheckGroup(OBJID::OBJ_WALL, OBJID::OBJ_MINION);
+
 	Initialize();
 }
 
@@ -182,8 +250,8 @@ void CPlay::Initialize()
 	}
 	else
 	{
-		CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
-		CScrollManager::Get_Instance()->Set_ScrollY(-750.f);
+		CScrollManager::Get_Instance()->Set_ScrollX(-469.f);
+		CScrollManager::Get_Instance()->Set_ScrollY(0.f);
 	}
 
 	m_tFrame.dwSpeed = 200;
@@ -199,6 +267,12 @@ void CPlay::Initialize()
 	m_tEndingFrame.iFrameStart = 0;
 	m_tEndingFrame.iFrameEnd = 44;
 	m_tEndingFrame.iMotion = 0;
+
+	m_tEogColorFrame.dwSpeed = 50;
+	m_tEogColorFrame.dwTime;
+	m_tEogColorFrame.iFrameStart = 0;
+	m_tEogColorFrame.iFrameEnd = 2;
+	m_tEogColorFrame.iMotion = 0;
 }
 
 void CPlay::Key_Input()
@@ -239,18 +313,7 @@ void CPlay::Render_Map(HDC hdc, int iScrollX, int iScrollY)
 
 void CPlay::Render_UI(HDC hdc)
 {
-	HDC scoreBoard = CBmpManager::Get_Instance()->Find_Image(L"scoreBoard");
-	GdiTransparentBlt(hdc,
-		435,
-		0,
-		510,
-		54,
-		scoreBoard,
-		0,
-		0,
-		510,
-		54,
-		RGB(255, 255, 255));
+	CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/scoreBoard.png", Rect(435, 0, 510, 54), 0, 0, 510, 54, 1.f);
 
 	HDC minimapBorder = CBmpManager::Get_Instance()->Find_Image(L"minimapBorder");
 	HDC Minimap = CBmpManager::Get_Instance()->Find_Image(L"Minimap");
@@ -278,18 +341,7 @@ void CPlay::Render_UI(HDC hdc)
 		310,
 		RGB(255, 255, 255));
 
-	HDC playBottom = CBmpManager::Get_Instance()->Find_Image(L"playBottom");
-	GdiTransparentBlt(hdc,
-		135,
-		550,
-		900,
-		170,
-		playBottom,
-		0,
-		0,
-		900,
-		170,
-		RGB(255, 255, 255));
+	CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/HUD/playBottom.png", Rect(140, 550, 900, 170), 0, 0, 900, 170, 1.f);
 
 	int iHp = static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetStatus().m_iHp;
 	HDC bar_big1 = CBmpManager::Get_Instance()->Find_Image(L"bar_big1");
@@ -305,18 +357,14 @@ void CPlay::Render_UI(HDC hdc)
 		43,
 		RGB(1, 1, 1));
 
-	HDC bar_big_marker = CBmpManager::Get_Instance()->Find_Image(L"bar_big_marker");
-	GdiTransparentBlt(hdc,
-		773 - (467 - (int)(467.f * ((float)iHp / 1000.f))) - 6,
-		663,
-		12,
-		44,
-		bar_big_marker,
+	CBlendingManager::GetInstance()->RenderBlend(hdc,
+		L"../Image/ApiDemo/Client/HUD/bar_big_marker.png",
+		Rect(773 - (467 - (int)(467.f * ((float)iHp / 1000.f))) - 12, 641, 24, 88),
 		0,
 		0,
 		12,
 		44,
-		RGB(255, 255, 255));
+		1.f);
 }
 
 void CPlay::Render_Eog(HDC hdc)
@@ -383,6 +431,7 @@ void CPlay::Render_Eog_Title(HDC hdc)
 
 void CPlay::Render_Eog_Color(HDC hdc)
 {
+	CBlendingManager::GetInstance()->Render(hdc, L"../Image/ApiDemo/Client/endofgame/eog_fb_color.png", Rect(0, 0, WINCX, WINCY), 682 * m_tEogColorFrame.iFrameStart, 682 * m_tEogColorFrame.iMotion, 682, 682, 0.6f);
 }
 
 void CPlay::Update_Frame()
@@ -407,6 +456,34 @@ void CPlay::Update_Eog_Frame()
 		if (m_tEndingFrame.iFrameStart > m_tEndingFrame.iFrameEnd)
 		{
 			m_tEndingFrame.iFrameStart = 33;
+		}
+	}
+}
+
+void CPlay::Update_Eog_Color_Frame()
+{
+	if (m_tEogColorFrame.dwTime + m_tEogColorFrame.dwSpeed < GetTickCount())
+	{
+		++m_tEogColorFrame.iFrameStart;
+		m_tEogColorFrame.dwTime = GetTickCount();
+
+		if (m_tEogColorFrame.iFrameStart > m_tEogColorFrame.iFrameEnd)
+		{
+			m_tEogColorFrame.iMotion++;
+
+			if (win && m_tEogColorFrame.iMotion > 3)
+			{
+				m_tEogColorFrame.iFrameStart = 0;
+				m_tEogColorFrame.iMotion = 2;
+			}
+
+			if (!win && m_tEogColorFrame.iMotion > 5 && m_tEogColorFrame.iFrameStart > 0)
+			{
+				m_tEogColorFrame.iFrameStart = 1;
+				m_tEogColorFrame.iMotion = 4;
+			}
+
+			m_tEogColorFrame.iFrameStart = 0;
 		}
 	}
 }

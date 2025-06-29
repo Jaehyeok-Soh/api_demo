@@ -38,6 +38,8 @@ private:
 
 	void ChaseNexus(bool _bIsInit);
 
+	void Render_UI(HDC hdc);
+
 private:
 	MINIONSTATE               m_eCurState;
 	MINIONSTATE               m_ePreState;

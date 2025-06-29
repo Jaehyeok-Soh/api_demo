@@ -47,6 +47,9 @@ void CRanged::Attack()
 
 void CRanged::OnHit()
 {
+	if (m_pOwner->GetTarget() == nullptr)
+		return;
+
 	if (static_cast<CCharacter*>(m_pOwner->GetTarget()))
 		static_cast<CCharacter*>(m_pOwner->GetTarget())->OnHit(m_tAttackInfo.m_iDamage);
 }

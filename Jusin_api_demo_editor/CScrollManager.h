@@ -17,6 +17,8 @@ public:
 	const float Get_ScrollY() const { return m_fScrollY; }
 	void Set_ScrollY(float _fY);
 
+	void SetScroll(Vec2 _vVal) { m_fScrollX = _vVal.x; m_fScrollY = _vVal.y;}
+
 	float		Get_ScrollXMax() { return m_fScrollXMax; }
 	float		Get_ScrollYMax() { return m_fScrollYMax; }
 

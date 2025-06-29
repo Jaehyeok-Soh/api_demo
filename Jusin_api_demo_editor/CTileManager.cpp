@@ -7,6 +7,7 @@
 #include "CSpawnInhibitor.h"
 #include "CCommonTile.h"
 #include "CBushTile.h"
+#include "CWallTile.h"
 
 CTileManager* CTileManager::m_pInstance = nullptr;
 
@@ -90,7 +91,8 @@ TILETYPE CTileManager::Peeking_Tile(POINT ptMouse)
 		return TILETYPE::PEEK_DISABLE;
 
 	int iOption = static_cast<CTile*>(m_vecTile[iIndex])->GetOption();
-	if (iOption == 0)
+	int iDrawID = static_cast<CTile*>(m_vecTile[iIndex])->GetDrawID();
+	if (iOption == 0 || iDrawID == 40)
 		return TILETYPE::PEEK_DISABLE;
 
 	return (TILETYPE)iOption;
@@ -196,6 +198,10 @@ void CTileManager::Load_Tile()
 		{
 			pTile = new CBushTile();
 		}
+		else if (iDrawID == WALL)
+		{
+			pTile = new CWallTile();
+		}
 		else
 		{
 			pTile = new CCommonTile();
@@ -229,5 +235,6 @@ const Vec2 CTileManager::MouseToTile(POINT ptMouse)
 
 bool CTileManager::CheckPeekDisable(int _nx, int _ny)
 {
-	return  static_cast<CTile*>(m_vecTile[_ny * TILEX + _nx])->GetDrawID() == TILETYPE::PEEK_DISABLE;
+	return (static_cast<CTile*>(m_vecTile[_ny * TILEX + _nx])->GetDrawID() == TILETYPE::PEEK_DISABLE)
+		|| (static_cast<CTile*>(m_vecTile[_ny * TILEX + _nx])->GetDrawID() == TILETYPE::WALL);
 }

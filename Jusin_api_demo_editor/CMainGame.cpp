@@ -28,7 +28,6 @@ void CMainGame::Initialize()
 	m_hBackDC = CreateCompatibleDC(m_DC);
 	m_hBackBmp = CreateCompatibleBitmap(m_DC, WINCX, WINCY);
 	m_hOldBmp = (HBITMAP)SelectObject(m_hBackDC, m_hBackBmp);
-
 	Load_Img();
 
 	CTimeManager::Get_Instance()->Initialize();
@@ -105,14 +104,12 @@ void CMainGame::Release()
 		DeleteDC(m_hBackDC);
 	}
 
-	static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->ToDTO(false, true, "");
 	CPeekingManager::DestroyInstance();
 	CKeyManager::Destroy_Instance();
 	CColliderManager::Destroy_Instance();
 	CSceneManager::DestroyInstance();
 	CGameManager::DestroyInstance();
 	CTimeManager::Destroy_Instance();
-	CTcpManager::DestroyInstance();
 }
 
 void CMainGame::ClientCursorLock()

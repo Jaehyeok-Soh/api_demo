@@ -144,6 +144,7 @@
     <ClInclude Include="CBush.h" />
     <ClInclude Include="CBushTile.h" />
     <ClInclude Include="CCommunityManager.h" />
+    <ClInclude Include="CEogButton.h" />
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="CHitBox.h" />
     <ClInclude Include="CLoading.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="CLobby.h" />
     <ClInclude Include="CLogin.h" />
     <ClInclude Include="CLoginButton.h" />
+    <ClInclude Include="CPngEffect.h" />
     <ClInclude Include="CRanged.h" />
     <ClInclude Include="CButton.h" />
     <ClInclude Include="CCharacter.h" />
@@ -197,6 +199,8 @@
     <ClInclude Include="CUltSwordman.h" />
     <ClInclude Include="CWaitRoom.h" />
     <ClInclude Include="CWaitRoomUI.h" />
+    <ClInclude Include="CWall.h" />
+    <ClInclude Include="CWallTile.h" />
     <ClInclude Include="CWeapon.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DTOPlayer.h" />
@@ -221,6 +225,7 @@
     <ClCompile Include="CBush.cpp" />
     <ClCompile Include="CBushTile.cpp" />
     <ClCompile Include="CCommunityManager.cpp" />
+    <ClCompile Include="CEogButton.cpp" />
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="CHitBox.cpp" />
     <ClCompile Include="CLoading.cpp" />
@@ -228,6 +233,7 @@
     <ClCompile Include="CLobby.cpp" />
     <ClCompile Include="CLogin.cpp" />
     <ClCompile Include="CLoginButton.cpp" />
+    <ClCompile Include="CPngEffect.cpp" />
     <ClCompile Include="CRanged.cpp" />
     <ClCompile Include="CButton.cpp" />
     <ClCompile Include="CCharacter.cpp" />
@@ -274,6 +280,8 @@
     <ClCompile Include="CUltSwordman.cpp" />
     <ClCompile Include="CWaitRoom.cpp" />
     <ClCompile Include="CWaitRoomUI.cpp" />
+    <ClCompile Include="CWall.cpp" />
+    <ClCompile Include="CWallTile.cpp" />
     <ClCompile Include="CWeapon.cpp" />
     <ClCompile Include="DTOConnectInfo.h" />
     <ClCompile Include="Jusin_api_demo_editor.cpp" />

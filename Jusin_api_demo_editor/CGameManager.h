@@ -44,9 +44,8 @@ public:
 	void SetAccount(wstring _wstrVal)
 	{
 		m_wstrAccount = _wstrVal;
-		auto a = 1;
 	}
-	const wstring GetAccount() const { return m_wstrAccount; }
+	wstring GetAccount() const { return m_wstrAccount; }
 
 public:
 	void CheckEndOfGame();

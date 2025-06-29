@@ -7,6 +7,7 @@
 #include "CBmpManager.h"
 #include "CLoadingSpinner.h"
 #include "CBlendingManager.h"
+#include "CGameManager.h"
 
 CLoading::CLoading()
 {
@@ -73,8 +74,6 @@ void CLoading::Render(HDC _dc)
 void CLoading::Enter()
 {
 	MapDC = CBmpManager::Get_Instance()->Find_Image(L"loadingBg");
-	//m_loadScreenBlueDC = CBmpManager::Get_Instance()->Find_Image(L"loadScreen");
-	//m_loadScreenRedDC = CBmpManager::Get_Instance()->Find_Image(L"loadScreen");
 	m_loadFrameBlueDC = CBmpManager::Get_Instance()->Find_Image(L"loadingFrameBlue");
 	m_loadFrameRedDC = CBmpManager::Get_Instance()->Find_Image(L"loadingFrameRed");
 
@@ -164,25 +163,40 @@ void CLoading::AddPlayer(DTOConnectInfo _playerConnectInfo, bool _isMine)
 	//플레이어 초기화
 	CObject* pObj = new CPlayer();
 	CPlayer* pPlayer = static_cast<CPlayer*>(pObj);
-	//team에 따라 스폰 지점 변경
 	pPlayer->SetName(L"Player");
 	pPlayer->SetIsMine(_isMine);
 	pPlayer->SetIsHost(_playerConnectInfo.isHost);
 	pPlayer->SetNetId(_playerConnectInfo.netId);
 	pPlayer->SetTeam(_playerConnectInfo.team);
 	pPlayer->SetJob(CPlayer::JOB(_playerConnectInfo.job));
+
+	if (_playerConnectInfo.team)
+	{
+		pPlayer->SetSpawnPos(Vec2(50.f, 300.f));
+
+		if (pPlayer->GetIsMine())
+		pPlayer->SetSpawnScroll(Vec2(-10.f, -1750.f));
+	}
+	else
+	{
+		pPlayer->SetSpawnPos(Vec2(652.f, 44.f));
+
+		if (pPlayer->GetIsMine())
+			pPlayer->SetSpawnScroll(Vec2(-469.f, 0.f));
+	}
+
+	//Initialize
 	pPlayer->Initialize();
 	AddObject(pPlayer, OBJ_PLAYER);
 
 	if (_isMine)
 	{
+		pPlayer->SetAccount(CGameManager::GetInstance()->GetAccount().c_str());
 		RegisterPlayer(pPlayer);
 		CSceneManager::GetInstance()->SetPlayer(pPlayer);
-		//CSceneManager::GetInstance()->SetWeapon(pPlayer);
 	}
 	else
 	{
 		CSceneManager::GetInstance()->AddOtherPlayer(pPlayer);
 	}
-
 }

@@ -32,6 +32,9 @@ public:
 
 public:
 	const STATUSINFO GetStatus() const { return m_tStatusInfo; }
+	void SetHp(int _iVal) { m_tStatusInfo.m_iHp = _iVal; }
+
+	void SetIsDead(bool _bVal) { m_bDead = _bVal; }
 
 	const bool GetIsMine() const { return m_bIsMine; }
 	void	SetIsMine(bool _bVal) { m_bIsMine = _bVal; }
@@ -47,6 +50,15 @@ public:
 
 	const int GetNetId() const { return m_iNetId; }
 	void	SetNetId(int _iVal) { m_iNetId = _iVal; }
+
+	const wstring GetAccount() const { return m_strAccount; }
+	void SetAccount(wstring _wstr) { m_strAccount = _wstr; }
+
+	const Vec2	GetSpawnPos() const { return m_vSpawnPos; }
+	void SetSpawnPos(Vec2 _vVal) { m_vSpawnPos = _vVal; }
+
+	const Vec2	GetSpawnScroll() const { return m_vSpawnScroll; }
+	void SetSpawnScroll(Vec2 _vVal) { m_vSpawnScroll = _vVal; }
 
 	const JOB GetJob() const { return m_eJob; }
 	void SetJob(JOB _eVal) { m_eJob = _eVal; }
@@ -79,6 +91,8 @@ private:
 
 	void	fromJson();
 
+	void	DeadProc();
+
 private:
 	STATE               m_eCurState;
 	STATE               m_ePreState;
@@ -95,5 +109,13 @@ private:
 
 	int					m_iNetId;
 	COLORREF			m_rgbColor;
+
+	wstring				m_strAccount;
+
+	DWORD				m_fResPawnTime;
+	DWORD				m_fDeadTimeCount;
+
+	Vec2				m_vSpawnPos;
+	Vec2				m_vSpawnScroll;
 };
 

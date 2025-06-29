@@ -5,6 +5,7 @@
 #include "CBmpManager.h"
 #include "CWeapon.h"
 #include "CRanged.h"
+#include "CBlendingManager.h"
 
 CBullet::CBullet()
 	: pBulletWeapon(nullptr)
@@ -18,6 +19,12 @@ CBullet::~CBullet()
 
 void CBullet::Initialize()
 {
+	m_tFrame.iFrameStart = 0;
+	m_tFrame.iFrameEnd = 60;
+	m_tFrame.iMotion = 0;
+	m_tFrame.dwTime = GetTickCount();
+	m_tFrame.dwSpeed = 5;
+
 	m_fSpeed = 150.f;
 }
 
@@ -48,6 +55,8 @@ int CBullet::Update()
 	MoveToAngle();
 
 	__super::Update_Rect();
+
+	__super::Update_Frame();
 
 	return NOEVENT;
 }
@@ -89,6 +98,23 @@ void CBullet::Render(HDC _dc)
 
 	int drawX = int(m_vPos.x * g_fZoom + iScrollX * g_fZoom);
 	int drawY = int(m_vPos.y * g_fZoom + iScrollY * g_fZoom);
+
+	if (m_pFrameKey == L"redBullet")
+	{
+		int spriteW = int(32.f * g_fZoom);
+		int spriteH = int(32.f * g_fZoom);
+
+		CBlendingManager::GetInstance()->Render(_dc,
+			L"../Image/ApiDemo/Client/fireBall/fireball_r.png",
+			Rect(drawX - spriteW / 2, drawY - spriteW / 2, spriteW, spriteW),
+			100 * m_tFrame.iFrameStart,
+			100 * m_tFrame.iMotion,
+			100,
+			100,
+			1.f);
+
+		return;
+	}
 
 	int spriteW = int(m_vScale.x * g_fZoom);
 	int spriteH = int(m_vScale.y * g_fZoom);

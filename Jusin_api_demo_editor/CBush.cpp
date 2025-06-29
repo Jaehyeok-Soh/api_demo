@@ -17,13 +17,13 @@ void CBush::Initialize()
 {
 	CreateCollider();
 	GetCollider()->SetScale(Vec2(4.f, 4.f));
+	__super::Update_Rect();
 
 	//m_pFrameKey = L"hideonbush";
 }
 
 int CBush::Update()
 {
-	__super::Update_Rect();
 	return NOEVENT;
 }
 

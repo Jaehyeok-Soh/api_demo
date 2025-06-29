@@ -3,6 +3,8 @@
 #include "CHitBox.h"
 #include "CSceneManager.h"
 #include "CEffect.h"
+#include "CTimeManager.h"
+#include "CTileManager.h"
 
 CUltSwordman::CUltSwordman()
 {
@@ -34,7 +36,16 @@ void CUltSwordman::Update(CPlayer& _pPlayer)
 
 		m_bIsTrigger = true;
 
-		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 40.f * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
+		auto tileManager = CTileManager::Get_Instance();
+		float dist = 100.f;
+		while (tileManager->CheckPeekDisable((_pPlayer.m_vPos.x + dist * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f)) / TILECX, _pPlayer.m_vPos.y / TILECY))
+		{
+			dist -= 4.f;
+			
+			if (dist == 0.f)
+				break;
+		}
+		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + dist * ((_pPlayer.m_vMoveDir.x > 0) ? 1.f : -1.f);
 
 		CSceneManager::GetInstance()->GetCurScene()->AddObject(pHitbox, OBJ_HITBOX);
 

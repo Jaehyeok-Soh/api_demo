@@ -79,9 +79,10 @@ int CTcpManager::OpenSocket()
 	addrinfoW* res = nullptr;
 
 	//int ret = GetAddrInfoW(L"sso550.ddns.net", L"9000", &hints, &res);
-	//int ret = GetAddrInfoW(L"192.168.0.183", L"9000", &hints, &res);
+	//int ret = GetAddrInfoW(L"192.168.219.195", L"9000", &hints, &res);
 	//int ret = GetAddrInfoW(L"192.168.219.152", L"9000", &hints, &res);
-	int ret = GetAddrInfoW(L"172.30.1.44", L"9000", &hints, &res);
+	//int ret = GetAddrInfoW(L"172.30.1.44", L"9000", &hints, &res);
+	int ret = GetAddrInfoW(L"172.30.1.1", L"9000", &hints, &res);
 
 	if (ret != 0 || !res)
 	{
@@ -177,10 +178,18 @@ void CTcpManager::SyncPlay()
 					player->SetState((CCharacter::STATE)dto.m_iState);
 					player->SetTargetId(dto.m_iTargetId);
 					player->SetFrameStart(dto.m_iFrameStart);
-
 					wstring wstr(dto.m_strFrameKey.begin(), dto.m_strFrameKey.end());
 					player->Set_FrameKey(wstr.c_str());
 					player->SetDirection(dto.m_iDir);
+					player->SetIsDead(dto.isDead);
+
+					player->SetHp(dto.m_iHp);
+
+					if (player->GetAccount() == L"" && dto.account != "")
+					{
+						wstring wstrAccount(dto.account.begin(), dto.account.end());
+						player->SetAccount(wstrAccount);
+					}
 				}
 			}
 			//break;

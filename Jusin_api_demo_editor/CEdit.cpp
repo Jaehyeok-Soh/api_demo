@@ -150,7 +150,7 @@ void CEdit::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Down('B'))
 	{
-		if (DialogBoxParam(hInst,                       // ¨ç  DialogBox ¡æ DialogBoxParam
+		if (DialogBoxParam(hInst,                       //DialogBox ¡æ DialogBoxParam
 			MAKEINTRESOURCE(IDD_OPTION_INPUT),
 			g_hWnd,
 			DlgProc_TileOption,
@@ -163,7 +163,7 @@ void CEdit::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Down('O'))
 	{
-		if (DialogBoxParam(hInst,                       // ¨ç  DialogBox ¡æ DialogBoxParam
+		if (DialogBoxParam(hInst,                       //DialogBox ¡æ DialogBoxParam
 			MAKEINTRESOURCE(IDD_OPTION_INPUT),
 			g_hWnd,
 			DlgProc_TileOption,

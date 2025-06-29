@@ -4,6 +4,7 @@
 #include "CEffect.h"
 #include "CSceneManager.h"
 #include "CBullet.h"
+#include "CTileManager.h"
 
 CSkillAcher::CSkillAcher()
 {
@@ -17,9 +18,6 @@ void CSkillAcher::Update(CPlayer& _pPlayer)
 {
 	if (_pPlayer.m_eCurState == CPlayer::SKILL)
 	{
-		_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + 0.25f * ((_pPlayer.m_vMoveDir.x > 0) ? -1.f : 1.f);
-		_pPlayer.m_vPos.y = _pPlayer.m_vPos.y - 0.25f;
-
 		Vec2 offset = Vec2(_pPlayer.m_vMoveDir.x * 5.f, 0.f);
 		Vec2 pos = _pPlayer.GetPos() + offset;
 
@@ -35,6 +33,21 @@ void CSkillAcher::Update(CPlayer& _pPlayer)
 		if (!m_bIsTrigger)
 		{
 			m_bIsTrigger = true;
+
+			auto tileManager = CTileManager::Get_Instance();
+			float distX = 16.f;
+			float distY = 8.f;
+			while (tileManager->CheckPeekDisable((_pPlayer.m_vPos.x + distX * ((_pPlayer.m_vMoveDir.x > 0) ? -1.f : 1.f)) / TILECX, (_pPlayer.m_vPos.y - distY) / TILECY))
+			{
+				distX -= 4.f;
+				distY -= 4.f;
+
+				if (distX == 0.f || distY == 0.f)
+					distX = 0.f; distY = 0.f; return;
+			}
+
+			_pPlayer.m_vPos.x = _pPlayer.m_vPos.x + distX * ((_pPlayer.m_vMoveDir.x > 0) ? -1.f : 1.f);
+			_pPlayer.m_vPos.y = _pPlayer.m_vPos.y - distY;
 
 			CEffect* pEffect = new CEffect();
 			FRAME tFrame;
@@ -54,8 +67,8 @@ void CSkillAcher::Update(CPlayer& _pPlayer)
 		}
 	}
 
-	if (_pPlayer.m_eCurState == CPlayer::ULT && (_pPlayer.m_tFrame.iFrameStart == _pPlayer.m_tFrame.iFrameEnd)
-		|| _pPlayer.m_ePreState == CPlayer::ULT)
+	if (_pPlayer.m_eCurState == CPlayer::SKILL && (_pPlayer.m_tFrame.iFrameStart == _pPlayer.m_tFrame.iFrameEnd)
+		|| _pPlayer.m_eCurState != CPlayer::SKILL)
 	{
 		m_bIsTrigger = false;
 		_pPlayer.m_bOnTarget = false;

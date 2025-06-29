@@ -5,7 +5,6 @@
 
 void CCollisionManager::Collision_Rect_Resolve(CComponent* _Dst, CComponent* _Src)
 {
-
 	auto pDstCollider = dynamic_cast<CCollider*>(_Dst);
 	auto pSrcCollider = dynamic_cast<CCollider*>(_Src);
 
@@ -50,6 +49,57 @@ void CCollisionManager::Collision_Rect_Resolve(CComponent* _Dst, CComponent* _Sr
 			else
 			{
 				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x - fWidth * 0.3f);
+			}
+		}
+	}
+}
+
+void CCollisionManager::Collision_Wall_Resolve(CComponent* _Dst, CComponent* _Src)
+{
+	auto pDstCollider = dynamic_cast<CCollider*>(_Dst);
+	auto pSrcCollider = dynamic_cast<CCollider*>(_Src);
+
+	if (!pDstCollider || !pSrcCollider)
+		return;
+
+	if (_Dst == _Src)
+		return;
+
+	float fWidth(0.f), fHeight(0.f);
+	if (Check_Mask(pDstCollider, pSrcCollider)
+		&& Check_Rect(pDstCollider, pSrcCollider, &fWidth, &fHeight))
+	{
+		auto srcOwner = pSrcCollider->GetOwner();
+		Vec2 vSrcOwnerPos = srcOwner->GetPos();
+		float fSpeed = srcOwner->GetSpeed();
+
+		if (pSrcCollider->Get_Layer() == COL_TOWER)
+		{
+			pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y);
+			return;
+		}
+
+		//상하충돌
+		if (fWidth > fHeight)
+		{
+			if (pDstCollider->GetOwner()->GetPos().y < pSrcCollider->GetOwner()->GetPos().y)
+			{
+				pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y + fHeight * 0.05f);
+			}
+			else
+			{
+				pSrcCollider->GetOwner()->SetPosY(vSrcOwnerPos.y - fHeight * 0.05f);
+			}
+		}
+		else
+		{
+			if (pDstCollider->GetOwner()->GetPos().x < pSrcCollider->GetOwner()->GetPos().x)
+			{
+				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x + fHeight * 0.05f);
+			}
+			else
+			{
+				pSrcCollider->GetOwner()->SetPosX(vSrcOwnerPos.x - fHeight * 0.05f);
 			}
 		}
 	}

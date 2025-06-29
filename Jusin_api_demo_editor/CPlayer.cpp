@@ -17,13 +17,19 @@
 #include "DTOPlayer.h"
 #include "CTcpManager.h"
 #include "CPeekingManager.h"
+#include "CBlendingManager.h"
+#include "CGameManager.h"
+#include "CEffect.h"
+#include "CPngEffect.h"
 
 CPlayer::CPlayer()
 	: m_bIsMine(false),
 	m_bIsHost(false),
 	m_fRenderScale(1.f),
 	m_bIsUsingSkill(false),
-	m_iCurrentSkill(-1)
+	m_iCurrentSkill(-1),
+	m_strAccount(L""),
+	m_fResPawnTime(10.f * 1000.f)
 {
 	ZeroMemory(&m_tBmpScale, sizeof(BMPSCALE));
 }
@@ -43,28 +49,10 @@ void CPlayer::Initialize()
 		| COL_TOWER
 		| COL_ATTACK
 		| COL_PLAYER
-		| COL_SKILL);
+		| COL_SKILL
+		| COL_WALL);
 
 	m_tStatusInfo.m_iHp = 1000;
-
-	if (m_bTeam)
-	{
-		SetPos(Vec2(50.f, 300.f));
-		if (m_bIsMine)
-		{
-			CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
-			CScrollManager::Get_Instance()->Set_ScrollY(-1750.f);
-		}
-	}
-	else
-	{
-		SetPos(Vec2(150.f, 300.f));
-		if (m_bIsMine)
-		{
-			CScrollManager::Get_Instance()->Set_ScrollX(-10.f);
-			CScrollManager::Get_Instance()->Set_ScrollY(-1750.f);
-		}
-	}
 
 	m_vScale = { 16.f, 16.f };
 	m_fSpeed = 70.f;
@@ -102,16 +90,44 @@ void CPlayer::Initialize()
 	m_tFrame.dwTime = GetTickCount();
 	m_tFrame.dwSpeed = 200;
 
+	SetPos(m_vSpawnPos);
+	CScrollManager::Get_Instance()->SetScroll(m_vSpawnScroll);
+
 	CreateWeapon();
 	CreateSkill();
 }
 
 int CPlayer::Update()
 {
-	if (!m_bIsMine && (m_iTargetId > 0))
+	if (CSceneManager::GetInstance()->GetCurSceneNum() != SC_PLAY)
+		return NOEVENT;
+
+	if (m_tStatusInfo.m_iHp <= 0 && !m_bDead)
 	{
-		FindTargetToId();
+		m_eCurState = DIE;
+		m_bDead = true;
+		m_fDeadTimeCount = GetTickCount();
+		SetFrameKey();
+		Motion_Change();
 	}
+
+	if (m_bDead)
+	{
+		if (m_eCurState != DIE)
+		{
+			m_eCurState = DIE;
+			m_bDead = true;
+			m_fDeadTimeCount = GetTickCount();
+			SetFrameKey();
+			Motion_Change();
+		}
+
+		DeadProc();
+		return NOEVENT;
+	}
+
+	if (!m_bIsMine && (m_iTargetId > 0))
+		FindTargetToId();
 
 	if (m_pTarget && m_pTarget->Get_Dead())
 		m_pTarget = nullptr;
@@ -186,12 +202,18 @@ int CPlayer::Update()
 
 void CPlayer::Late_Update()
 {
+	if (CSceneManager::GetInstance()->GetCurSceneNum() != SC_PLAY)
+		return;
+
 	if (m_pCollider)
 		m_pCollider->Late_Update();
 }
 
 void CPlayer::Render(HDC _dc)
 {
+	if (CSceneManager::GetInstance()->GetCurSceneNum() != SC_PLAY)
+		return;
+
 	Component_Render(_dc);
 
 	if (!m_bIsMine 
@@ -225,6 +247,34 @@ void CPlayer::Render(HDC _dc)
 		(int)m_tBmpScale.iHeight,
 		m_rgbColor);
 
+	int barSpriteW = int(8.25f * g_fZoom);
+	int barSpriteH = int(1.375f * g_fZoom);
+
+	auto a = barSpriteW * (m_tStatusInfo.m_iHp / 1000);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/volume_guage.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, (int)(barSpriteW * ((float)m_tStatusInfo.m_iHp / 1000.f)), barSpriteH),
+		0, 0,
+		73, 5,
+		1.f);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/guage_bg.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, barSpriteW, barSpriteH),
+		0, 0,
+		46, 11,
+		1.f);
+
+	if (m_strAccount != L"")
+	{
+		TextOut(_dc,
+			drawX - barSpriteW / 2,
+			drawY - barSpriteH / 2 - 40,
+			m_strAccount.c_str(),
+			lstrlen(m_strAccount.c_str()));
+	}
+
 	if (!bColRender)
 		return;
 
@@ -237,11 +287,6 @@ void CPlayer::Release()
 
 void CPlayer::OnCollisionEnter(CCollider* _pOther)
 {
-	//CCollisionManager::Collision_Rect_Resolve(GetCollider(), _pOther);
-
-	if (CCollisionManager::Check_Mask(GetCollider(), _pOther))
-	{
-	}
 }
 
 void CPlayer::OnCollision(CCollider* _pOther)
@@ -259,9 +304,7 @@ void CPlayer::OnPeek(CObject* _pTargetObj)
 
 void CPlayer::Key_Input()
 {
-	//TODO: 서버에서 호스트 결정
-	//TODO: 내 플레이 캐릭터 결정 방법
-	if (m_bIsMine == false)
+	if (m_bIsMine == false || m_bDead)
 		return;
 
 	POINT vWorldMouse;
@@ -835,6 +878,13 @@ void CPlayer::ToDTO(bool isStart, bool isQuit, string winner)
 	wcstombs_s(&convertedChars, buffer, bufferSize, m_pFrameKey, _TRUNCATE);
 	string strSendFrameKey = buffer;
 
+	auto str = CGameManager::GetInstance()->GetAccount();
+	bufferSize = (wcslen((wchar_t*)str.c_str()) + 1) * 4;
+	buffer = new char[bufferSize];
+	convertedChars = 0;
+	wcstombs_s(&convertedChars, buffer, bufferSize, str.c_str(), _TRUNCATE);
+	string strSendAccount = buffer;
+
 	auto tDtoPlayer = DTOPLAYER{
 		m_iNetId,
 		m_iObjectId,
@@ -852,7 +902,8 @@ void CPlayer::ToDTO(bool isStart, bool isQuit, string winner)
 		m_iCurrentSkill,
 		isStart,
 		isQuit,
-		winner
+		winner,
+		strSendAccount
 	};
 
 	json j = tDtoPlayer;
@@ -864,4 +915,39 @@ void CPlayer::ToDTO(bool isStart, bool isQuit, string winner)
 
 void CPlayer::fromJson()
 {
+}
+
+void CPlayer::DeadProc()
+{
+	if (m_fDeadTimeCount + m_fResPawnTime < GetTickCount())
+	{
+		m_tStatusInfo.m_iHp = 1000;
+		m_bDead = false;
+
+		SetPos(m_vSpawnPos);
+
+		CScrollManager::Get_Instance()->SetScroll(m_vSpawnScroll);
+
+		m_eCurState = IDLE;
+
+		CPngEffect* pEffect = new CPngEffect();
+		FRAME tFrame;
+		tFrame.iFrameStart = 0;
+		tFrame.iFrameEnd = 19;
+		tFrame.iMotion = 0;
+		tFrame.iStartBuffer = 0;
+		tFrame.dwSpeed = 100;
+		tFrame.dwTime = GetTickCount();
+		BMPSCALE tScale;
+		tScale.iWidth = 70;
+		tScale.iHeight = 55;
+		pEffect->SetPos(m_vPos);
+		pEffect->SetScale(Vec2(70.f, 55.f));
+		pEffect->Initialize(tFrame, tScale, L"swordman_skill_ef_r", RGB(255, 255, 255));
+		CSceneManager::GetInstance()->GetCurScene()->AddObject(pEffect, OBJ_EFFECT);
+		return;
+	}
+
+	if (m_tFrame.iFrameStart != m_tFrame.iFrameEnd)
+		__super::Update_Frame();
 }

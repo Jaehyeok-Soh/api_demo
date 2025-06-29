@@ -21,7 +21,6 @@ CSceneManager::CSceneManager()
 
 CSceneManager::~CSceneManager()
 {
-
 	// 씬 전부 삭제
 	for (UINT i = 0; i < SC_END; ++i)
 	{
@@ -64,6 +63,7 @@ void CSceneManager::Initialize()
 
 	// 현재 씬 지정
 	m_CurSceneNum = SC_LOGIN;
+	//m_CurSceneNum = SC_MENU;
 
 	m_pCurScene = m_arrStage[m_CurSceneNum];
 	m_pCurScene->Enter();

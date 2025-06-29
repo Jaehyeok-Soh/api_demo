@@ -205,6 +205,15 @@
     <Filter Include="02. Design\14. BlendingManager">
       <UniqueIdentifier>{73c5fded-bb57-436b-ab79-92d21d571011}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Object\05. UI\04. Play">
+      <UniqueIdentifier>{35d9d3e1-ff91-44c2-b43a-1cd3aeeaf725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Design\08. TileManager\Tile\WallTile">
+      <UniqueIdentifier>{c5f34018-5174-4775-bd1a-1183bc7c3d32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Object\04. Terrain\01. Wall">
+      <UniqueIdentifier>{8b89a92d-329f-4857-9595-353d96089d9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -432,6 +441,18 @@
     <ClInclude Include="CBlendingManager.h">
       <Filter>02. Design\14. BlendingManager</Filter>
     </ClInclude>
+    <ClInclude Include="CEogButton.h">
+      <Filter>01. Object\05. UI\04. Play</Filter>
+    </ClInclude>
+    <ClInclude Include="CWallTile.h">
+      <Filter>02. Design\08. TileManager\Tile\WallTile</Filter>
+    </ClInclude>
+    <ClInclude Include="CWall.h">
+      <Filter>01. Object\04. Terrain\01. Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="CPngEffect.h">
+      <Filter>01. Object\02. Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -631,6 +652,18 @@
     </ClCompile>
     <ClCompile Include="CBlendingManager.cpp">
       <Filter>02. Design\14. BlendingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CEogButton.cpp">
+      <Filter>01. Object\05. UI\04. Play</Filter>
+    </ClCompile>
+    <ClCompile Include="CWallTile.cpp">
+      <Filter>02. Design\08. TileManager\Tile\WallTile</Filter>
+    </ClCompile>
+    <ClCompile Include="CWall.cpp">
+      <Filter>01. Object\04. Terrain\01. Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="CPngEffect.cpp">
+      <Filter>01. Object\02. Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

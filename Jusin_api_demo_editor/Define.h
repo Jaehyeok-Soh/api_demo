@@ -118,7 +118,9 @@ enum TILETYPE
 	RED_TURRET3,
 	RED_MELEE_SP,
 
-	TURRET_PADDING = 30
+	TURRET_PADDING = 30,
+
+	WALL = 40
 };
 
 enum OBJID
@@ -134,6 +136,7 @@ enum OBJID
 	OBJ_TILE,
 	OBJ_UI,
 	OBJ_BUSH,
+	OBJ_WALL,
 	OBJ_END
 };
 
@@ -172,6 +175,8 @@ enum COLLAYERID
 	COL_SKILL = 1 << 9,
 
 	COL_BUSH = 1 << 10,
+
+	COL_WALL = 1 << 11,
 
 	COL_END
 };

@@ -20,6 +20,8 @@ struct DTOPLAYER
 	bool isStart = false;
 	bool isQuit = false;
 	string winner = "";
+	string account = "";
+	bool isDead;
 };
 
 inline void to_json(nlohmann::json& j, const DTOPLAYER& p)
@@ -41,6 +43,8 @@ inline void to_json(nlohmann::json& j, const DTOPLAYER& p)
 	j["isStart"] = p.isStart;
 	j["isQuit"] = p.isQuit;
 	j["winner"] = p.winner;
+	j["account"] = p.account;
+	j["isDead"] = p.isDead;
 }
 
 inline void from_json(const nlohmann::json& j, DTOPLAYER& p)
@@ -62,4 +66,6 @@ inline void from_json(const nlohmann::json& j, DTOPLAYER& p)
 	j.at("isStart").get_to(p.isStart);
 	j.at("isQuit").get_to(p.isQuit);
 	j.at("winner").get_to(p.winner);
+	j.at("account").get_to(p.account);
+	j.at("isDead").get_to(p.isDead);
 }

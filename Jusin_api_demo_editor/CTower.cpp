@@ -13,12 +13,6 @@ CTower::~CTower()
 
 void CTower::Initialize()
 {
-	//TODO: 체력 set
-	//TODO: 공격력 set
-	//TODO: 포지션 set
-	//TODO: ID set
-	//TODO: 넥서스, 억제기, 터렛 구분
-
 	CreateCollider();
 
 	GetCollider()->SetScale(Vec2(128.f, 128.f));

@@ -8,6 +8,7 @@
 #include "CKeyManager.h"
 #include "CPeekingManager.h"
 #include "CGameManager.h"
+#include "CBlendingManager.h"
 
 CNexus::CNexus()
 	: strFrameBlueNexus(L"BlueNexus"),
@@ -127,15 +128,22 @@ void CNexus::Render(HDC _dc)
 			RGB(189, 189, 189));   // 제거할 픽셀 색상 값
 	}
 
-#pragma region 테스트용
-	std::wstring wstrHP = std::to_wstring(m_tStatusInfo.m_iHp);
-	LPCWSTR szHP = wstrHP.c_str();
-	TextOut(_dc,
-		(int)drawX + 60,
-		(int)drawY - 70,
-		szHP,
-		lstrlen(szHP));
-#pragma endregion
+	int barSpriteW = int(8.25f * g_fZoom);
+	int barSpriteH = int(1.375f * g_fZoom);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/volume_guage.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, (int)(barSpriteW * ((float)m_tStatusInfo.m_iHp / 100.f)), barSpriteH),
+		0, 0,
+		73, 5,
+		1.f);
+
+	CBlendingManager::GetInstance()->RenderBlend(_dc,
+		L"../Image/UI/Gauge/guage_bg.png",
+		Rect(drawX - barSpriteW / 2, drawY - barSpriteH / 2 - 20, barSpriteW, barSpriteH),
+		0, 0,
+		46, 11,
+		1.f);
 }
 
 void CNexus::Release()
