@@ -35,6 +35,8 @@ private:
 	bool gameSet;
 	int win;
 
+	bool setEogButton;
+
 	FRAME m_tEndingFrame;
 	FRAME m_tEogColorFrame;
 	HDC m_EogDC;

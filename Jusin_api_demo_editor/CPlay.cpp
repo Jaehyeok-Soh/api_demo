@@ -14,11 +14,13 @@
 #include "CGameManager.h"
 #include "CBlendingManager.h"
 #include "CMinimapManager.h"
+#include "CEogButton.h"
 
 CPlay::CPlay()
 	: gameSet(false),
 	win(-1),
-	m_EogDC(0)
+	m_EogDC(0),
+	setEogButton(false)
 {
 	ZeroMemory(&m_tEndingFrame, sizeof(FRAME));
 	ZeroMemory(&m_tEogColorFrame, sizeof(FRAME));
@@ -126,6 +128,8 @@ void CPlay::Update()
 		}
 	}
 
+	CScene::Update();
+
 	CMinimapManager::GetInstance()->Update();
 }
 
@@ -159,6 +163,15 @@ void CPlay::Render(HDC _dc)
 		if (m_tEndingFrame.iFrameStart >= 23)
 		{
 			Render_Eog_Title(_dc);
+			if (!setEogButton)
+			{
+				CObject* eogBnt = new CEogButton();
+				eogBnt->Initialize();
+				eogBnt->SetPos(Vec2(650.f, 500.f));
+				eogBnt->SetName(L"UI");
+				AddObject(eogBnt, OBJ_UI);
+			}
+			setEogButton = true;
 		}
 	}
 

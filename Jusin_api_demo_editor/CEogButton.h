@@ -13,5 +13,9 @@ public:
     void Late_Update() override;
     void Render(HDC _dc) override;
     void Release() override;
+
+private:
+    int m_iDrawID;
+    HDC m_hMemDC;
 };
 

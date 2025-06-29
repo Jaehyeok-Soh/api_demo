@@ -228,6 +228,10 @@ void CMainGame::Load_UiImg()
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_defeat.bmp", L"eog_defeat");
 	//eog color
 	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eog_fb_color.bmp", L"eog_fb_color");
+
+	//eogButton
+	CBmpManager::Get_Instance()->Insert_Bmp(L"../Image/ApiDemo/Client/endofgame/eogButton.bmp", L"eogButton");
+
 }
 
 void CMainGame::Load_CharacterImg()
