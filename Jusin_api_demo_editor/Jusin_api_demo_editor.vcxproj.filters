@@ -214,6 +214,9 @@
     <Filter Include="01. Object\04. Terrain\01. Wall">
       <UniqueIdentifier>{8b89a92d-329f-4857-9595-353d96089d9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. Design\15. MinimapManager">
+      <UniqueIdentifier>{7dee7af8-85b9-4a26-87ba-9163a2bb6c09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -453,6 +456,9 @@
     <ClInclude Include="CPngEffect.h">
       <Filter>01. Object\02. Effect</Filter>
     </ClInclude>
+    <ClInclude Include="CMinimapManager.h">
+      <Filter>02. Design\15. MinimapManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jusin_api_demo_editor.cpp">
@@ -664,6 +670,9 @@
     </ClCompile>
     <ClCompile Include="CPngEffect.cpp">
       <Filter>01. Object\02. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="CMinimapManager.cpp">
+      <Filter>02. Design\15. MinimapManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

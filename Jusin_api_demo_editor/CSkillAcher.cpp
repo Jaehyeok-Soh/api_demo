@@ -68,7 +68,7 @@ void CSkillAcher::Update(CPlayer& _pPlayer)
 	}
 
 	if (_pPlayer.m_eCurState == CPlayer::SKILL && (_pPlayer.m_tFrame.iFrameStart == _pPlayer.m_tFrame.iFrameEnd)
-		|| _pPlayer.m_eCurState != CPlayer::SKILL)
+		|| _pPlayer.m_ePreState == CPlayer::SKILL)
 	{
 		m_bIsTrigger = false;
 		_pPlayer.m_bOnTarget = false;

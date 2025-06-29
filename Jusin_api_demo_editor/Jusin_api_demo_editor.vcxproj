@@ -152,6 +152,7 @@
     <ClInclude Include="CLobby.h" />
     <ClInclude Include="CLogin.h" />
     <ClInclude Include="CLoginButton.h" />
+    <ClInclude Include="CMinimapManager.h" />
     <ClInclude Include="CPngEffect.h" />
     <ClInclude Include="CRanged.h" />
     <ClInclude Include="CButton.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="CLobby.cpp" />
     <ClCompile Include="CLogin.cpp" />
     <ClCompile Include="CLoginButton.cpp" />
+    <ClCompile Include="CMinimapManager.cpp" />
     <ClCompile Include="CPngEffect.cpp" />
     <ClCompile Include="CRanged.cpp" />
     <ClCompile Include="CButton.cpp" />

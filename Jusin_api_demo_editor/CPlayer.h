@@ -11,6 +11,8 @@ public:
 	friend class CSkillAcher;
 	friend class CUltAcher;
 
+	friend class CMinimapManager;
+
 	enum JOB{SWORDMAN, ACHER, MAGICKNIGHT};
 
 public:

@@ -27,7 +27,7 @@ void CNexus::Initialize()
 
 	CreateCollider();
 
-	GetCollider()->SetScale(Vec2(24.f, 24.f));
+	GetCollider()->SetScale(Vec2(12.f, 12.f));
 	GetCollider()->Set_Layer(COL_TOWER);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_PLAYER

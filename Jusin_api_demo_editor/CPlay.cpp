@@ -13,6 +13,7 @@
 #include "DTOPLAYER.h"
 #include "CGameManager.h"
 #include "CBlendingManager.h"
+#include "CMinimapManager.h"
 
 CPlay::CPlay()
 	: gameSet(false),
@@ -28,6 +29,7 @@ CPlay::~CPlay()
 	static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->ToDTO(false, true, "");
 	CTcpManager::DestroyInstance();
 	CBlendingManager::GetInstance()->Release();
+	CMinimapManager::DestroyInstance();
 }
 
 void CPlay::Update()
@@ -55,34 +57,6 @@ void CPlay::Update()
 	CColliderManager::Get_Instance()->Update();
 
 	Update_Frame();
-
-	if (gameSet)
-	{
-		Update_Eog_Frame();
-		if (m_tEndingFrame.iFrameStart >= 20)
-		{
-			Update_Eog_Color_Frame();
-		}
-
-		if (m_tEndingFrame.iFrameStart == m_tEndingFrame.iFrameEnd)
-		{
-			//add object eogbutton
-		}
-	}
-}
-
-void CPlay::Render(HDC _dc)
-{
-	int iScrollX = CScrollManager::Get_Instance()->Get_ScrollX();
-	int iScrollY = CScrollManager::Get_Instance()->Get_ScrollY();
-
-	Render_Map(_dc, iScrollX, iScrollY);
-
-	CTileManager::Get_Instance()->Render(_dc);
-
-	CScene::Render(_dc);
-
-	Render_UI(_dc);
 
 	if (gameSet)
 	{
@@ -140,8 +114,36 @@ void CPlay::Render(HDC _dc)
 			}
 		}
 
-		
-		
+		Update_Eog_Frame();
+		if (m_tEndingFrame.iFrameStart >= 20)
+		{
+			Update_Eog_Color_Frame();
+		}
+
+		if (m_tEndingFrame.iFrameStart == m_tEndingFrame.iFrameEnd)
+		{
+			//add object eogbutton
+		}
+	}
+
+	CMinimapManager::GetInstance()->Update();
+}
+
+void CPlay::Render(HDC _dc)
+{
+	int iScrollX = CScrollManager::Get_Instance()->Get_ScrollX();
+	int iScrollY = CScrollManager::Get_Instance()->Get_ScrollY();
+
+	Render_Map(_dc, iScrollX, iScrollY);
+
+	CTileManager::Get_Instance()->Render(_dc);
+
+	CScene::Render(_dc);
+
+	Render_UI(_dc);
+
+	if (gameSet)
+	{
 		Render_Eog(_dc);
 
 		if (m_tEndingFrame.iFrameStart >= 20)
@@ -159,6 +161,8 @@ void CPlay::Render(HDC _dc)
 			Render_Eog_Title(_dc);
 		}
 	}
+
+	CMinimapManager::GetInstance()->Render(_dc);
 }
 
 void CPlay::Enter()
@@ -273,13 +277,15 @@ void CPlay::Initialize()
 	m_tEogColorFrame.iFrameStart = 0;
 	m_tEogColorFrame.iFrameEnd = 2;
 	m_tEogColorFrame.iMotion = 0;
+
+	CMinimapManager::GetInstance()->Initialize(m_pPlayer);
 }
 
 void CPlay::Key_Input()
 {
 	if (gameSet)
 		return;
-	
+
 	if (g_ptMousePos.x <= 10 && g_ptMousePos.x >= -10)
 		CScrollManager::Get_Instance()->Set_ScrollX(10.f);
 
@@ -330,9 +336,9 @@ void CPlay::Render_UI(HDC hdc)
 		RGB(1, 1, 1));
 
 	GdiTransparentBlt(hdc,
-		1080,
+		926,
 		520,
-		200,
+		356,
 		200,
 		minimapBorder,
 		0,
@@ -341,12 +347,12 @@ void CPlay::Render_UI(HDC hdc)
 		310,
 		RGB(255, 255, 255));
 
-	CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/HUD/playBottom.png", Rect(140, 550, 900, 170), 0, 0, 900, 170, 1.f);
+	CBlendingManager::GetInstance()->RenderBlend(hdc, L"../Image/ApiDemo/Client/HUD/playBottom.png", Rect(10, 550, 900, 170), 0, 0, 900, 170, 1.f);
 
 	int iHp = static_cast<CPlayer*>(CSceneManager::GetInstance()->GetPlayer())->GetStatus().m_iHp;
 	HDC bar_big1 = CBmpManager::Get_Instance()->Find_Image(L"bar_big1");
 	GdiTransparentBlt(hdc,
-		135 + 171,
+		5 + 171,
 		551 + 112,
 		(int)(467.f * ((float)iHp / 1000.f)),
 		43,
@@ -359,7 +365,7 @@ void CPlay::Render_UI(HDC hdc)
 
 	CBlendingManager::GetInstance()->RenderBlend(hdc,
 		L"../Image/ApiDemo/Client/HUD/bar_big_marker.png",
-		Rect(773 - (467 - (int)(467.f * ((float)iHp / 1000.f))) - 12, 641, 24, 88),
+		Rect(643 - (467 - (int)(467.f * ((float)iHp / 1000.f))) - 12, 641, 24, 88),
 		0,
 		0,
 		12,

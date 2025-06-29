@@ -45,6 +45,10 @@ void CBullet::Initialize(CObject* _pTarget)
 
 int CBullet::Update()
 {
+	if (static_cast<CRanged*>(pBulletWeapon)->GetOwner()->Get_Dead()
+		|| static_cast<CRanged*>(pBulletWeapon)->GetOwner() == nullptr)
+		Set_Dead();
+	
 	if (m_pTarget->Get_Dead())
 		Set_Dead();
 

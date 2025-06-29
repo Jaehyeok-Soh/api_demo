@@ -16,7 +16,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
 HWND g_hWnd;
-float g_fZoom = 5.1f;
+float g_fZoom = 4.f;
 bool bColRender = false;
 bool bTileRender = false;
 POINT g_ptMousePos = {};
@@ -241,8 +241,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         else
             g_fZoom -= 0.1f; // 축소
 
-        if (g_fZoom < 1.0f) g_fZoom = 1.0f;
-        if (g_fZoom > 5.5f) g_fZoom = 5.5f;
+        if (g_fZoom < 3.0f) g_fZoom = 3.0f;
+        if (g_fZoom > 5.f) g_fZoom = 5.f;
 
         InvalidateRect(hWnd, nullptr, FALSE); // 다시 그리기 요청
     }

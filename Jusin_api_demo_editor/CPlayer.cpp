@@ -43,7 +43,7 @@ void CPlayer::Initialize()
 {
 	CreateCollider();
 
-	GetCollider()->SetScale(Vec2(8.f, 8.f));
+	GetCollider()->SetScale(Vec2(4.f, 4.f));
 	GetCollider()->Set_Layer(COL_PLAYER);
 	GetCollider()->Set_Mask(COL_MINION
 		| COL_TOWER
@@ -124,6 +124,13 @@ int CPlayer::Update()
 
 		DeadProc();
 		return NOEVENT;
+	}
+
+	if (!m_bIsMine && (m_eCurState != ATTACK || m_eCurState != SKILL || m_eCurState != ULT))
+	{
+		m_bOnTarget = false;
+		m_pTarget = nullptr;
+		m_iTargetId = -1;
 	}
 
 	if (!m_bIsMine && (m_iTargetId > 0))
@@ -313,6 +320,12 @@ void CPlayer::Key_Input()
 
 	if (CKeyManager::Get_Instance()->Key_Down(VK_RBUTTON))
 	{
+		if (g_ptMousePos.x > WINCX - 356.f
+			&& g_ptMousePos.y > WINCY - 200.f
+			&& g_ptMousePos.x < WINCX
+			&& g_ptMousePos.y < WINCY)
+			return;
+
 		if (CTileManager::Get_Instance()->Peeking_Tile(vWorldMouse))
 		{
 			Vec2 vTilePos = CTileManager::Get_Instance()->MouseToTile(vWorldMouse);

@@ -75,6 +75,8 @@ void CMainGame::Render()
 	// 5. 백버퍼 → 실제 화면으로 복사
 	BitBlt(m_DC, 0, 0, WINCX, WINCY, m_hBackDC, 0, 0, SRCCOPY);
 
+	CTimeManager::Get_Instance()->Render();
+
 	if (!bColRender)
 		return;
 	/////////////////////////////////////////////////////////////////
@@ -85,8 +87,6 @@ void CMainGame::Render()
 	// 출력 (예: 좌상단 10,10에 출력)
 	TextOut(m_DC, 10, 10, szCursor, lstrlen(szCursor));
 	/////////////////////////////////////////////////////////////////
-
-	CTimeManager::Get_Instance()->Render();
 }
 
 void CMainGame::Release()
