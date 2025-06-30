@@ -24,6 +24,8 @@ CTileManager::~CTileManager()
 
 void CTileManager::Initialize()
 {
+	Release();
+
 	for (int i = 0; i < TILEY; ++i)
 	{
 		for (int j = 0; j < TILEX; ++j)

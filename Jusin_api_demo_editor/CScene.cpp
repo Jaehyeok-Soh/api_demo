@@ -103,7 +103,11 @@ void CScene::DeleteGroup(OBJID _eTarget)
 
 	for (CObject* pObj : objList)
 	{
-		delete pObj;
+		if (pObj != nullptr)
+		{
+			delete pObj;
+			pObj = nullptr;
+		}
 	}
 	objList.clear();
 }

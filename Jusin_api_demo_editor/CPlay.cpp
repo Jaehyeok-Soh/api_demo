@@ -15,6 +15,7 @@
 #include "CBlendingManager.h"
 #include "CMinimapManager.h"
 #include "CEogButton.h"
+#include "CAStarManager.h"
 
 CPlay::CPlay()
 	: gameSet(false),
@@ -50,11 +51,12 @@ void CPlay::Update()
 	//키 입력
 	Key_Input();
 
-	if (!gameSet)
-	{
-		//Late_Update
-		CScene::Update();
-	}
+	CScene::Update();
+	//if (!gameSet)
+	//{
+	//	//Late_Update
+	//	CScene::Update();
+	//}
 
 	CColliderManager::Get_Instance()->Update();
 
@@ -127,8 +129,6 @@ void CPlay::Update()
 			//add object eogbutton
 		}
 	}
-
-	CScene::Update();
 
 	CMinimapManager::GetInstance()->Update();
 }
@@ -257,6 +257,8 @@ void CPlay::Initialize()
 	CTileManager::Get_Instance()->Initialize();
 	//타일 불러오기
 	CTileManager::Get_Instance()->Load_Tile();
+
+	CAStarManager::GetInstance()->Initialize();
 
 	CPeekingManager::GetInstance()->Initialize();
 

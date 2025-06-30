@@ -15,7 +15,8 @@ CSceneManager::CSceneManager()
 	: m_arrStage{},
 	m_pCurScene(nullptr),
 	m_pPlayer(nullptr),
-	m_bChange(false)
+	m_bChange(false),
+	m_bReSet(false)
 {
 }
 
@@ -30,11 +31,13 @@ CSceneManager::~CSceneManager()
 		}
 	}
 
-	//if (m_NextSceneNum != SC_MENU)
-	//{
-	//	Safe_Delete(m_pPlayer); // 플레이어 삭제
-	//	Safe_Delete(m_pWeapon);
-	//}
+	if (m_NextSceneNum != SC_MENU
+		&& m_NextSceneNum != SC_LOGIN
+		&& m_NextSceneNum != SC_WAITROOM)
+	{
+		Safe_Delete(m_pPlayer); // 플레이어 삭제
+		Safe_Delete(m_pWeapon);
+	}
 }
 
 void CSceneManager::Initialize()
@@ -89,6 +92,41 @@ void CSceneManager::Render(HDC _dc)
 void CSceneManager::ChangeScene(SCENEID _eNext)
 {
 	m_pCurScene->Exit();
+	
+	if (m_bReSet)
+	{
+		switch (m_CurSceneNum)
+		{
+		case SC_LOGIN:
+			break;
+		case SC_MENU:
+			break;
+		case SC_LOBBY:
+			break;
+		case SC_WAITROOM:
+			break;
+		case SC_LOADING:
+			break;
+		case SC_PLAY:
+			m_arrStage[SC_PLAY]->DeleteGroup(OBJ_PLAYER);
+			m_arrStage[SC_PLAY]->DeleteGroup(OBJ_WEAPON);
+			m_arrStage[SC_PLAY] = new CPlay();
+			m_arrStage[SC_LOADING] = new CLoading();
+
+			m_otherPlayerList.clear();
+
+			m_otherWeaponList.clear();
+
+			break;
+		case SC_EDIT:
+			break;
+		case SC_END:
+			break;
+		}
+
+		m_bReSet = false;
+	}
+
 	m_pCurScene = m_arrStage[(UINT)_eNext];
 
 	CScrollManager::Get_Instance()->Reset_Scroll();

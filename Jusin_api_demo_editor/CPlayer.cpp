@@ -126,14 +126,14 @@ int CPlayer::Update()
 		return NOEVENT;
 	}
 
-	if (!m_bIsMine && (m_eCurState != ATTACK || m_eCurState != SKILL || m_eCurState != ULT))
+	if (!m_bIsMine && (m_iTargetId > 0 && m_eCurState != ATTACK))
 	{
 		m_bOnTarget = false;
 		m_pTarget = nullptr;
 		m_iTargetId = -1;
 	}
 
-	if (!m_bIsMine && (m_iTargetId > 0))
+	if (!m_bIsMine && (m_iTargetId > 0 && m_eCurState == ATTACK))
 		FindTargetToId();
 
 	if (m_pTarget && m_pTarget->Get_Dead())
@@ -157,6 +157,13 @@ int CPlayer::Update()
 
 	if (m_eCurState == RUN)
 	{
+		if (!m_bIsMine)
+		{
+			m_bOnTarget = false;
+			m_pTarget = nullptr;
+			m_iTargetId = -1;
+		}
+
 		thread t1(&CPlayer::MoveTile, this);
 		t1.join();
 	}

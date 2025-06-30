@@ -7,15 +7,20 @@ CAStarManager* CAStarManager::m_pInstance = nullptr;
 
 CAStarManager::CAStarManager()
 {
-	m_vecTile = CTileManager::Get_Instance()->GetTIleList();
-	iCntX = CTileManager::Get_Instance()->GetCntX();
-	iCntY = CTileManager::Get_Instance()->GetCntY();
-	iMaxX = CTileManager::Get_Instance()->GetMaxX();
-	iMaxY = CTileManager::Get_Instance()->GetMaxY();
 }
 
 CAStarManager::~CAStarManager()
 {
+}
+
+void CAStarManager::Initialize()
+{
+    auto tileManager = CTileManager::Get_Instance();
+    m_vecTile = tileManager->GetTIleList();
+    iCntX = tileManager->GetCntX();
+    iCntY = tileManager->GetCntY();
+    iMaxX = tileManager->GetMaxX();
+    iMaxY = tileManager->GetMaxY();
 }
 
 // ------------------------------------------------------

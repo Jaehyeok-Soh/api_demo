@@ -48,6 +48,8 @@ public:
 	CObject* GetPlayer() { return m_pPlayer; }
 	CObject* GetWeapon() { return m_pWeapon; }
 
+	void ReSetScene() { m_bReSet = true; }
+
 	void SetChangeScene(bool bChange, SCENEID NextSceneNum) { m_bChange = bChange; m_NextSceneNum = NextSceneNum; }
 	void ChangeScene(SCENEID _eNext);
 
@@ -71,5 +73,7 @@ private:
 
 	bool                 m_bChange;
 	SCENEID          m_NextSceneNum;
+
+	bool				m_bReSet;
 };
 

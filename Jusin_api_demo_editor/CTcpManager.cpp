@@ -82,7 +82,7 @@ int CTcpManager::OpenSocket()
 	//int ret = GetAddrInfoW(L"192.168.219.195", L"9000", &hints, &res);
 	//int ret = GetAddrInfoW(L"192.168.219.152", L"9000", &hints, &res);
 	//int ret = GetAddrInfoW(L"172.30.1.44", L"9000", &hints, &res);
-	int ret = GetAddrInfoW(L"172.30.1.1", L"9000", &hints, &res);
+	int ret = GetAddrInfoW(L"192.168.0.183", L"9000", &hints, &res);
 
 	if (ret != 0 || !res)
 	{

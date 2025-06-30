@@ -45,6 +45,7 @@ void CEogButton::Late_Update()
 			if (!lstrcmp(L"eogButton", m_pFrameKey))
 			{
 				m_iDrawID = 3;
+				CSceneManager::GetInstance()->ReSetScene();
 				CSceneManager::GetInstance()->SetChangeScene(true, SC_LOBBY);
 			}
 		}

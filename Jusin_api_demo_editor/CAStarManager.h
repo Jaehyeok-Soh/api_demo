@@ -32,6 +32,8 @@ public:
 	}
 
 public:
+	void Initialize();
+
 	deque<Vec2> FindPath(Vec2 start, Vec2 end);
 
 private:
